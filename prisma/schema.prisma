@@ -36,12 +36,15 @@ model Set {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  dificulty Dificulty
-  height    Int
-  weight    Int
-  goal      Int // end weight
+  id           Int       @id @default(autoincrement())
+  name         String
+  dificulty    Dificulty
+  height       Int
+  weight       Int
+  goalWeight   Int
+  goalDate     DateTime
+  gender       Gender
+  registeredAt DateTime  @default(now())
 
   sets      Set[]
   histories History[]
@@ -88,4 +91,9 @@ enum Dificulty {
   BEGINNER
   INTERMEDIATE
   ADVANCED
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
