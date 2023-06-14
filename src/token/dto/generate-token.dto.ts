@@ -1,3 +1,5 @@
+import { ApiProperty } from '@nestjs/swagger'
+
 export class GenerateTokenDTO {
     static isGenerateTokenDTO(data: unknown): data is GenerateTokenDTO {
         if (typeof data !== 'object' || data === null) {
@@ -12,6 +14,9 @@ export class GenerateTokenDTO {
         return true
     }
 
+    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
     readonly userId: number
+
+    @ApiProperty({ example: true, required: true, nullable: false, description: 'A value that describes whether the user confirmed the email' })
     readonly isActive: boolean
 }
