@@ -17,8 +17,7 @@ model Exercise {
   description   String
   demonstration String
 
-  set       Set        @relation(fields: [setId], references: [id])
-  setId     Int
+  set       Set[]
   bodyParts BodyPart[]
   type      Type[]
   histories History[]
@@ -36,15 +35,20 @@ model Set {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
-  dificulty    Dificulty
+  email        String     @unique
+  difficulty   Difficulty
   height       Int
   weight       Int
   goalWeight   Int
   goalDate     DateTime
   gender       Gender
-  registeredAt DateTime  @default(now())
+  registeredAt DateTime   @default(now())
+  link         String     @unique
+  isActive     Boolean    @default(false)
+  refreshToken String
+  password     String
 
   sets      Set[]
   histories History[]
@@ -87,7 +91,7 @@ model History {
 //   @@id([userId, setId])
 // }
 
-enum Dificulty {
+enum Difficulty {
   BEGINNER
   INTERMEDIATE
   ADVANCED
