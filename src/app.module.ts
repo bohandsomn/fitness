@@ -1,8 +1,6 @@
 import { ConfigModule } from '@nestjs/config'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { OrmModule } from './orm/orm.module'
 import { ColorLoggerModule } from './color-logger/color-logger.module'
 import { ExerciseModule } from './exercise/exercise.module'
@@ -10,7 +8,7 @@ import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
 import { TokenModule } from './token/token.module'
 import { LibModule } from './lib/lib.module'
-import { MailModule } from './mail/mail.module';
+import { MailModule } from './mail/mail.module'
 
 @Module({
     imports: [
@@ -29,7 +27,5 @@ import { MailModule } from './mail/mail.module';
         LibModule,
         MailModule
     ],
-    controllers: [AppController],
-    providers: [AppService],
 })
 export class AppModule { }
