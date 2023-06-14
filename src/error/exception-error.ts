@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { ExceptionErrorResponse } from './exception-error-response'
 
 export class ExceptionError {
@@ -12,8 +13,15 @@ export class ExceptionError {
             typeof name === 'string'
     }
 
+    @ApiProperty({ type: ExceptionErrorResponse })
     readonly response: ExceptionErrorResponse
+
+    @ApiProperty({ example: 404, required: true, nullable: false, description: 'Error status code' })
     readonly status: number
+
+    @ApiProperty({ example: 'User is not found', required: true, nullable: false, description: 'Custom error message' })
     readonly message: string
+
+    @ApiProperty({ example: 'Not found', required: true, nullable: false, description: 'Error message' })
     readonly name: string
 }

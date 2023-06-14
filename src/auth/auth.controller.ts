@@ -1,5 +1,6 @@
 import { Body, Controller, Post, Get, UseGuards, Put, Param, Res, HttpStatus, UseInterceptors } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { ApiCookieAuth, ApiHeaders, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
 import { IAuthController } from './auth-controller.interface'
 import { AuthService } from './auth.service'
@@ -15,7 +16,11 @@ import { CreateUserPipe } from '../user/create-user.pipe'
 import { User } from '../user/user.decorator'
 import { AppValidationPipe } from '../app-validation.pipe'
 import { ClearTokenInterceptor } from './clear-token.interceptor'
+import { UserTokenDTO } from './dto/user-token.dto'
+import { ValidationErrorResponseDTO } from '../error/validation-error-response.dto'
+import { ExceptionErrorResponseDTO } from '../error/exception-error-response.dto'
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController implements IAuthController {
     constructor(
@@ -23,6 +28,11 @@ export class AuthController implements IAuthController {
         private readonly configService: ConfigService,
     ) { }
 
+    @ApiOperation({ summary: 'User registration' })
+    @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @Post('/register')
     @UseInterceptors(EmailConfirmationInterceptor, SaveTokenInterceptor)
     async registerUser(
@@ -31,6 +41,11 @@ export class AuthController implements IAuthController {
         return this.authService.registerUser(dto)
     }
 
+    @ApiOperation({ summary: 'User log-in' })
+    @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
+    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @Post('/log-in')
     @UseInterceptors(SaveTokenInterceptor)
     async logInUser(
@@ -39,6 +54,10 @@ export class AuthController implements IAuthController {
         return this.authService.logInUser(dto)
     }
 
+    @ApiOperation({ summary: 'User auto-log-in' })
+    @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @Get('/auto-log-in')
     @UseInterceptors(SaveTokenInterceptor)
     @UseGuards(AuthGuard)
@@ -48,6 +67,10 @@ export class AuthController implements IAuthController {
         return this.authService.autoLogInUser(dto)
     }
 
+    @ApiOperation({ summary: 'Token refresh' })
+    @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @Put('/refresh')
     @UseInterceptors(SaveTokenInterceptor)
     async refreshToken(
@@ -56,6 +79,9 @@ export class AuthController implements IAuthController {
         return this.authService.refreshToken({ refreshToken })
     }
 
+    @ApiOperation({ summary: 'User log-out' })
+    @ApiResponse({ status: HttpStatus.OK })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @Get('/log-out')
     @UseInterceptors(ClearTokenInterceptor)
     async logOutUser(
@@ -64,6 +90,9 @@ export class AuthController implements IAuthController {
         return this.authService.logOutUser({ refreshToken })
     }
 
+    @ApiOperation({ summary: 'Activation user' })
+    @ApiResponse({ status: HttpStatus.OK })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND })
     @Get('/activate/:link')
     async activateUser(
         @Param('link') link: string,
