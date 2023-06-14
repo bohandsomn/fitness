@@ -18,7 +18,9 @@ export class ColorLoggerInterceptor implements NestInterceptor {
             params: request.params,
             query: request.query,
             cookies: request.cookies,
-            headers: request.headers,
+            headers: {
+                authorization: request.headers.authorization,
+            },
         })
         return next.handle().pipe(map((responseData) => {
             this.colorLoggerService.debug({
