@@ -1,6 +1,8 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common'
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
 import { Response } from 'express'
 import { ColorLoggerService } from './color-logger/color-logger.service'
+import { ExceptionError } from './error/exception-error'
+import { ValidationError } from './error/validation-error'
 
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
@@ -11,16 +13,16 @@ export class AppExceptionFilter implements ExceptionFilter {
     catch(exception: any, host: ArgumentsHost) {
         this.colorLoggerService.error(exception)
         const response: Response = host.switchToHttp().getResponse()
-        if (this.isHttpException(exception)) {
-            const exceptionResponse = exception.getResponse()
-            const status = exception.getStatus()
-            return response.status(status).json(exceptionResponse)
+        if (ExceptionError.isExceptionError(exception)) {
+            return response.status(exception.status).json({
+                message: exception.message
+            })
         }
-        return null
-    }
-
-    private isHttpException(data: unknown): data is HttpException {
-        const response = (data as HttpException)?.getResponse?.()
-        return response !== undefined
+        if (ValidationError.isValidationError(exception)) {
+            return response.status(exception.status).json({
+                message: exception.response
+            })
+        }
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(null)
     }
 }

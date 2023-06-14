@@ -23,9 +23,7 @@ export class ColorLoggerInterceptor implements NestInterceptor {
             },
         })
         return next.handle().pipe(map((responseData) => {
-            this.colorLoggerService.debug({
-                responseData
-            })
+            this.colorLoggerService.debug(responseData)
             return responseData
         }))
     }
