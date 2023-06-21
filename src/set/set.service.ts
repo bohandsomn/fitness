@@ -17,6 +17,7 @@ import { RepetitionsService } from '../repetitions/repetitions.service'
 import { UserDifficulty } from '../user/user.const'
 import { ImageService } from '../image/image.service'
 import { SetPreviewDTO } from './dto/set-preview.dto'
+import { IsSetOwnerDTO } from './dto/is-set-owner.dto'
 
 @Injectable()
 export class SetService implements ISetService {
@@ -154,6 +155,21 @@ export class SetService implements ISetService {
                 }
             }
         })
+    }
+
+    async isSetOwner(dto: IsSetOwnerDTO): Promise<boolean> {
+        const set = await this.ormService.set.findFirst({
+            where: {
+                id: dto.setId,
+                users: {
+                    every: {
+                        id: dto.userId,
+                    }
+                }
+            }
+        })
+        const isSetOwner = set !== null
+        return isSetOwner
     }
 
     private async querySet(dto: GetSetDTO): Promise<SetDTO | null> {

@@ -6,7 +6,6 @@ import { SetService } from './set.service'
 import { CreateSetBodyDTO } from './dto/create-set.dto'
 import { SetDTO } from './dto/set.dto'
 import { ImageDTO } from '../image/dto/image.dto'
-import { AdminRoleGuard } from '../role/admin-role.guard'
 import { AppValidationPipe } from '../app-validation.pipe'
 import { ImagePipe } from '../image/image.pipe'
 import { User } from '../user/user.decorator'
@@ -15,6 +14,7 @@ import { SetPreviewDTO } from './dto/set-preview.dto'
 import { ValidationErrorResponseDTO } from 'src/error/validation-error-response.dto'
 import { ExceptionErrorResponseDTO } from 'src/error/exception-error-response.dto'
 import { AuthGuard } from 'src/auth/auth.guard'
+import { SetRoleGuard } from 'src/role/set-role.guard'
 
 @ApiTags('Set')
 @Controller('set')
@@ -36,7 +36,7 @@ export class SetController implements ISetController {
     ])
     @Post()
     @UseInterceptors(FileInterceptor('file'))
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard)
     async createSet(
         @Body(AppValidationPipe) dto: CreateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO,
@@ -62,7 +62,7 @@ export class SetController implements ISetController {
     ])
     @Put()
     @UseInterceptors(FileInterceptor('file'))
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(SetRoleGuard, AuthGuard)
     async updateSet(
         @Body(AppValidationPipe) dto: UpdateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO | undefined,
@@ -83,7 +83,7 @@ export class SetController implements ISetController {
         { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
     ])
     @Get('/:id')
-    @UseGuards(AuthGuard)
+    @UseGuards(SetRoleGuard, AuthGuard)
     async getSet(
         @Param('id', ParseIntPipe) id: number,
         @User('userId') userId: number
@@ -117,7 +117,7 @@ export class SetController implements ISetController {
         { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
     ])
     @Delete('/:id')
-    @UseGuards(AuthGuard)
+    @UseGuards(SetRoleGuard, AuthGuard)
     async deleteSet(
         @Param('id', ParseIntPipe) id: number
     ): Promise<void> {
