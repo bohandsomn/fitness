@@ -87,8 +87,17 @@ export class ExerciseController implements IExerciseController {
 
     @ApiOperation({ summary: 'Receiving an exercises' })
     @ApiResponse({ status: HttpStatus.OK, type: [ExercisePayloadDTO] })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
+    @ApiHeaders([
+        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
+    ])
+    @UseGuards(AuthGuard)
     @Get()
     async getManyExercises(
+        @User('userId') userId: number,
         @Query('setId', ParseIntPipe) setId?: number,
         @Query('header') header?: string,
         @Query('caloriesFrom', ParseIntPipe) caloriesFrom?: number,
@@ -97,6 +106,7 @@ export class ExerciseController implements IExerciseController {
         @Query('bodyPart') bodyPart?: string,
     ): Promise<ExercisePayloadDTO[]> {
         return this.exerciseService.getManyExercises({
+            userId,
             setId,
             header,
             caloriesFrom,

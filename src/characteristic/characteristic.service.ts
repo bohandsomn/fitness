@@ -7,7 +7,7 @@ import { GetCharacteristicDTO } from './dto/get-characteristic.dto'
 import { ConflictException, NotFoundException } from '@nestjs/common'
 import { CharacteristicException } from './characteristic.exception'
 import { UpdateCharacteristicDTO } from './dto/update-characteristic.dto'
-import { GetCharacteristicsDTO } from './dto/get-characteristics.dto'
+import { GetCharacteristicsByExerciseDTO } from './dto/get-characteristics-by-exercise.dto'
 import { DeleteCharacteristicDTO } from './dto/delete-characteristic.dto'
 import { AddCharacteristicDTO } from './dto/add-characteristic.dto'
 import { RemoveCharacteristicDTO } from './dto/remove-characteristic.dto'
@@ -51,7 +51,12 @@ export abstract class CharacteristicService implements ICharacteristicService {
         return characteristic
     }
 
-    async getCharacteristics(dto: GetCharacteristicsDTO): Promise<CharacteristicPreviewDTO[]> {
+    async getCharacteristics(): Promise<CharacteristicPreviewDTO[]> {
+        const characteristics = await this.ormService[this.characteristicType].findMany()
+        return characteristics
+    }
+
+    async getCharacteristicsByExercise(dto: GetCharacteristicsByExerciseDTO): Promise<CharacteristicPreviewDTO[]> {
         const characteristics = await this.ormService[this.characteristicType].findMany({
             where: {
                 exercises: {

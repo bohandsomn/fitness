@@ -19,6 +19,7 @@ export interface IExerciseController {
         userId: number
     ): Promise<Exercise>
     getManyExercises(
+        userId: number,
         setId?: number,
         header?: string,
         caloriesFrom?: number,

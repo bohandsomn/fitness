@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { CreateExerciseDTO } from './dto/create-exercise.dto'
 import { IExerciseService } from './exercise-service.interface'
 import { ExercisePayloadDTO } from './dto/exercise-payload.dto'
@@ -12,6 +12,8 @@ import { OrmService } from '../orm/orm.service'
 import { ImageService } from '../image/image.service'
 import { UserService } from '../user/user.service'
 import { RepetitionsService } from '../repetitions/repetitions.service'
+import { GetExerciseCaloriesDTO } from './dto/get-exercise-calories.dto'
+import { UserDifficulty } from 'src/user/user.const'
 
 @Injectable()
 export class ExerciseService implements IExerciseService {
@@ -52,7 +54,9 @@ export class ExerciseService implements IExerciseService {
             ...dto
         })
         return this.ormService.exercise.update({
-            where: exercise,
+            where: {
+                id: exercise.id,
+            },
             data: {
                 calories: dto.calories || exercise.calories,
                 header: dto.header || exercise.header,
@@ -99,7 +103,19 @@ export class ExerciseService implements IExerciseService {
                 }
             }
         })
-        return exercises.map((exercise) => this.adaptExercise(exercise))
+        const exercisesWithCalories = await Promise.all(
+            exercises.map(async (exercise) => {
+                const calories = await this.getExerciseCalories({
+                    id: exercise.id,
+                    userId: dto.userId,
+                })
+                return {
+                    ...exercise,
+                    calories
+                }
+            })
+        )
+        return exercisesWithCalories.map((exercise) => this.adaptExercise(exercise))
     }
 
     async deleteExercise(dto: DeleteExerciseDTO): Promise<void> {
@@ -124,7 +140,38 @@ export class ExerciseService implements IExerciseService {
                 }
             }
         })
-        return exercise
+        const calories = await this.getExerciseCalories(dto)
+        if (!exercise) {
+            return null
+        }
+        return {
+            ...exercise,
+            calories,
+        }
+    }
+
+    async getExerciseCalories(dto: GetExerciseCaloriesDTO): Promise<number> {
+        const exercise = await this.ormService.exercise.findFirst({
+            where: {
+                id: dto.id,
+            }
+        })
+        if (!exercise) {
+            throw new NotFoundException(ExerciseException.NOT_FOUND)
+        }
+        const repetitions = await this.repetitionsService.getRepetitions({
+            exerciseId: exercise.id,
+        })
+        const user = await this.userService.getUser({ id: dto.userId })
+        const difficulty = user.difficulty
+        if (difficulty === UserDifficulty.BEGINNER) {
+            return repetitions.beginner
+        } else if (difficulty === UserDifficulty.INTERMEDIATE) {
+            return repetitions.intermediate
+        } else if (difficulty === UserDifficulty.ADVANCED) {
+            return repetitions.advanced
+        }
+        throw new InternalServerErrorException()
     }
 
     adaptExercise(exercise: ExerciseDTO): ExercisePayloadDTO {
@@ -132,6 +179,7 @@ export class ExerciseService implements IExerciseService {
             id: exercise.id,
             header: exercise.header,
             demonstration: exercise.demonstration,
+            calories: exercise.calories,
         }
     }
 }

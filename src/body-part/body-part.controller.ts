@@ -59,21 +59,27 @@ export class BodyPartController implements ICharacteristicController {
     @ApiOperation({ summary: 'Receiving a body part' })
     @ApiResponse({ status: HttpStatus.OK, type: CharacteristicPreviewDTO })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
-    @Get()
+    @Get('/:id')
     async getCharacteristic(
-        @Query('id', ParseIntPipe) id?: number,
-        @Query('value') value?: string,
+        @Param('id', ParseIntPipe) id: number,
     ): Promise<CharacteristicPreviewDTO> {
-        return this.bodyPartService.getCharacteristic({ id, value })
+        return this.bodyPartService.getCharacteristic({ id })
+    }
+
+    @ApiOperation({ summary: 'Receiving a body parts' })
+    @ApiResponse({ status: HttpStatus.OK, type: [CharacteristicPreviewDTO] })
+    @Get()
+    async getCharacteristics(): Promise<CharacteristicPreviewDTO[]> {
+        return this.bodyPartService.getCharacteristics()
     }
 
     @ApiOperation({ summary: 'Receiving body parts' })
     @ApiResponse({ status: HttpStatus.OK, type: [CharacteristicPreviewDTO] })
     @Get('/exercise/:exerciseId')
-    async getCharacteristics(
+    async getCharacteristicsByExercise(
         @Param('exerciseId', ParseIntPipe) exerciseId: number
     ): Promise<CharacteristicPreviewDTO[]> {
-        return this.bodyPartService.getCharacteristics({ exerciseId })
+        return this.bodyPartService.getCharacteristicsByExercise({ exerciseId })
     }
 
     @ApiOperation({ summary: 'Deleting a body part' })

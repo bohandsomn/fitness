@@ -5,6 +5,9 @@ export class ExercisePayloadDTO implements Partial<Exercise> {
     @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
     readonly id: number
 
+    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    readonly calories: number
+
     @ApiProperty({ example: 'Sit-ups', required: true, nullable: false, description: 'Exercise\'s name' })
     readonly header: string
 

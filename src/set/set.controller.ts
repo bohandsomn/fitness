@@ -83,7 +83,7 @@ export class SetController implements ISetController {
         { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
     ])
     @Get('/:id')
-    @UseGuards(SetRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard)
     async getSet(
         @Param('id', ParseIntPipe) id: number,
         @User('userId') userId: number

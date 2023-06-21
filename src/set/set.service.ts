@@ -191,32 +191,9 @@ export class SetService implements ISetService {
         }
     }
 
-    private async getSetCalories(dto: GetSetCaloriesDTO): Promise<number> {
-        const exercises = await this.exerciseService.getManyExercises({ setId: dto.setId })
-        const repetitionsDTOList = await Promise.all(
-            exercises.map(
-                (exercise) => this.repetitionsService.getRepetitions({
-                    exerciseId: exercise.id
-                })
-            )
-        )
-        const user = await this.userService.getUser({ id: dto.userId })
-        const difficulty = user.difficulty
-        const calories = repetitionsDTOList.reduce((calories, repetitions) => {
-            let currentCalories = 0
-            switch (difficulty) {
-                case UserDifficulty.BEGINNER:
-                    currentCalories = repetitions.beginner
-                    break
-                case UserDifficulty.INTERMEDIATE:
-                    currentCalories = repetitions.intermediate
-                    break
-                case UserDifficulty.ADVANCED:
-                    currentCalories = repetitions.advanced
-                    break
-            }
-            return calories + currentCalories
-        }, 0)
+    async getSetCalories(dto: GetSetCaloriesDTO): Promise<number> {
+        const exercises = await this.exerciseService.getManyExercises({ setId: dto.setId, userId: dto.userId })
+        const calories = exercises.reduce((calories, exercise) => calories + exercise.calories, 0)
         return calories
     }
 }

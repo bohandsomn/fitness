@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 
 export class GetManyExercisesDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Set\'s id' })
+    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    readonly userId: number
+
+    @ApiProperty({ example: 1, required: false, nullable: true, description: 'Set\'s id' })
     readonly setId?: number
 
     @ApiProperty({ example: 'Sit-ups', required: false, nullable: true, description: 'Exercise\'s name' })

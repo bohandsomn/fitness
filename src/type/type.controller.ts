@@ -59,21 +59,27 @@ export class TypeController implements ICharacteristicController {
     @ApiOperation({ summary: 'Receiving a type' })
     @ApiResponse({ status: HttpStatus.OK, type: CharacteristicPreviewDTO })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
-    @Get()
+    @Get('/:id')
     async getCharacteristic(
-        @Query('id', ParseIntPipe) id?: number,
-        @Query('value') value?: string,
+        @Param('id', ParseIntPipe) id: number,
     ): Promise<CharacteristicPreviewDTO> {
-        return this.typeService.getCharacteristic({ id, value })
+        return this.typeService.getCharacteristic({ id })
+    }
+
+    @ApiOperation({ summary: 'Receiving a types' })
+    @ApiResponse({ status: HttpStatus.OK, type: [CharacteristicPreviewDTO] })
+    @Get()
+    async getCharacteristics(): Promise<CharacteristicPreviewDTO[]> {
+        return this.typeService.getCharacteristics()
     }
 
     @ApiOperation({ summary: 'Receiving type' })
     @ApiResponse({ status: HttpStatus.OK, type: [CharacteristicPreviewDTO] })
     @Get('/exercise/:exerciseId')
-    async getCharacteristics(
+    async getCharacteristicsByExercise(
         @Param('exerciseId', ParseIntPipe) exerciseId: number
     ): Promise<CharacteristicPreviewDTO[]> {
-        return this.typeService.getCharacteristics({ exerciseId })
+        return this.typeService.getCharacteristicsByExercise({ exerciseId })
     }
 
     @ApiOperation({ summary: 'Deleting a type' })
