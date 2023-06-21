@@ -12,4 +12,5 @@ export interface ISetController {
     deleteSet(id: number): Promise<void>
     addExerciseSet(exerciseId: number, setId: number): Promise<void>
     removeExerciseSet(exerciseId: number, setId: number): Promise<void>
+    getCommonSets(userId: number): Promise<SetPreviewDTO[]>
 }

@@ -1,6 +1,7 @@
 import { AddExerciseSetDTO } from './dto/add-exercise-set.dto'
 import { CreateSetDTO } from './dto/create-set.dto'
 import { DeleteSetDTO } from './dto/delete-set.dto'
+import { GetCommonSetsDTO } from './dto/get-common-sets.dto'
 import { GetSetCaloriesDTO } from './dto/get-set-calories.dto'
 import { GetSetDTO } from './dto/get-set.dto'
 import { GetSetsDTO } from './dto/get-sets.dto'
@@ -20,4 +21,5 @@ export interface ISetService {
     removeExerciseSet(dto: RemoveExerciseSetDTO): Promise<void>
     isSetOwner(dto: IsSetOwnerDTO): Promise<boolean>
     getSetCalories(dto: GetSetCaloriesDTO): Promise<number>
+    getCommonSets(dto: GetCommonSetsDTO): Promise<SetPreviewDTO[]>
 }

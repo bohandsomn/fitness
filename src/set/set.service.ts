@@ -18,14 +18,15 @@ import { UserDifficulty } from '../user/user.const'
 import { ImageService } from '../image/image.service'
 import { SetPreviewDTO } from './dto/set-preview.dto'
 import { IsSetOwnerDTO } from './dto/is-set-owner.dto'
+import { GetCommonSetsDTO } from './dto/get-common-sets.dto'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class SetService implements ISetService {
     constructor(
+        private readonly configService: ConfigService,
         private readonly ormService: OrmService,
         private readonly exerciseService: ExerciseService,
-        private readonly userService: UserService,
-        private readonly repetitionsService: RepetitionsService,
         private readonly imageService: ImageService,
     ) { }
 
@@ -172,6 +173,21 @@ export class SetService implements ISetService {
         return isSetOwner
     }
 
+    async getSetCalories(dto: GetSetCaloriesDTO): Promise<number> {
+        const exercises = await this.exerciseService.getManyExercises({ setId: dto.setId, userId: dto.userId })
+        const calories = exercises.reduce((calories, exercise) => calories + exercise.calories, 0)
+        return calories
+    }
+
+    async getCommonSets(dto: GetCommonSetsDTO): Promise<SetPreviewDTO[]> {
+        const commonSetIds = this.configService.getOrThrow<string>('COMMON_SET_IDS')
+        const ids = commonSetIds.split(',').map(Number)
+        const sets = (await Promise.all(
+            ids.map((id) => this.querySet({ id, userId: dto.userId }))
+        )).filter((set): set is SetDTO => set !== null)
+        return sets
+    }
+
     private async querySet(dto: GetSetDTO): Promise<SetDTO | null> {
         const set = await this.ormService.set.findFirst({
             where: {
@@ -189,11 +205,5 @@ export class SetService implements ISetService {
             ...set,
             calories
         }
-    }
-
-    async getSetCalories(dto: GetSetCaloriesDTO): Promise<number> {
-        const exercises = await this.exerciseService.getManyExercises({ setId: dto.setId, userId: dto.userId })
-        const calories = exercises.reduce((calories, exercise) => calories + exercise.calories, 0)
-        return calories
     }
 }

@@ -109,6 +109,21 @@ export class SetController implements ISetController {
         return this.setService.getSets({ userId })
     }
 
+    @ApiOperation({ summary: 'Receiving a common sets' })
+    @ApiResponse({ status: HttpStatus.OK, type: [SetPreviewDTO] })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiHeaders([
+        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
+    ])
+    @UseGuards(AuthGuard)
+    @Get('/common')
+    async getCommonSets(
+        @User('userId') userId: number
+    ): Promise<SetPreviewDTO[]> {
+        return this.setService.getCommonSets({ userId })
+    }
+
     @ApiOperation({ summary: 'Deleting a set' })
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
