@@ -21,7 +21,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Fitness documentation')
     .setDescription('The fitness API is needed to understand which endpoints exist for The fitness application, who has the right to call them, and what types of input and output data.')
-    .setVersion('1.0')
+    .setVersion('1.1')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('', app, document)

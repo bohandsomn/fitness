@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { Role } from '@prisma/client'
+import { UserRole } from '../../user/user.const'
 
 export class GenerateTokenDTO {
     static isGenerateTokenDTO(data: unknown): data is GenerateTokenDTO {
@@ -19,4 +21,7 @@ export class GenerateTokenDTO {
 
     @ApiProperty({ example: true, required: true, nullable: false, description: 'A value that describes whether the user confirmed the email' })
     readonly isActive: boolean
+
+    @ApiProperty({ enum: UserRole, example: UserRole.USER, required: true, nullable: false, description: 'User\'s role' })
+    readonly role: Role
 }

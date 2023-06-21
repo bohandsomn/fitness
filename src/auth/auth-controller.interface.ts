@@ -7,7 +7,7 @@ import { UserTokensDTO } from './dto/user-tokens.dto'
 export interface IAuthController {
     registerUser(dto: RegisterUserDTO): Promise<UserTokensDTO>
     logInUser(dto: LogInUserDTO): Promise<UserTokensDTO>
-    autoLogInUser(dto: AutoLogInUserDTO): Promise<UserTokensDTO>
+    autoLogInUser(userId: number): Promise<UserTokensDTO>
     refreshToken(refreshToken: string): Promise<UserTokensDTO>
     logOutUser(refreshToken: string): Promise<void>
     activateUser(link: string, response: Response): Promise<void>

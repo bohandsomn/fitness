@@ -7,7 +7,6 @@ import { AuthService } from './auth.service'
 import { RegisterUserDTO } from './dto/register-user.dto'
 import { UserTokensDTO } from './dto/user-tokens.dto'
 import { LogInUserDTO } from './dto/log-in-user.dto'
-import { AutoLogInUserDTO } from './dto/auto-log-in-user.dto'
 import { AuthGuard } from './auth.guard'
 import { Cookies } from './cookies.decorator'
 import { SaveTokenInterceptor } from './save-token.interceptor'
@@ -29,7 +28,7 @@ export class AuthController implements IAuthController {
     ) { }
 
     @ApiOperation({ summary: 'User registration' })
-    @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
+    @ApiResponse({ status: HttpStatus.CREATED, type: UserTokenDTO })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
@@ -58,19 +57,23 @@ export class AuthController implements IAuthController {
     @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiHeaders([
+        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
+    ])
     @Get('/auto-log-in')
     @UseInterceptors(SaveTokenInterceptor)
     @UseGuards(AuthGuard)
     async autoLogInUser(
-        @User() dto: AutoLogInUserDTO
+        @User('userId') userId: number
     ): Promise<UserTokensDTO> {
-        return this.authService.autoLogInUser(dto)
+        return this.authService.autoLogInUser({ userId })
     }
 
     @ApiOperation({ summary: 'Token refresh' })
     @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
+    @ApiCookieAuth('token')
     @Put('/refresh')
     @UseInterceptors(SaveTokenInterceptor)
     async refreshToken(
@@ -82,6 +85,7 @@ export class AuthController implements IAuthController {
     @ApiOperation({ summary: 'User log-out' })
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiCookieAuth('token')
     @Get('/log-out')
     @UseInterceptors(ClearTokenInterceptor)
     async logOutUser(
@@ -91,7 +95,7 @@ export class AuthController implements IAuthController {
     }
 
     @ApiOperation({ summary: 'Activation user' })
-    @ApiResponse({ status: HttpStatus.OK })
+    @ApiResponse({ status: HttpStatus.MOVED_PERMANENTLY })
     @ApiResponse({ status: HttpStatus.NOT_FOUND })
     @Get('/activate/:link')
     async activateUser(

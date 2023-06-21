@@ -30,7 +30,8 @@ export class AuthService implements IAuthService {
         })
         const tokens = this.tokenService.generateTokens({
             userId: user.id,
-            isActive: user.isActive
+            isActive: user.isActive,
+            role: user.role,
         })
         await this.tokenService.saveToken({
             userId: user.id,
@@ -51,7 +52,8 @@ export class AuthService implements IAuthService {
         })
         const tokens = this.tokenService.generateTokens({
             userId: user.id,
-            isActive: user.isActive
+            isActive: user.isActive,
+            role: user.role,
         })
         await this.tokenService.saveToken({
             userId: user.id,
@@ -68,7 +70,8 @@ export class AuthService implements IAuthService {
         const user = await this.userService.getUser({ id: dto.userId })
         const tokens = this.tokenService.generateTokens({
             userId: user.id,
-            isActive: user.isActive
+            isActive: user.isActive,
+            role: user.role,
         })
         await this.tokenService.saveToken({
             userId: user.id,

@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common'
+import { Inject, Injectable, InternalServerErrorException, UnauthorizedException, forwardRef } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
 import { ITokenService } from './token-service.interface'
@@ -20,7 +20,7 @@ export class TokenService implements ITokenService {
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService,
         private readonly ormService: OrmService,
-        private readonly userService: UserService,
+        @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
     ) { }
 
     generateTokens(dto: GenerateTokenDTO): TokensPayloadDTO {
@@ -51,7 +51,8 @@ export class TokenService implements ITokenService {
         const user = await this.userService.getUser({ id: generateTokenDTO.userId })
         const tokens = this.generateTokens({
             userId: user.id,
-            isActive: user.isActive
+            isActive: user.isActive,
+            role: user.role,
         })
         await this.saveToken({ refreshToken: tokens.refreshToken, userId: user.id })
         return tokens

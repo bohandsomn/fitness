@@ -10,6 +10,8 @@ import { ActivateUserDTO } from './dto/activate-user.dto'
 import { UserPayloadDTO } from './dto/user-payload.dto'
 import { CheckPasswordDTO } from './dto/check-password.dto'
 import { OrmService } from '../orm/orm.service'
+import { AssignAdminRoleDTO } from './dto/assign-admin-role.dto'
+import { UserRole } from './user.const'
 
 @Injectable()
 export class UserService implements IUserService {
@@ -107,6 +109,17 @@ export class UserService implements IUserService {
         if (!isValidPassword) {
             throw new ConflictException(UserException.NOT_VALID_PASSWORD)
         }
+    }
+
+    async assignAdminRole(dto: AssignAdminRoleDTO): Promise<User> {
+        return this.ormService.user.update({
+            where: {
+                id: dto.userId
+            },
+            data: {
+                role: UserRole.ADMIN
+            }
+        })
     }
 
     private async queryUser(dto: GetUserDTO): Promise<User | null> {
