@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Exercise {
+  id            Int    @id @default(autoincrement())
+  calories      Float
+  header        String
+  description   String
+  demonstration String @unique
+
+  set         Set[]
+  bodyParts   BodyPart[]
+  type        Type[]
+  histories   History[]
+  repetitions Repetitions[]
+}
+
+model Set {
+  id            Int    @id @default(autoincrement())
+  name          String
+  description   String
+  demonstration String @unique
+
+  exercises Exercise[]
+  users     User[]
+  // users UsersSets[]
+}
+
+model User {
+  id           Int        @id @default(autoincrement())
+  name         String
+  email        String     @unique
+  difficulty   Difficulty
+  height       Int
+  weight       Int
+  goalWeight   Int
+  goalDate     DateTime
+  birthday     DateTime   @default(now())
+  gender       Gender
+  role         Role       @default(USER)
+  registeredAt DateTime   @default(now())
+  link         String     @unique
+  isActive     Boolean    @default(false)
+  refreshToken String
+  password     String
+
+  sets      Set[]
+  histories History[]
+  // sets UsersSets[]
+}
+
+model BodyPart {
+  id    Int    @id @default(autoincrement())
+  value String @unique
+
+  exercises Exercise[]
+}
+
+model Type {
+  id    Int    @id @default(autoincrement())
+  value String @unique
+
+  exercises Exercise[]
+}
+
+model History {
+  completedAt DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+
+  @@id([userId, exerciseId])
+}
+
+model Repetitions {
+  id         Int        @id @default(autoincrement())
+  difficulty Difficulty
+  value      Int
+
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  USER
+  ADMIN
+}
