@@ -30,6 +30,9 @@ export class UpdateUserDTO implements Prisma.UserUpdateInput {
     @ApiProperty({ enum: UserGender, example: UserGender.MALE, required: false, nullable: true, description: 'User\'s gender' })
     readonly gender?: Gender
 
+    @ApiProperty({ example: new Date(2000, 0, 1), required: true, nullable: false, description: 'User\'s date of birth' })
+    readonly birthday?: Date | string
+
     @ApiProperty({ example: '12345678', required: false, nullable: true, description: 'User\'s password. From 8 to 12 characteristics' })
     readonly newPassword?: string
 

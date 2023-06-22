@@ -1,4 +1,4 @@
-import { ConflictException, NotFoundException, Injectable } from '@nestjs/common'
+import { ConflictException, NotFoundException, Injectable, Inject, forwardRef } from '@nestjs/common'
 import { User } from '@prisma/client'
 import * as bcryptjs from 'bcryptjs'
 import { CreateUserDTO } from './dto/create-user.dto'
@@ -9,14 +9,16 @@ import { UpdateUserDTO } from './dto/update-user.dto'
 import { ActivateUserDTO } from './dto/activate-user.dto'
 import { UserPayloadDTO } from './dto/user-payload.dto'
 import { CheckPasswordDTO } from './dto/check-password.dto'
-import { OrmService } from '../orm/orm.service'
 import { AssignAdminRoleDTO } from './dto/assign-admin-role.dto'
 import { UserRole } from './user.const'
+import { OrmService } from '../orm/orm.service'
+import { ProgressService } from '../progress/progress.service'
 
 @Injectable()
 export class UserService implements IUserService {
     constructor(
         private readonly ormService: OrmService,
+        @Inject(forwardRef(() => ProgressService)) private readonly progressService: ProgressService,
     ) { }
 
     async createUser(dto: CreateUserDTO): Promise<User> {
@@ -24,12 +26,13 @@ export class UserService implements IUserService {
         if (candidate) {
             throw new ConflictException(UserException.FOUND)
         }
-        const { password, goalDate, ...data } = dto
+        const { password, goalDate, birthday, ...data } = dto
         const hashPassword = await this.hashPassword(password)
         const user = await this.ormService.user.create({
             data: {
                 ...data,
                 goalDate: new Date(goalDate),
+                birthday: new Date(birthday),
                 password: hashPassword,
             }
         })
@@ -48,7 +51,7 @@ export class UserService implements IUserService {
             userId: user.id,
             password: dto.currentPassword
         })
-        const { newPassword, id, currentPassword, goalDate, ...data } = dto
+        const { newPassword, id, currentPassword, goalDate, birthday, ...data } = dto
         const newHashPassword = newPassword
             ? await this.hashPassword(newPassword)
             : null
@@ -60,6 +63,7 @@ export class UserService implements IUserService {
                 ...user,
                 ...data,
                 goalDate: goalDate ? new Date(goalDate) : goalDate,
+                birthday: birthday ? new Date(birthday) : birthday,
                 password: newHashPassword || user.password
             }
         })
@@ -86,7 +90,11 @@ export class UserService implements IUserService {
         })
     }
 
-    adaptUser(user: User): UserPayloadDTO {
+    async adaptUser(user: User): Promise<UserPayloadDTO> {
+        const birthdayDate = new Date(user.birthday)
+        const currentDate = new Date()
+        const age = currentDate.getFullYear() - birthdayDate.getFullYear()
+        const { lostCalories, goalCalories } = await this.progressService.getFullProgressInCalories({ userId: user.id })
         return {
             name: user.name,
             email: user.email,
@@ -97,6 +105,9 @@ export class UserService implements IUserService {
             goalDate: user.goalDate,
             gender: user.gender,
             registeredAt: user.registeredAt,
+            age,
+            lostCalories,
+            goalCalories,
         }
     }
 

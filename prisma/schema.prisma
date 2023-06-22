@@ -45,6 +45,7 @@ model User {
   weight       Int
   goalWeight   Int
   goalDate     DateTime
+  birthday     DateTime   @default(now())
   gender       Gender
   role         Role       @default(USER)
   registeredAt DateTime   @default(now())

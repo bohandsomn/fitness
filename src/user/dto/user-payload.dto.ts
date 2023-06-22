@@ -29,4 +29,13 @@ export class UserPayloadDTO implements Partial<User> {
 
     @ApiProperty({ example: new Date(2023, 5, 14), required: true, nullable: false, description: 'User registration date' })
     readonly registeredAt: Date
+
+    @ApiProperty({ example: 20, required: true, nullable: false, description: 'Age of user' })
+    readonly age: number
+
+    @ApiProperty({ example: 2000, required: true, nullable: false, description: 'Integer calories' })
+    readonly lostCalories: number
+
+    @ApiProperty({ example: 20000, required: true, nullable: false, description: 'Integer calories' })
+    readonly goalCalories: number
 }

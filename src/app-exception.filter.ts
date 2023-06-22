@@ -12,6 +12,7 @@ export class AppExceptionFilter implements ExceptionFilter {
 
     catch(exception: any, host: ArgumentsHost) {
         this.colorLoggerService.error(exception)
+        console.error(exception)
         const response: Response = host.switchToHttp().getResponse()
         if (ExceptionError.isExceptionError(exception)) {
             return response.status(exception.status).json({

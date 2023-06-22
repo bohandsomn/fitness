@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable, forwardRef } from '@nestjs/common'
 import { IHistoryService } from './history-service.interface'
 import { PushHistoryDTO } from './dto/push-history.dto'
 import { GetUserHistoryDTO } from './dto/get-user-history.dto'
@@ -12,7 +12,7 @@ export class HistoryService implements IHistoryService {
     constructor(
         private readonly ormService: OrmService,
         private readonly dateService: DateService,
-        private readonly exerciseService: ExerciseService,
+        @Inject(forwardRef(() => ExerciseService)) private readonly exerciseService: ExerciseService,
     ) { }
 
     async pushHistory(dto: PushHistoryDTO): Promise<void> {
@@ -22,9 +22,9 @@ export class HistoryService implements IHistoryService {
     }
 
     async getUserHistory(dto: GetUserHistoryDTO): Promise<HistoryDTO> {
-        const startDateTimeDTO = this.dateService.getDateTimeStart(dto.date)
+        const startDateTimeDTO = this.dateService.getDateTimeStart(dto.startDate)
         const startDateTime = this.dateService.adaptDateTime(startDateTimeDTO)
-        const endDateTimeDTO = this.dateService.getDateTimeEnd(dto.date)
+        const endDateTimeDTO = this.dateService.getDateTimeEnd(dto.endDate)
         const endDateTime = this.dateService.adaptDateTime(endDateTimeDTO)
         const histories = await this.ormService.history.findMany({
             where: {

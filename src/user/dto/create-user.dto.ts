@@ -33,6 +33,9 @@ export class CreateUserDTO implements Prisma.UserCreateInput {
     @ApiProperty({ example: 'qwe.rty.uio', required: true, nullable: false, description: 'User\'s token' })
     readonly refreshToken: string
 
+    @ApiProperty({ example: new Date(2000, 0, 1), required: true, nullable: false, description: 'User\'s date of birth' })
+    readonly birthday: Date | string
+
     @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
     readonly password: string
 }

@@ -37,7 +37,7 @@ export class AuthService implements IAuthService {
             userId: user.id,
             refreshToken: tokens.refreshToken,
         })
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         return {
             tokens,
             user: userPayload
@@ -59,7 +59,7 @@ export class AuthService implements IAuthService {
             userId: user.id,
             refreshToken: tokens.refreshToken,
         })
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         return {
             tokens,
             user: userPayload
@@ -77,7 +77,7 @@ export class AuthService implements IAuthService {
             userId: user.id,
             refreshToken: tokens.refreshToken,
         })
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         return {
             tokens,
             user: userPayload
@@ -92,7 +92,7 @@ export class AuthService implements IAuthService {
         const user = await this.userService.getUser({
             id: generateTokenDTO.userId
         })
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         const tokens = await this.tokenService.refreshToken(dto)
         return {
             tokens,

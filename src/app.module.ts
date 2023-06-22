@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { CacheModule } from '@nestjs/cache-manager'
 import { JwtModule } from '@nestjs/jwt'
 import * as redisStore from 'cache-manager-redis-store'
+import * as path from 'path'
 import type { RedisClientOptions } from 'redis'
 import { OrmModule } from './orm/orm.module'
 import { ColorLoggerModule } from './color-logger/color-logger.module'
@@ -20,11 +21,15 @@ import { HistoryModule } from './history/history.module'
 import { DateModule } from './date/date.module'
 import { TypeModule } from './type/type.module'
 import { BodyPartModule } from './body-part/body-part.module'
+import { ProgressModule } from './progress/progress.module'
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
+            envFilePath: process.env.NODE_ENV === 'development'
+                ? path.resolve(__dirname, '..', '.env.development')
+                : path.resolve(__dirname, '..', '.env.production'),
         }),
         JwtModule.register({
             global: true,
@@ -59,7 +64,8 @@ import { BodyPartModule } from './body-part/body-part.module'
         HistoryModule,
         DateModule,
         TypeModule,
-        BodyPartModule
+        BodyPartModule,
+        ProgressModule
     ],
 })
 export class AppModule { }

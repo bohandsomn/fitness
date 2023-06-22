@@ -12,7 +12,7 @@ export interface IUserService {
     updateUser(dto: UpdateUserDTO): Promise<User>
     getUser(dto: GetUserDTO): Promise<User>
     activateUser(dto: ActivateUserDTO): Promise<void>
-    adaptUser(user: User): UserPayloadDTO
+    adaptUser(user: User): Promise<UserPayloadDTO>
     checkPassword(dto: CheckPasswordDTO): Promise<void>
     assignAdminRole(dto: AssignAdminRoleDTO): Promise<User>
 }

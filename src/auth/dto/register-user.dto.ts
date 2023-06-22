@@ -1,6 +1,6 @@
 import { Difficulty, Gender, Prisma } from '@prisma/client'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsEmail, Length, IsString, IsNumber, IsDateString } from 'class-validator'
+import { IsEmail, Length, IsString, IsNumber, IsEmpty } from 'class-validator'
 import { AppException } from '../../app.exception'
 import { UserDifficulty, UserGender } from '../../user/user.const'
 
@@ -42,7 +42,7 @@ export class RegisterUserDTO implements Omit<Prisma.UserCreateInput, 'link' | 'r
     readonly goalWeight: number
 
     @ApiProperty({ example: new Date(2030, 0, 1), required: true, nullable: false, description: 'The date when the user stops training' })
-    @IsDateString({}, {
+    @IsString({
         message: AppException.DATE_NOT_VALID,
     })
     readonly goalDate: Date | string
@@ -52,6 +52,12 @@ export class RegisterUserDTO implements Omit<Prisma.UserCreateInput, 'link' | 'r
         message: AppException.STRING_EMPTY
     })
     readonly gender: Gender
+
+    @ApiProperty({ example: new Date(2000, 0, 1), required: true, nullable: false, description: 'User\'s date of birth' })
+    @IsString({
+        message: AppException.DATE_NOT_VALID,
+    })
+    readonly birthday: Date | string
 
     @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
     @Length(8, 12, {

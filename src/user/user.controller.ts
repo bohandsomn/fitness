@@ -40,7 +40,7 @@ export class UserController implements IUserController {
         @User('userId') userId: number,
     ): Promise<UserTokensDTO> {
         const user = await this.userService.updateUser({ ...dto, id: userId })
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         const tokens = this.tokenService.generateTokens({
             userId: user.id,
             isActive: user.isActive,
@@ -70,7 +70,7 @@ export class UserController implements IUserController {
         @Body(AppValidationPipe) dto: AssignAdminRoleDTO,
     ): Promise<UserTokensDTO> {
         const user = await this.userService.assignAdminRole(dto)
-        const userPayload = this.userService.adaptUser(user)
+        const userPayload = await this.userService.adaptUser(user)
         const tokens = this.tokenService.generateTokens({
             userId: user.id,
             isActive: user.isActive,
