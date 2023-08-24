@@ -2,9 +2,9 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
-import { ColorLoggerInterceptor } from './color-logger/color-logger.interceptor'
-import { ColorLoggerService } from './color-logger/color-logger.service'
-import { AppExceptionFilter } from './app-exception.filter'
+import { ColorLoggerInterceptor } from './color-logger/interceptors/color-logger.interceptor'
+import { ColorLoggerService } from './color-logger/services/color-logger.service'
+import { AppExceptionFilter } from './filters/app-exception.filter'
 
 async function bootstrap() {
   const PORT = parseInt(process.env.PORT || '5000')
@@ -12,7 +12,7 @@ async function bootstrap() {
   const colorLoggerService = new ColorLoggerService()
   app.use(cookieParser())
   app.enableCors({
-    origin: [process.env.CLIENT_LINK || '*'],
+    origin: process.env.CORS_ORIGIN?.split(',') || '*',
     credentials: true,
   })
   app.useGlobalInterceptors(new ColorLoggerInterceptor(colorLoggerService))

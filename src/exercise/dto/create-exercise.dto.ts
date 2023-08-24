@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsNumber } from 'class-validator'
 import { ImageDTO } from '../../image/dto/image.dto'
-import { AppException } from '../../app.exception'
+import { AppException } from '../../constants/app.exception'
 
 export class CreateExerciseDTO {
     @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })

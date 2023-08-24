@@ -1,4 +1,4 @@
-import { UserDifficulty } from '../../user/user.const'
+import { UserDifficulty } from '../../user/constants/user.const'
 
 export class GetRepetitionDTO {
     readonly exerciseId: number

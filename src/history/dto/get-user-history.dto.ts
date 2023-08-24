@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmpty } from 'class-validator'
-import { AppException } from '../../app.exception'
+import { AppException } from '../../constants/app.exception'
 
 export class GetUserHistoryDTO {
     @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })

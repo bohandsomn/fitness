@@ -1,6 +1,6 @@
 import { Difficulty, Gender, Prisma } from '@prisma/client'
 import { ApiProperty } from '@nestjs/swagger'
-import { UserDifficulty, UserGender } from '../user.const'
+import { UserDifficulty, UserGender } from '../constants/user.const'
 
 export class CreateUserDTO implements Prisma.UserCreateInput {
     @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })

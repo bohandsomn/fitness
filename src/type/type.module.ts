@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { TypeController } from './type.controller'
-import { TypeService } from './type.service'
+import { TypeController } from './controllers/type.controller'
+import { TypeService } from './services/type.service'
 import { TokenModule } from '../token/token.module'
 
 @Module({

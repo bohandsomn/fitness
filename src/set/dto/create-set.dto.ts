@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Set } from '@prisma/client'
 import { IsString } from 'class-validator'
 import { ImageDTO } from '../../image/dto/image.dto'
-import { AppException } from '../../app.exception'
+import { AppException } from '../../constants/app.exception'
 
 export class CreateSetDTO implements Partial<Set> {
     @ApiProperty({ example: 'For legs', required: true, nullable: false, description: 'Set\'s name' })

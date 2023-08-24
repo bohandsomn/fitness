@@ -1,6 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common'
-import { HistoryService } from './history.service'
-import { HistoryController } from './history.controller'
+import { HistoryService } from './services/history.service'
+import { HistoryController } from './controllers/history.controller'
 import { ExerciseModule } from '../exercise/exercise.module'
 import { TokenModule } from '../token/token.module'
 

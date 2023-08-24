@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Role } from '@prisma/client'
-import { UserRole } from '../../user/user.const'
+import { UserRole } from '../../user/constants/user.const'
 
 export class GenerateTokenDTO {
     static isGenerateTokenDTO(data: unknown): data is GenerateTokenDTO {

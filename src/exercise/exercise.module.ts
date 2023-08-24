@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { ExerciseController } from './exercise.controller'
-import { ExerciseService } from './exercise.service'
+import { ExerciseController } from './controllers/exercise.controller'
+import { ExerciseService } from './services/exercise.service'
 import { ImageModule } from '../image/image.module'
 import { UserModule } from '../user/user.module'
 import { TokenModule } from '../token/token.module'

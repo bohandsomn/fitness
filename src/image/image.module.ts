@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { HttpModule } from '@nestjs/axios'
-import { ImageService } from './image.service'
-import { ImageController } from './image.controller'
+import { ImageController } from './controllers/image.controller'
+import { ImageKitProvider } from './providers/image-kit.provider'
 
 @Module({
   imports: [HttpModule],
-  providers: [ImageService],
-  exports: [ImageService],
+  providers: [ImageKitProvider],
+  exports: [ImageKitProvider],
   controllers: [ImageController],
 })
 export class ImageModule { }

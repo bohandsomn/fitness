@@ -1,8 +1,8 @@
 import { Difficulty, Gender, Prisma } from '@prisma/client'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, Length, IsString, IsNumber, IsEmpty } from 'class-validator'
-import { AppException } from '../../app.exception'
-import { UserDifficulty, UserGender } from '../../user/user.const'
+import { AppException } from '../../constants/app.exception'
+import { UserDifficulty, UserGender } from '../../user/constants/user.const'
 
 export class RegisterUserDTO implements Omit<Prisma.UserCreateInput, 'link' | 'refreshToken'> {
     @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })

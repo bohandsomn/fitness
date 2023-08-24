@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { TokenType } from '../token.const'
+import { TokenType } from '../constants/token.const'
 
 export class VerifyTokenDTO {
     @ApiProperty({ example: 'qwe.rty.uio', required: true, nullable: false, description: 'User\'s token' })

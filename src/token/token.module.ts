@@ -1,5 +1,5 @@
 import { Module, forwardRef } from '@nestjs/common'
-import { TokenService } from './token.service'
+import { TokenService } from './services/token.service'
 import { UserModule } from '../user/user.module'
 
 @Module({

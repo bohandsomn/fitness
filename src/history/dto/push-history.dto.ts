@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
-import { AppException } from 'src/app.exception'
+import { AppException } from 'src/constants/app.exception'
 
 export class PushHistoryDTO {
     @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })

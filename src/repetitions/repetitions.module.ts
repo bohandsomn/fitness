@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { RepetitionsService } from './repetitions.service'
+import { RepetitionsService } from './services/repetitions.service'
 
 @Module({
   providers: [RepetitionsService],

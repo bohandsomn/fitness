@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IDateTime } from '../../date/date-time.interface'
+import { IDateTime } from '../../date/interfaces/date-time.interface'
 import { ExercisePayloadDTO } from '../../exercise/dto/exercise-payload.dto'
 
 export class HistoryDTO {

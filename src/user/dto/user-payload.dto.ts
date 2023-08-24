@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Difficulty, Gender, User } from '@prisma/client'
-import { UserDifficulty, UserGender } from '../user.const'
+import { UserDifficulty, UserGender } from '../constants/user.const'
 
 export class UserPayloadDTO implements Partial<User> {
     @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })

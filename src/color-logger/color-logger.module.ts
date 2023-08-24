@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common'
-import { ColorLoggerService } from './color-logger.service'
+import { ColorLoggerService } from './services/color-logger.service'
 
 @Global()
 @Module({

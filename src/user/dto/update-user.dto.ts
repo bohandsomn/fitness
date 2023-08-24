@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Difficulty, Gender, Prisma } from '@prisma/client'
-import { UserDifficulty, UserGender } from '../user.const'
+import { UserDifficulty, UserGender } from '../constants/user.const'
 
 export class UpdateUserDTO implements Prisma.UserUpdateInput {
     @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
