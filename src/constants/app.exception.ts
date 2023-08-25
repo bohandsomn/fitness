@@ -4,4 +4,6 @@ export enum AppException {
     STRING_EMPTY = 'Entered string is empty',
     NUMBER_NOT_VALID = 'The number entered is not valid',
     DATE_NOT_VALID = 'The date entered is not valid',
+    MISSING_RESOURCE = 'The resource is missing',
+    COOKIE_IS_EMPTY = 'The request does not have an cookie',
 }

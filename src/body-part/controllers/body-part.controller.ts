@@ -1,15 +1,16 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, UseGuards } from '@nestjs/common'
-import { ApiHeaders, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { BodyPartService } from '../services/body-part.service'
-import { ICharacteristicController } from 'src/characteristic/interfaces/characteristic-controller.interface'
-import { CharacteristicPreviewDTO } from 'src/characteristic/dto/characteristic-preview.dto'
-import { CreateCharacteristicDTO } from 'src/characteristic/dto/create-characteristic.dto'
-import { AdminRoleGuard } from 'src/role/guards/admin-role.guard'
-import { AuthGuard } from 'src/auth/guards/auth.guard'
-import { AppValidationPipe } from 'src/pipes/app-validation.pipe'
-import { UpdateCharacteristicDTO } from 'src/characteristic/dto/update-characteristic.dto'
-import { ValidationErrorResponseDTO } from 'src/error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from 'src/error/dto/exception-error-response.dto'
+import { ICharacteristicController } from '../../characteristic/interfaces/characteristic-controller.interface'
+import { CharacteristicPreviewDTO } from '../../characteristic/dto/characteristic-preview.dto'
+import { CreateCharacteristicDTO } from '../../characteristic/dto/create-characteristic.dto'
+import { AdminRoleGuard } from '../../role/guards/admin-role.guard'
+import { AuthGuard } from '../../auth/guards/auth.guard'
+import { AppValidationPipe } from '../../pipes/app-validation.pipe'
+import { UpdateCharacteristicDTO } from '../../characteristic/dto/update-characteristic.dto'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
 
 @ApiTags('Body part')
 @Controller('body-part')
@@ -26,9 +27,7 @@ export class BodyPartController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Post()
     @UseGuards(AuthGuard, AdminRoleGuard)
     async createCharacteristic(
@@ -45,9 +44,7 @@ export class BodyPartController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Put()
     @UseGuards(AdminRoleGuard, AuthGuard)
     async updateCharacteristic(
@@ -89,9 +86,7 @@ export class BodyPartController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Delete('/:id')
     @UseGuards(AdminRoleGuard, AuthGuard)
     async deleteCharacteristic(
@@ -107,9 +102,7 @@ export class BodyPartController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Patch('/add/:characteristicId/exercise/:exerciseId')
     @UseGuards(AdminRoleGuard, AuthGuard)
     async addCharacteristic(
@@ -129,9 +122,7 @@ export class BodyPartController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Patch('/remove/:characteristicId/exercise/:exerciseId')
     @UseGuards(AdminRoleGuard, AuthGuard)
     async removeCharacteristic(

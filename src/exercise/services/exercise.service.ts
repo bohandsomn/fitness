@@ -12,9 +12,9 @@ import { OrmService } from '../../orm/services/orm.service'
 import { UserService } from '../../user/services/user.service'
 import { RepetitionsService } from '../../repetitions/services/repetitions.service'
 import { GetExerciseCaloriesDTO } from '../dto/get-exercise-calories.dto'
-import { UserDifficulty } from 'src/user/constants/user.const'
-import { InjectImage } from 'src/image/decorators/inject-image.decorator'
-import { IImageService } from 'src/image/interfaces/image-service.interface'
+import { UserDifficulty } from '../../user/constants/user.const'
+import { InjectImage } from '../../image/decorators/inject-image.decorator'
+import { IImageService } from '../../image/interfaces/image-service.interface'
 
 @Injectable()
 export class ExerciseService implements IExerciseService {

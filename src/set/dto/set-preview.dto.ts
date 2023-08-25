@@ -1,15 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
+import { ApiPropertySetCalories } from '../../common/decorators/api-property-set-calories'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
+import { ApiPropertySetName } from '../../common/decorators/api-property-set-name'
 
 export class SetPreviewDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Set\'s id' })
+    @ApiPropertySetId()
     readonly id: number
 
-    @ApiProperty({ example: 'For legs', required: true, nullable: false, description: 'Set\'s name' })
+    @ApiPropertySetName()
     readonly name: string
 
-    @ApiProperty({ example: '64918c8a06370748f2f3f7c3', required: true, nullable: false, description: 'Link, it leads to an image' })
+    @ApiPropertyDemonstration()
     readonly demonstration: string
 
-    @ApiProperty({ example: 1000, required: true, nullable: false, description: 'The amount of calories of exercise' })
+    @ApiPropertySetCalories()
     readonly calories: number
 }

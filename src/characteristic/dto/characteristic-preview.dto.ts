@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyCharacteristicId } from '../../common/decorators/api-property-characteristic-id'
+import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value'
 
 export class CharacteristicPreviewDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Characteristic\'s id' })
+    @ApiPropertyCharacteristicId()
     readonly id: number
 
-    @ApiProperty({ example: 'Legs', required: true, nullable: false, description: 'Characteristic\'s value' })
+    @ApiPropertyCharacteristicValue()
     readonly value: string
 }

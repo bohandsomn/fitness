@@ -1,41 +1,51 @@
 import { Difficulty, Gender, Prisma } from '@prisma/client'
-import { ApiProperty } from '@nestjs/swagger'
-import { UserDifficulty, UserGender } from '../constants/user.const'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
+import { ApiPropertyToken } from '../../common/decorators/api-property-token'
+import { ApiPropertyUserName } from '../../common/decorators/api-property-user-name'
+import { ApiPropertyDifficulty } from '../../common/decorators/api-property-difficulty'
+import { ApiPropertyUserHeight } from '../../common/decorators/api-property-user-height'
+import { ApiPropertyUserWeight } from '../../common/decorators/api-property-user-weight'
+import { ApiPropertyUserGoalWeight } from '../../common/decorators/api-property-user-goal-weight'
+import { ApiPropertyUserGoalDate } from '../../common/decorators/api-property-user-goal-date'
+import { ApiPropertyGender } from '../../common/decorators/api-property-gender'
+import { ApiPropertyLink } from '../../common/decorators/api-property-link'
+import { ApiPropertyUserBirthday } from '../../common/decorators/api-property-user-birthday'
 
 export class CreateUserDTO implements Prisma.UserCreateInput {
-    @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })
+    @ApiPropertyUserName()
     readonly name: string
 
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: true, nullable: false, description: 'User\'s email' })
+    @ApiPropertyEmail()
     readonly email: string
 
-    @ApiProperty({ enum: UserDifficulty, example: UserDifficulty.ADVANCED, required: true, nullable: false, description: 'Difficulty in training' })
+    @ApiPropertyDifficulty()
     readonly difficulty: Difficulty
 
-    @ApiProperty({ example: 174, required: true, nullable: false, description: 'User\'s height' })
+    @ApiPropertyUserHeight()
     readonly height: number
 
-    @ApiProperty({ example: 72, required: true, nullable: false, description: 'Current weight' })
+    @ApiPropertyUserWeight()
     readonly weight: number
 
-    @ApiProperty({ example: 70, required: true, nullable: false, description: 'Goal weight. Less than current weight' })
+    @ApiPropertyUserGoalWeight()
     readonly goalWeight: number
 
-    @ApiProperty({ example: new Date(2030, 0, 1), required: true, nullable: false, description: 'The date when the user stops training' })
+    @ApiPropertyUserGoalDate()
     readonly goalDate: Date | string
 
-    @ApiProperty({ enum: UserGender, example: UserGender.MALE, required: true, nullable: false, description: 'User\'s gender' })
+    @ApiPropertyGender()
     readonly gender: Gender
 
-    @ApiProperty({ example: 'qwertyui', required: true, nullable: false, description: 'User\'s unique link' })
+    @ApiPropertyLink()
     readonly link: string
 
-    @ApiProperty({ example: 'qwe.rty.uio', required: true, nullable: false, description: 'User\'s token' })
+    @ApiPropertyToken()
     readonly refreshToken: string
 
-    @ApiProperty({ example: new Date(2000, 0, 1), required: true, nullable: false, description: 'User\'s date of birth' })
+    @ApiPropertyUserBirthday()
     readonly birthday: Date | string
 
-    @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
+    @ApiPropertyPassword()
     readonly password: string
 }

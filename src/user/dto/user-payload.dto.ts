@@ -1,30 +1,38 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Difficulty, Gender, User } from '@prisma/client'
-import { UserDifficulty, UserGender } from '../constants/user.const'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyUserName } from '../../common/decorators/api-property-user-name'
+import { ApiPropertyDifficulty } from '../../common/decorators/api-property-difficulty'
+import { ApiPropertyUserHeight } from '../../common/decorators/api-property-user-height'
+import { ApiPropertyUserWeight } from '../../common/decorators/api-property-user-weight'
+import { ApiPropertyUserGoalWeight } from '../../common/decorators/api-property-user-goal-weight'
+import { ApiPropertyUserGoalDate } from '../../common/decorators/api-property-user-goal-date'
+import { ApiPropertyGender } from '../../common/decorators/api-property-gender'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
 
 export class UserPayloadDTO implements Partial<User> {
-    @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })
+    @ApiPropertyUserName()
     readonly name: string
 
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: true, nullable: false, description: 'User\'s email' })
+    @ApiPropertyEmail()
     readonly email: string
 
-    @ApiProperty({ enum: UserDifficulty, example: UserDifficulty.ADVANCED, required: true, nullable: false, description: 'Difficulty in training' })
+    @ApiPropertyDifficulty()
     readonly difficulty: Difficulty
 
-    @ApiProperty({ example: 174, required: true, nullable: false, description: 'User\'s height' })
+    @ApiPropertyUserHeight()
     readonly height: number
 
-    @ApiProperty({ example: 72, required: true, nullable: false, description: 'Current weight' })
+    @ApiPropertyUserWeight()
     readonly weight: number
 
-    @ApiProperty({ example: 70, required: true, nullable: false, description: 'Goal weight. Less than current weight' })
+    @ApiPropertyUserGoalWeight()
     readonly goalWeight: number
 
-    @ApiProperty({ example: new Date(2030, 0, 1), required: true, nullable: false, description: 'The date when the user stops training' })
+    @ApiPropertyUserGoalDate()
     readonly goalDate: Date
 
-    @ApiProperty({ enum: UserGender, example: UserGender.MALE, required: true, nullable: false, description: 'User\'s gender' })
+    @ApiPropertyGender()
     readonly gender: Gender
 
     @ApiProperty({ example: new Date(2023, 5, 14), required: true, nullable: false, description: 'User registration date' })
@@ -33,9 +41,9 @@ export class UserPayloadDTO implements Partial<User> {
     @ApiProperty({ example: 20, required: true, nullable: false, description: 'Age of user' })
     readonly age: number
 
-    @ApiProperty({ example: 2000, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories({ example: 2000 })
     readonly lostCalories: number
 
-    @ApiProperty({ example: 20000, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories({ example: 20000 })
     readonly goalCalories: number
 }

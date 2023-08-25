@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, ForbiddenException } from '@nestjs/common'
 import { IAuthService } from '../interfaces/auth-service.interface'
 import { RegisterUserDTO } from '../dto/register-user.dto'
 import { UserTokensDTO } from '../dto/user-tokens.dto'
@@ -11,6 +11,7 @@ import { TokenService } from '../../token/services/token.service'
 import { RefreshTokenDTO } from '../../token/dto/refresh-token.dto'
 import { TokenType } from '../../token/constants/token.const'
 import { ActivateUserDTO } from '../../user/dto/activate-user.dto'
+import { AuthException } from '../constants/auth.exception'
 
 @Injectable()
 export class AuthService implements IAuthService {

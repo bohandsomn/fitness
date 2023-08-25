@@ -1,65 +1,73 @@
 import { Difficulty, Gender, Prisma } from '@prisma/client'
-import { ApiProperty } from '@nestjs/swagger'
-import { IsEmail, Length, IsString, IsNumber, IsEmpty } from 'class-validator'
+import { IsEmail, Length, IsString, IsNumber } from 'class-validator'
 import { AppException } from '../../constants/app.exception'
-import { UserDifficulty, UserGender } from '../../user/constants/user.const'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
+import { ApiPropertyUserName } from '../../common/decorators/api-property-user-name'
+import { ApiPropertyDifficulty } from '../../common/decorators/api-property-difficulty'
+import { ApiPropertyUserHeight } from '../../common/decorators/api-property-user-height'
+import { ApiPropertyUserWeight } from '../../common/decorators/api-property-user-weight'
+import { ApiPropertyUserGoalWeight } from '../../common/decorators/api-property-user-goal-weight'
+import { ApiPropertyUserGoalDate } from '../../common/decorators/api-property-user-goal-date'
+import { ApiPropertyGender } from '../../common/decorators/api-property-gender'
+import { ApiPropertyUserBirthday } from '../../common/decorators/api-property-user-birthday'
 
 export class RegisterUserDTO implements Omit<Prisma.UserCreateInput, 'link' | 'refreshToken'> {
-    @ApiProperty({ example: 'Bohdan', required: true, nullable: false, description: 'User\'s name' })
+    @ApiPropertyUserName()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly name: string
 
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: true, nullable: false, description: 'User\'s email' })
+    @ApiPropertyEmail()
     @IsEmail({}, {
         message: AppException.EMAIL_NOT_VALID
     })
     readonly email: string
 
-    @ApiProperty({ enum: UserDifficulty, example: UserDifficulty.ADVANCED, required: true, nullable: false, description: 'Difficulty in training' })
+    @ApiPropertyDifficulty()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly difficulty: Difficulty
 
-    @ApiProperty({ example: 174, required: true, nullable: false, description: 'User\'s height' })
+    @ApiPropertyUserHeight()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly height: number
 
-    @ApiProperty({ example: 72, required: true, nullable: false, description: 'Current weight' })
+    @ApiPropertyUserWeight()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly weight: number
 
-    @ApiProperty({ example: 70, required: true, nullable: false, description: 'Goal weight. Less than current weight' })
+    @ApiPropertyUserGoalWeight()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly goalWeight: number
 
-    @ApiProperty({ example: new Date(2030, 0, 1), required: true, nullable: false, description: 'The date when the user stops training' })
+    @ApiPropertyUserGoalDate()
     @IsString({
         message: AppException.DATE_NOT_VALID,
     })
     readonly goalDate: Date | string
 
-    @ApiProperty({ enum: UserGender, example: UserGender.MALE, required: true, nullable: false, description: 'User\'s gender' })
+    @ApiPropertyGender()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly gender: Gender
 
-    @ApiProperty({ example: new Date(2000, 0, 1), required: true, nullable: false, description: 'User\'s date of birth' })
+    @ApiPropertyUserBirthday()
     @IsString({
         message: AppException.DATE_NOT_VALID,
     })
     readonly birthday: Date | string
 
-    @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
+    @ApiPropertyPassword()
     @Length(8, 12, {
         message: AppException.PASSWORD_LENGTH
     })

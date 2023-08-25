@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs'
 import { UserTokenDTO } from '../dto/user-token.dto'
 import { MailService } from '../../mail/services/mail.service'
 import { UserService } from '../../user/services/user.service'
-import { Environment } from 'src/common/constants/environment'
+import { Environment } from '../../common/constants/environment'
 
 @Injectable()
 export class EmailConfirmationInterceptor implements NestInterceptor<UserTokenDTO, Promise<UserTokenDTO>> {

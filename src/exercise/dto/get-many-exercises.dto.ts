@@ -1,24 +1,29 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class GetManyExercisesDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 
-    @ApiProperty({ example: 1, required: false, nullable: true, description: 'Set\'s id' })
+    @ApiPropertySetId({ required: false, nullable: true })
     readonly setId?: number
 
-    @ApiProperty({ example: 'Sit-ups', required: false, nullable: true, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader({ required: false, nullable: true })
     readonly header?: string
 
-    @ApiProperty({ example: 100, required: false, nullable: true, description: 'Integer calories' })
+    @ApiPropertyCalories({ required: false, nullable: true })
     readonly caloriesFrom?: number
 
-    @ApiProperty({ example: 100, required: false, nullable: true, description: 'Integer calories' })
+    @ApiPropertyCalories({ required: false, nullable: true })
     readonly caloriesTo?: number
 
-    @ApiProperty({ example: 'Cardio', required: true, nullable: false, description: 'Characteristic\'s value' })
+    @ApiPropertyCharacteristicValue({ example: 'Cardio', required: true, nullable: false })
     readonly type?: string
 
-    @ApiProperty({ example: 'Legs', required: true, nullable: false, description: 'Characteristic\'s value' })
+    @ApiPropertyCharacteristicValue({ required: false, nullable: true })
     readonly bodyPart?: string
 }

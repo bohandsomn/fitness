@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@
 import { ConfigService } from '@nestjs/config'
 import { Request } from 'express'
 import { RoleException } from '../constants/role.exception'
-import { Environment } from 'src/common/constants/environment'
+import { Environment } from '../../common/constants/environment'
 
 @Injectable()
 export class AssignRoleGuard implements CanActivate {

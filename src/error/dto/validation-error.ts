@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { ValidationErrorResponseDTO } from './validation-error-response.dto'
+import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message'
+import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status'
+import { ApiPropertyError } from '../../common/decorators/api-property-error'
 
 export class ValidationError {
     static isValidationError(data: unknown): data is ValidationError {
@@ -16,12 +19,12 @@ export class ValidationError {
     @ApiProperty({ type: ValidationErrorResponseDTO })
     readonly response: Record<string, string[]>
 
-    @ApiProperty({ example: 404, required: true, nullable: false, description: 'Error status code' })
+    @ApiPropertyErrorStatus()
     readonly status: number
 
-    @ApiProperty({ example: 'User is not found', required: true, nullable: false, description: 'Custom error message' })
+    @ApiPropertyErrorMessage()
     readonly message: string
 
-    @ApiProperty({ example: 'Not found', required: true, nullable: false, description: 'Error message' })
+    @ApiPropertyError()
     readonly name: string
 }

@@ -3,7 +3,7 @@ import { SetService } from './services/set.service'
 import { SetController } from './controllers/set.controller'
 import { ExerciseModule } from '../exercise/exercise.module'
 import { ImageModule } from '../image/image.module'
-import { TokenModule } from 'src/token/token.module'
+import { TokenModule } from '../token/token.module'
 
 @Module({
   imports: [

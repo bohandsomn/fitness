@@ -1,19 +1,20 @@
 import { Body, Controller, HttpStatus, Patch, Put, UseGuards, UseInterceptors } from '@nestjs/common'
-import { ApiHeaders, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { IUserController } from '../interfaces/user-controller.interface'
 import { UserService } from '../services/user.service'
 import { UpdateUserBodyDTO } from '../dto/update-user.dto'
-import { User } from '../decorstors/user.decorator'
+import { UserId } from '../decorators/user.decorator'
 import { UserTokensDTO } from '../../auth/dto/user-tokens.dto'
 import { AuthGuard } from '../../auth/guards/auth.guard'
 import { AppValidationPipe } from '../../pipes/app-validation.pipe'
 import { TokenService } from '../../token/services/token.service'
-import { SaveTokenInterceptor } from 'src/auth/interceptors/save-token.interceptor'
+import { SaveTokenInterceptor } from '../../auth/interceptors/save-token.interceptor'
 import { AssignAdminRoleDTO } from '../dto/assign-admin-role.dto'
-import { AssignRoleGuard } from 'src/role/guards/assign-role.guard'
-import { UserTokenDTO } from 'src/auth/dto/user-token.dto'
-import { ValidationErrorResponseDTO } from 'src/error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from 'src/error/dto/exception-error-response.dto'
+import { AssignRoleGuard } from '../../role/guards/assign-role.guard'
+import { UserTokenDTO } from '../../auth/dto/user-token.dto'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
 
 @ApiTags('User')
 @Controller('user')
@@ -29,15 +30,13 @@ export class UserController implements IUserController {
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Put()
     @UseInterceptors(SaveTokenInterceptor)
     @UseGuards(AuthGuard)
     async updateUser(
         @Body(AppValidationPipe) dto: UpdateUserBodyDTO,
-        @User('userId') userId: number,
+        @UserId() userId: number,
     ): Promise<UserTokensDTO> {
         const user = await this.userService.updateUser({ ...dto, id: userId })
         const userPayload = await this.userService.adaptUser(user)
@@ -60,9 +59,7 @@ export class UserController implements IUserController {
     @ApiResponse({ status: HttpStatus.OK, type: UserTokenDTO })
     @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ValidationErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'assign', description: 'The Assign header is needed to assign admin role to the user' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Patch()
     @UseInterceptors(SaveTokenInterceptor)
     @UseGuards(AssignRoleGuard)

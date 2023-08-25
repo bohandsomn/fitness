@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs'
 import { Response } from 'express'
 import { UserTokensDTO } from '../dto/user-tokens.dto'
 import { UserTokenDTO } from '../dto/user-token.dto'
-import { Environment } from 'src/common/constants/environment'
+import { Environment } from '../../common/constants/environment'
 
 @Injectable()
 export class SaveTokenInterceptor implements NestInterceptor<UserTokensDTO, UserTokenDTO> {

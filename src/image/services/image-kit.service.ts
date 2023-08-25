@@ -11,9 +11,9 @@ import { IImageService } from '../interfaces/image-service.interface'
 import { UpdateImageDTO } from '../dto/update-image.dto'
 import { GetBufferDTO } from '../dto/get-buffer.dto'
 import { CommonService } from '../../common/common.service'
-import { Environment } from 'src/common/constants/environment'
-import { InjectCacheManager } from 'src/cache/decorators/inject-cache-manager.decorator'
-import { ICache } from 'src/cache/interfaces/cache.interface'
+import { Environment } from '../../common/constants/environment'
+import { InjectCacheManager } from '../../cache/decorators/inject-cache-manager.decorator'
+import { ICache } from '../../cache/interfaces/cache.interface'
 
 @Injectable()
 export class ImageKitService implements IImageService {

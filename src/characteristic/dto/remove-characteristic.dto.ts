@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyCharacteristicId } from '../../common/decorators/api-property-characteristic-id'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
 
 export class RemoveCharacteristicDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Characteristic\'s id' })
+    @ApiPropertyCharacteristicId()
     readonly characteristicId: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly exerciseId: number
 }

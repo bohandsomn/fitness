@@ -3,29 +3,32 @@ import { Set } from '@prisma/client'
 import { IsString } from 'class-validator'
 import { ImageDTO } from '../../image/dto/image.dto'
 import { AppException } from '../../constants/app.exception'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertySetName } from '../../common/decorators/api-property-set-name'
+import { ApiPropertySetDescription } from '../../common/decorators/api-property-set-description'
 
 export class CreateSetDTO implements Partial<Set> {
-    @ApiProperty({ example: 'For legs', required: true, nullable: false, description: 'Set\'s name' })
+    @ApiPropertySetName()
     readonly name: string
 
-    @ApiProperty({ example: 'Interesting fact', required: true, nullable: false, description: 'Set\'s description' })
+    @ApiPropertySetDescription()
     readonly description: string
 
     @ApiProperty({ type: ImageDTO })
     readonly image: ImageDTO
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 }
 
 export class CreateSetBodyDTO implements Partial<Set> {
-    @ApiProperty({ example: 'For legs', required: true, nullable: false, description: 'Set\'s name' })
+    @ApiPropertySetName()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly name: string
 
-    @ApiProperty({ example: 'Interesting fact', required: true, nullable: false, description: 'Set\'s description' })
+    @ApiPropertySetDescription()
     @IsString({
         message: AppException.STRING_EMPTY
     })

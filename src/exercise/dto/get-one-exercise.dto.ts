@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class GetOneExerciseDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly id: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 }

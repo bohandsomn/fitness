@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class GetSetCaloriesDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Set\'s id' })
+    @ApiPropertySetId()
     readonly setId: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 }

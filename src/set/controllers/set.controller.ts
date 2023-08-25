@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiHeaders, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ISetController } from '../interfaces/set-controller.interface'
 import { SetService } from '../services/set.service'
 import { CreateSetBodyDTO } from '../dto/create-set.dto'
@@ -8,13 +7,15 @@ import { SetDTO } from '../dto/set.dto'
 import { ImageDTO } from '../../image/dto/image.dto'
 import { AppValidationPipe } from '../../pipes/app-validation.pipe'
 import { ImagePipe } from '../../image/pipes/image.pipe'
-import { User } from '../../user/decorstors/user.decorator'
+import { User, UserId } from '../../user/decorators/user.decorator'
 import { UpdateSetBodyDTO } from '../dto/update-set.dto'
 import { SetPreviewDTO } from '../dto/set-preview.dto'
-import { ValidationErrorResponseDTO } from 'src/error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from 'src/error/dto/exception-error-response.dto'
-import { AuthGuard } from 'src/auth/guards/auth.guard'
-import { SetRoleGuard } from 'src/role/guards/set-role.guard'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
+import { AuthGuard } from '../../auth/guards/auth.guard'
+import { SetRoleGuard } from '../../role/guards/set-role.guard'
+import { AppFileInterceptor } from '../../interceptors/app-file.interceptor'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
 
 @ApiTags('Set')
 @Controller('set')
@@ -31,16 +32,14 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Post()
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(AppFileInterceptor())
     @UseGuards(AuthGuard)
     async createSet(
         @Body(AppValidationPipe) dto: CreateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO,
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<SetPreviewDTO> {
         return this.setService.createSet({
             ...dto,
@@ -57,16 +56,14 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Put()
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(AppFileInterceptor())
     @UseGuards(SetRoleGuard, AuthGuard)
     async updateSet(
         @Body(AppValidationPipe) dto: UpdateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO | undefined,
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<SetPreviewDTO> {
         return this.setService.updateSet({
             ...dto,
@@ -79,14 +76,12 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK, type: SetDTO })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Get('/:id')
     @UseGuards(AuthGuard)
     async getSet(
         @Param('id', ParseIntPipe) id: number,
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<SetDTO> {
         return this.setService.getSet({
             id,
@@ -98,13 +93,11 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK, type: [SetPreviewDTO] })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Get()
     @UseGuards(AuthGuard)
     async getSets(
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<SetPreviewDTO[]> {
         return this.setService.getSets({ userId })
     }
@@ -113,13 +106,11 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK, type: [SetPreviewDTO] })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @UseGuards(AuthGuard)
     @Get('/common')
     async getCommonSets(
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<SetPreviewDTO[]> {
         return this.setService.getCommonSets({ userId })
     }
@@ -128,9 +119,7 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Delete('/:id')
     @UseGuards(SetRoleGuard, AuthGuard)
     async deleteSet(
@@ -143,9 +132,7 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Patch('/add/:setId/exercise/:exerciseId')
     @UseGuards(AuthGuard)
     async addExerciseSet(
@@ -162,9 +149,7 @@ export class SetController implements ISetController {
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Patch('/remove/:setId/exercise/:exerciseId')
     @UseGuards(AuthGuard)
     async removeExerciseSet(

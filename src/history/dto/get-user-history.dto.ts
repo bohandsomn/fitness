@@ -1,20 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { IsEmpty } from 'class-validator'
 import { AppException } from '../../constants/app.exception'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertyHistoryDate } from '../../common/decorators/api-property-history-date'
 
 export class GetUserHistoryDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 
-    @ApiProperty({ type: Date, example: new Date(), required: true, nullable: false, description: 'Date to retrieve history' })
+    @ApiPropertyHistoryDate()
     readonly startDate: Date
 
-    @ApiProperty({ type: Date, example: new Date(), required: true, nullable: false, description: 'Date to retrieve history' })
+    @ApiPropertyHistoryDate()
     readonly endDate: Date
 }
 
 export class GetUserHistoryBodyDTO {
-    @ApiProperty({ type: Date, example: new Date(), required: true, nullable: false, description: 'Date to retrieve history' })
+    @ApiPropertyHistoryDate()
     @IsEmpty({
         message: AppException.DATE_NOT_VALID,
     })

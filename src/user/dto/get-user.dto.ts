@@ -1,12 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyLink } from '../../common/decorators/api-property-link'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class GetUserDTO {
-    @ApiProperty({ example: 1, required: false, nullable: true, description: 'User\'s id' })
+    @ApiPropertyUserId({ required: false, nullable: true })
     readonly id?: number
 
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: false, nullable: true, description: 'User\'s email' })
+    @ApiPropertyEmail({ required: false, nullable: true })
     readonly email?: string
 
-    @ApiProperty({ example: 'qwertyui', required: false, nullable: true, description: 'User\'s unique link' })
+    @ApiPropertyLink({ required: false, nullable: true })
     readonly link?: string
 }

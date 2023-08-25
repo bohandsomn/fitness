@@ -2,63 +2,67 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsNumber } from 'class-validator'
 import { ImageDTO } from '../../image/dto/image.dto'
 import { AppException } from '../../constants/app.exception'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
+import { ApiPropertyExerciseDescription } from '../../common/decorators/api-property-exercise-description'
+import { ApiPropertyRepetitions } from '../../common/decorators/api-property-repetitions'
 
 export class CreateExerciseDTO {
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     readonly calories: number
 
-    @ApiProperty({ example: 'Sit-ups', required: true, nullable: false, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader()
     readonly header: string
 
-    @ApiProperty({ example: 'Interesting fact', required: true, nullable: false, description: 'Exercise\'s description' })
+    @ApiPropertyExerciseDescription()
     readonly description: string
 
     @ApiProperty({ type: ImageDTO })
     readonly image: ImageDTO
 
-    @ApiProperty({ example: 20, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 20 })
     readonly beginnerRepetitions: number
 
-    @ApiProperty({ example: 30, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 30 })
     readonly intermediateRepetitions: number
 
-    @ApiProperty({ example: 40, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 40 })
     readonly advancedRepetitions: number
 }
 
 export class CreateExerciseBodyDTO {
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly calories: number
 
-    @ApiProperty({ example: 'Sit-ups', required: true, nullable: false, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly header: string
 
-    @ApiProperty({ example: 'Interesting fact', required: true, nullable: false, description: 'Exercise\'s description' })
+    @ApiPropertyExerciseDescription()
     @IsString({
         message: AppException.STRING_EMPTY
     })
     readonly description: string
 
-    @ApiProperty({ example: 20, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly beginnerRepetitions: number
 
-    @ApiProperty({ example: 30, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 30 })
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly intermediateRepetitions: number
 
 
-    @ApiProperty({ example: 40, required: true, nullable: false, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 40 })
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })

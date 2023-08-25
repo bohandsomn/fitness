@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
 
 export class DeleteSetDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Set\'s id' })
+    @ApiPropertySetId()
     readonly id: number
 }

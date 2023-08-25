@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
-import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiHeaders, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ExerciseService } from '../services/exercise.service'
 import { IExerciseController } from '../interfaces/exercise-controller.interface'
 import { CreateExerciseBodyDTO } from '../dto/create-exercise.dto'
@@ -12,10 +11,12 @@ import { ImageDTO } from '../../image/dto/image.dto'
 import { ImagePipe } from '../../image/pipes/image.pipe'
 import { AuthGuard } from '../../auth/guards/auth.guard'
 import { AdminRoleGuard } from '../../role/guards/admin-role.guard'
-import { User } from '../../user/decorstors/user.decorator'
+import { UserId } from '../../user/decorators/user.decorator'
 import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
 import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
 import { ParseOptionalIntPipe } from '../../common/pipes/parse-optional-int.pipe'
+import { AppFileInterceptor } from '../../interceptors/app-file.interceptor'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
 
 @ApiTags('Exercise')
 @Controller('exercise')
@@ -32,15 +33,13 @@ export class ExerciseController implements IExerciseController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Post()
-    @UseGuards(AdminRoleGuard, AuthGuard)
-    @UseInterceptors(FileInterceptor('file'))
+    @UseGuards(AuthGuard, AdminRoleGuard)
+    @UseInterceptors(AppFileInterceptor())
     async createExercise(
         @Body(AppValidationPipe) dto: CreateExerciseBodyDTO,
-        @UploadedFile(ImagePipe) imageDTO: ImageDTO
+        @UploadedFile(ImagePipe, AppValidationPipe) imageDTO: ImageDTO
     ): Promise<ExercisePayloadDTO> {
         return this.exerciseService.createExercise({ ...dto, image: imageDTO })
     }
@@ -53,15 +52,13 @@ export class ExerciseController implements IExerciseController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Put()
-    @UseGuards(AdminRoleGuard, AuthGuard)
-    @UseInterceptors(FileInterceptor('file'))
+    @UseGuards(AuthGuard, AdminRoleGuard)
+    @UseInterceptors(AppFileInterceptor())
     async updateExercise(
         @Body(AppValidationPipe) dto: UpdateExerciseBodyDTO,
-        @User('userId') userId: number,
+        @UserId() userId: number,
         @UploadedFile(ImagePipe) imageDTO?: ImageDTO
     ): Promise<ExercisePayloadDTO> {
         return this.exerciseService.updateExercise({ ...dto, userId, image: imageDTO })
@@ -74,14 +71,12 @@ export class ExerciseController implements IExerciseController {
     @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Get('/:exerciseId')
     @UseGuards(AuthGuard)
     async getOneExercise(
         @Param('exerciseId', ParseIntPipe) exerciseId: number,
-        @User('userId') userId: number
+        @UserId() userId: number
     ): Promise<ExerciseDTO> {
         return this.exerciseService.getOneExercise({ userId, id: exerciseId })
     }
@@ -92,13 +87,11 @@ export class ExerciseController implements IExerciseController {
     @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @UseGuards(AuthGuard)
     @Get()
     async getManyExercises(
-        @User('userId') userId: number,
+        @UserId() userId: number,
         @Query('setId', ParseOptionalIntPipe) setId?: number,
         @Query('header') header?: string,
         @Query('caloriesFrom', ParseOptionalIntPipe) caloriesFrom?: number,
@@ -124,11 +117,9 @@ export class ExerciseController implements IExerciseController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
-    @ApiHeaders([
-        { name: 'authorization', description: 'The Authorization header is needed to get user payload from token' }
-    ])
+    @ApiPropertyHeadersAuthorization()
     @Delete('/:exerciseId')
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async deleteExercise(
         @Param('exerciseId', ParseIntPipe) exerciseId: number
     ): Promise<void> {

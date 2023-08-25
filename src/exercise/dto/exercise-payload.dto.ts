@@ -1,16 +1,19 @@
 import { Exercise } from '@prisma/client'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
 
 export class ExercisePayloadDTO implements Partial<Exercise> {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly id: number
 
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     readonly calories: number
 
-    @ApiProperty({ example: 'Sit-ups', required: true, nullable: false, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader()
     readonly header: string
 
-    @ApiProperty({ example: '64918c8a06370748f2f3f7c3', required: true, nullable: false, description: 'Link, it leads to an image' })
+    @ApiPropertyDemonstration()
     readonly demonstration: string
 }

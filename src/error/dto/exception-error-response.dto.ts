@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message'
 
 export class ExceptionErrorResponseDTO {
-    @ApiProperty({ example: 'User is not found', required: true, nullable: false, description: 'Custom error message' })
+    @ApiPropertyErrorMessage()
     readonly message: string
 }

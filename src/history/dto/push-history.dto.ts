@@ -1,17 +1,18 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
-import { AppException } from 'src/constants/app.exception'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { AppException } from '../../constants/app.exception'
 
 export class PushHistoryDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly exerciseId: number
 }
 
 export class PushHistoryBodyDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })

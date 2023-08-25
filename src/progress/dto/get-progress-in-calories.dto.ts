@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class GetProgressInCaloriesDTO {
     @ApiProperty({ type: Date, required: false, nullable: true })
@@ -7,7 +8,7 @@ export class GetProgressInCaloriesDTO {
     @ApiProperty({ type: Date, required: false, nullable: true })
     readonly endDate?: Date
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 }
 

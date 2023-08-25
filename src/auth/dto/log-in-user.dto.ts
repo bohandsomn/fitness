@@ -1,15 +1,16 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, Length } from 'class-validator'
 import { AppException } from '../../constants/app.exception'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
 
 export class LogInUserDTO {
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: true, nullable: false, description: 'User\'s email' })
+    @ApiPropertyEmail()
     @IsEmail({}, {
         message: AppException.EMAIL_NOT_VALID
     })
     readonly email: string
 
-    @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
+    @ApiPropertyPassword()
     @Length(8, 12, {
         message: AppException.PASSWORD_LENGTH
     })

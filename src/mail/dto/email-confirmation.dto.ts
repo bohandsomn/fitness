@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
+import { ApiPropertyLink } from '../../common/decorators/api-property-link'
 
 export class EmailConfirmationDTO {
-    @ApiProperty({ example: 'bohdan.lukianchenko@gmail.com', required: true, nullable: false, description: 'User\'s email' })
+    @ApiPropertyEmail()
     readonly email: string
 
-    @ApiProperty({ example: 'qwertyui', required: true, nullable: false, description: 'User\'s unique link' })
+    @ApiPropertyLink()
     readonly link: string
 }

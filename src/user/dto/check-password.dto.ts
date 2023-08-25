@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
 
 export class CheckPasswordDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 
-    @ApiProperty({ example: '12345678', required: true, nullable: false, description: 'User\'s password. From 8 to 12 characteristics' })
+    @ApiPropertyPassword()
     readonly password: string
 }

@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
 
 export class FullProgressInCaloriesDTO {
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     readonly lostCalories: number
 
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     readonly goalCalories: number
 }

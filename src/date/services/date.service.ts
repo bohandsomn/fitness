@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { IDateService } from '../interfaces/date-service.interface'
 import { DateTimeDTO } from '../dto/date-time.dto'
 import { IDateTime } from '../interfaces/date-time.interface'
-import { AppException } from 'src/constants/app.exception'
+import { AppException } from '../../constants/app.exception'
 import { GetDateDifferenceDTO } from '../dto/get-date-difference.dto'
 
 @Injectable()

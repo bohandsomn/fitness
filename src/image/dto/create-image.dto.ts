@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyImageExtension } from '../../common/decorators/api-property-image-extension'
 
 export class CreateImageDTO {
     @ApiProperty({ type: Buffer })
     readonly file: Buffer
 
-    @ApiProperty({ example: 'gif', required: true, nullable: false, description: 'Extension of file (gif, png, jpg, webp etc.)' })
+    @ApiPropertyImageExtension()
     readonly extension: string
 }

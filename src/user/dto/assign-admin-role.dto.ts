@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
-import { AppException } from 'src/constants/app.exception'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { AppException } from '../../constants/app.exception'
 
 export class AssignAdminRoleDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })

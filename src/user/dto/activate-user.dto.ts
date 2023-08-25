@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyLink } from '../../common/decorators/api-property-link'
 
 export class ActivateUserDTO {
-    @ApiProperty({ example: 'qwertyui', required: true, nullable: false, description: 'User\'s unique link' })
+    @ApiPropertyLink()
     readonly link: string
 }

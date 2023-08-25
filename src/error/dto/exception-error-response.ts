@@ -1,4 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyError } from '../../common/decorators/api-property-error'
+import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message'
+import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status'
 
 export class ExceptionErrorResponse {
     static isExceptionErrorResponse(data: unknown): data is ExceptionErrorResponse {
@@ -10,12 +12,12 @@ export class ExceptionErrorResponse {
             typeof error === 'string'
     }
 
-    @ApiProperty({ example: 404, required: true, nullable: false, description: 'Error status code' })
+    @ApiPropertyErrorStatus()
     readonly statusCode: number
 
-    @ApiProperty({ example: 'User is not found', required: true, nullable: false, description: 'Custom error message' })
+    @ApiPropertyErrorMessage()
     readonly message: string
 
-    @ApiProperty({ example: 'Not found', required: true, nullable: false, description: 'Error message' })
+    @ApiPropertyError()
     readonly error: string
 }

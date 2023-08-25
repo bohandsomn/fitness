@@ -1,12 +1,16 @@
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common'
 import { plainToClass } from 'class-transformer'
 import { validate } from 'class-validator'
+import { AppException } from '../constants/app.exception'
 
 @Injectable()
 export class AppValidationPipe implements PipeTransform {
-    async transform(value: object, { metatype }: ArgumentMetadata) {
+    async transform(value: object | undefined, { metatype }: ArgumentMetadata) {
         if (!metatype) {
             return value
+        }
+        if (!value) {
+            throw new BadRequestException(AppException.MISSING_RESOURCE)
         }
         const validationErrors = await this.getValidationErrors(value, metatype)
         const hasError = validationErrors.length !== 0

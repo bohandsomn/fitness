@@ -1,9 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
 
 export class RemoveExerciseSetDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly exerciseId: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Set\'s id' })
+    @ApiPropertySetId()
     readonly setId: number
 }

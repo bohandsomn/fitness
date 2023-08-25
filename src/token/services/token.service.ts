@@ -13,7 +13,7 @@ import { UserService } from '../../user/services/user.service'
 import { VerifyTokenDTO } from '../dto/verify-token.dto'
 import { DeleteTokenDTO } from '../dto/delete-token.dto'
 import { SplitTokenDTO } from '../dto/split-token.dto'
-import { Environment } from 'src/common/constants/environment'
+import { Environment } from '../../common/constants/environment'
 
 @Injectable()
 export class TokenService implements ITokenService {

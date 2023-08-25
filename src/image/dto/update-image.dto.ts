@@ -1,12 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
+import { ApiPropertyImageExtension } from '../../common/decorators/api-property-image-extension'
 
 export class UpdateImageDTO {
-    @ApiProperty({ example: '64918c8a06370748f2f3f7c3', required: true, nullable: false, description: 'Link, it leads to an image' })
+    @ApiPropertyDemonstration()
     readonly demonstration: string
 
     @ApiProperty({ type: Buffer })
     readonly file: Buffer
 
-    @ApiProperty({ example: 'gif', required: true, nullable: false, description: 'Extension of file (gif, png, jpg, webp etc.)' })
+    @ApiPropertyImageExtension()
     readonly extension: string
 }

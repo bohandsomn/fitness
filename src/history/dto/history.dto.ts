@@ -1,14 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IDateTime } from '../../date/interfaces/date-time.interface'
 import { ExercisePayloadDTO } from '../../exercise/dto/exercise-payload.dto'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyHistoryDateTime } from '../../common/decorators/api-property-history-date-time'
 
 export class HistoryDTO {
     @ApiProperty({ type: [ExercisePayloadDTO] })
     readonly exercises: ExercisePayloadDTO[]
 
-    @ApiProperty({ example: 100, required: true, nullable: false, description: 'Integer calories' })
+    @ApiPropertyCalories()
     readonly calories: number
 
-    @ApiProperty({ example: '2023-06-21T11:45:59.000Z', required: true, nullable: false, description: 'Date time' })
+    @ApiPropertyHistoryDateTime()
     readonly date: IDateTime
 }

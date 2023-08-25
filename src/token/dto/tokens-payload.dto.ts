@@ -1,8 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiPropertyToken } from '../../common/decorators/api-property-token'
 export class TokensPayloadDTO {
-    @ApiProperty({ example: 'qwe.rty.uio', required: true, nullable: false, description: 'User\'s token' })
+    @ApiPropertyToken()
     readonly accessToken: string
 
-    @ApiProperty({ example: 'qwe.rty.uio', required: true, nullable: false, description: 'User\'s token' })
+    @ApiPropertyToken()
     readonly refreshToken: string
 }

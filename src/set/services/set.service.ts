@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { ISetService } from '../interfaces/set-service.interface'
 import { GetSetDTO } from '../dto/get-set.dto'
 import { SetDTO } from '../dto/set.dto'
@@ -15,10 +16,9 @@ import { ExerciseService } from '../../exercise/services/exercise.service'
 import { SetPreviewDTO } from '../dto/set-preview.dto'
 import { IsSetOwnerDTO } from '../dto/is-set-owner.dto'
 import { GetCommonSetsDTO } from '../dto/get-common-sets.dto'
-import { ConfigService } from '@nestjs/config'
-import { Environment } from 'src/common/constants/environment'
-import { IImageService } from 'src/image/interfaces/image-service.interface'
-import { InjectImage } from 'src/image/decorators/inject-image.decorator'
+import { Environment } from '../../common/constants/environment'
+import { IImageService } from '../../image/interfaces/image-service.interface'
+import { InjectImage } from '../../image/decorators/inject-image.decorator'
 
 @Injectable()
 export class SetService implements ISetService {

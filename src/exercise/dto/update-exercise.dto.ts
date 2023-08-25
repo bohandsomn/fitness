@@ -2,58 +2,64 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
 import { ImageDTO } from '../../image/dto/image.dto'
 import { AppException } from '../../constants/app.exception'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
+import { ApiPropertyExerciseDescription } from '../../common/decorators/api-property-exercise-description'
+import { ApiPropertyRepetitions } from '../../common/decorators/api-property-repetitions'
 
 export class UpdateExerciseDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     readonly id: number
 
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'User\'s id' })
+    @ApiPropertyUserId()
     readonly userId: number
 
-    @ApiProperty({ example: 100, required: false, nullable: true, description: 'Integer calories' })
+    @ApiPropertyCalories({ required: false, nullable: true })
     readonly calories?: number
 
-    @ApiProperty({ example: 'Sit-ups', required: false, nullable: true, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader({ required: false, nullable: true })
     readonly header?: string
 
-    @ApiProperty({ example: 'Interesting fact', required: false, nullable: true, description: 'Exercise\'s description' })
+    @ApiPropertyExerciseDescription({ required: false, nullable: true })
     readonly description?: string
 
     @ApiProperty({ type: ImageDTO, required: false, nullable: true })
     readonly image?: ImageDTO
 
-    @ApiProperty({ example: 20, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 20, required: false, nullable: true })
     readonly beginnerRepetitions?: number
 
-    @ApiProperty({ example: 30, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 30, required: false, nullable: true })
     readonly intermediateRepetitions?: number
 
-    @ApiProperty({ example: 40, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 40, required: false, nullable: true })
     readonly advancedRepetitions?: number
 }
 
 export class UpdateExerciseBodyDTO {
-    @ApiProperty({ example: 1, required: true, nullable: false, description: 'Exercise\'s id' })
+    @ApiPropertyExerciseId()
     @IsNumber({}, {
         message: AppException.NUMBER_NOT_VALID
     })
     readonly id: number
 
-    @ApiProperty({ example: 100, required: false, nullable: true, description: 'Integer calories' })
+    @ApiPropertyCalories({ required: false, nullable: true })
     readonly calories?: number
 
-    @ApiProperty({ example: 'Sit-ups', required: false, nullable: true, description: 'Exercise\'s name' })
+    @ApiPropertyExerciseHeader({ required: false, nullable: true })
     readonly header?: string
 
-    @ApiProperty({ example: 'Interesting fact', required: false, nullable: true, description: 'Exercise\'s description' })
+    @ApiPropertyExerciseDescription({ required: false, nullable: true })
     readonly description?: string
 
-    @ApiProperty({ example: 20, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 20, required: false, nullable: true })
     readonly beginnerRepetitions?: number
 
-    @ApiProperty({ example: 30, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 30, required: false, nullable: true })
     readonly intermediateRepetitions?: number
 
-    @ApiProperty({ example: 40, required: false, nullable: true, description: 'Number of repetitions' })
+    @ApiPropertyRepetitions({ example: 40, required: false, nullable: true })
     readonly advancedRepetitions?: number
 }
