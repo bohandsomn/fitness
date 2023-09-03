@@ -6,6 +6,8 @@ import { ActivateUserDTO } from '../dto/activate-user.dto'
 import { UserPayloadDTO } from '../dto/user-payload.dto'
 import { CheckPasswordDTO } from '../dto/check-password.dto'
 import { AssignAdminRoleDTO } from '../dto/assign-admin-role.dto'
+import { SaveTokenDTO } from '../dto/save-token.dto'
+import { DeleteTokenDTO } from '../dto/delete-token.dto'
 
 export interface IUserService {
     createUser(dto: CreateUserDTO): Promise<User>
@@ -15,4 +17,6 @@ export interface IUserService {
     adaptUser(user: User): Promise<UserPayloadDTO>
     checkPassword(dto: CheckPasswordDTO): Promise<void>
     assignAdminRole(dto: AssignAdminRoleDTO): Promise<User>
+    saveToken(dto: SaveTokenDTO): Promise<void>
+    deleteToken(dto: DeleteTokenDTO): Promise<void>
 }

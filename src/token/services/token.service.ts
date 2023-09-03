@@ -8,7 +8,6 @@ import { TokenType } from '../constants/token.const'
 import { TokenException } from '../constants/token.exception'
 import { SaveTokenDTO } from '../dto/save-token.dto'
 import { RefreshTokenDTO } from '../dto/refresh-token.dto'
-import { OrmService } from '../../orm/services/orm.service'
 import { UserService } from '../../user/services/user.service'
 import { VerifyTokenDTO } from '../dto/verify-token.dto'
 import { DeleteTokenDTO } from '../dto/delete-token.dto'
@@ -18,10 +17,9 @@ import { Environment } from '../../common/constants/environment'
 @Injectable()
 export class TokenService implements ITokenService {
     constructor(
+        @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
         private readonly jwtService: JwtService,
         private readonly configService: ConfigService,
-        private readonly ormService: OrmService,
-        @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
     ) { }
 
     generateTokens(dto: GenerateTokenDTO): TokensPayloadDTO {
@@ -34,13 +32,9 @@ export class TokenService implements ITokenService {
     }
 
     async saveToken(dto: SaveTokenDTO): Promise<void> {
-        await this.ormService.user.update({
-            where: {
-                id: dto.userId,
-            },
-            data: {
-                refreshToken: dto.refreshToken,
-            }
+        await this.userService.saveToken({
+            userId: dto.userId,
+            token: dto.refreshToken,
         })
     }
 
@@ -64,13 +58,8 @@ export class TokenService implements ITokenService {
             token: dto.refreshToken,
             type: TokenType.REFRESH,
         })
-        await this.ormService.user.update({
-            where: {
-                id: generateTokenDTO.userId,
-            },
-            data: {
-                refreshToken: undefined,
-            }
+        await this.userService.deleteToken({
+            userId: generateTokenDTO.userId,
         })
     }
 

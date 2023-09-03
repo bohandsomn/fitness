@@ -29,7 +29,7 @@ export class TypeController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Post()
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async createCharacteristic(
         @Body(AppValidationPipe) dto: CreateCharacteristicDTO
     ): Promise<CharacteristicPreviewDTO> {
@@ -46,7 +46,7 @@ export class TypeController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Put()
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async updateCharacteristic(
         @Body(AppValidationPipe) dto: UpdateCharacteristicDTO
     ): Promise<CharacteristicPreviewDTO> {
@@ -88,7 +88,7 @@ export class TypeController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Delete('/:id')
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async deleteCharacteristic(
         @Param('id', ParseIntPipe) id: number
     ): Promise<void> {
@@ -104,7 +104,7 @@ export class TypeController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Patch('/add/:characteristicId/exercise/:exerciseId')
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async addCharacteristic(
         @Param('characteristicId', ParseIntPipe) characteristicId: number,
         @Param('exerciseId', ParseIntPipe) exerciseId: number
@@ -124,7 +124,7 @@ export class TypeController implements ICharacteristicController {
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Patch('/remove/:characteristicId/exercise/:exerciseId')
-    @UseGuards(AdminRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, AdminRoleGuard)
     async removeCharacteristic(
         @Param('characteristicId', ParseIntPipe) characteristicId: number,
         @Param('exerciseId', ParseIntPipe) exerciseId: number

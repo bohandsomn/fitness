@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, InternalServerErrorException } from '@nestjs/common'
 import { Response } from 'express'
 import { ColorLoggerService } from '../color-logger/services/color-logger.service'
 import { ExceptionError } from '../error/dto/exception-error'
@@ -24,6 +24,8 @@ export class AppExceptionFilter implements ExceptionFilter {
                 message: exception.response
             })
         }
-        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send(null)
+        return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+            message: new InternalServerErrorException().message
+        })
     }
 }

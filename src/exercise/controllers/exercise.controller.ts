@@ -17,6 +17,7 @@ import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-respo
 import { ParseOptionalIntPipe } from '../../common/pipes/parse-optional-int.pipe'
 import { AppFileInterceptor } from '../../interceptors/app-file.interceptor'
 import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
+import { BodyData } from '../../common/decorators/body-data.decorator'
 
 @ApiTags('Exercise')
 @Controller('exercise')
@@ -38,7 +39,7 @@ export class ExerciseController implements IExerciseController {
     @UseGuards(AuthGuard, AdminRoleGuard)
     @UseInterceptors(AppFileInterceptor())
     async createExercise(
-        @Body(AppValidationPipe) dto: CreateExerciseBodyDTO,
+        @BodyData(AppValidationPipe) dto: CreateExerciseBodyDTO,
         @UploadedFile(ImagePipe, AppValidationPipe) imageDTO: ImageDTO
     ): Promise<ExercisePayloadDTO> {
         return this.exerciseService.createExercise({ ...dto, image: imageDTO })
@@ -57,7 +58,7 @@ export class ExerciseController implements IExerciseController {
     @UseGuards(AuthGuard, AdminRoleGuard)
     @UseInterceptors(AppFileInterceptor())
     async updateExercise(
-        @Body(AppValidationPipe) dto: UpdateExerciseBodyDTO,
+        @BodyData(AppValidationPipe) dto: UpdateExerciseBodyDTO,
         @UserId() userId: number,
         @UploadedFile(ImagePipe) imageDTO?: ImageDTO
     ): Promise<ExercisePayloadDTO> {

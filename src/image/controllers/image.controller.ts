@@ -22,12 +22,11 @@ export class ImageController implements IImageController {
         @Query('h', ParseIntPipe) height: number,
         @Query('q', ParseFloatPipe) quality: number,
     ): Promise<Buffer> {
-        const url = await this.imageService.getUrl({
+        return this.imageService.get({
             demonstration,
             width,
             height,
             quality,
         })
-        return this.imageService.getBuffer({ url })
     }
 }

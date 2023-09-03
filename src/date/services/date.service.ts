@@ -4,11 +4,12 @@ import { DateTimeDTO } from '../dto/date-time.dto'
 import { IDateTime } from '../interfaces/date-time.interface'
 import { AppException } from '../../constants/app.exception'
 import { GetDateDifferenceDTO } from '../dto/get-date-difference.dto'
+import { AppDate } from '../../common/services/app-date.service'
 
 @Injectable()
 export class DateService implements IDateService {
     getDateTimeStart(date: Date): DateTimeDTO {
-        date = new Date(date)
+        date = new AppDate(date)
         return {
             year: date.getUTCFullYear(),
             month: date.getUTCMonth() + 1,
@@ -20,7 +21,7 @@ export class DateService implements IDateService {
     }
 
     getDateTimeEnd(date: Date): DateTimeDTO {
-        date = new Date(date)
+        date = new AppDate(date)
         return {
             year: date.getUTCFullYear(),
             month: date.getUTCMonth() + 1,
@@ -35,10 +36,10 @@ export class DateService implements IDateService {
     adaptDateTime(data: IDateTime): DateTimeDTO
     adaptDateTime(data: unknown): DateTimeDTO | IDateTime {
         if (DateTimeDTO.isDateTimeDTO(data)) {
-            return new Date(data.year, data.month - 1, data.day, data.hour, data.minute, data.second).toISOString() as IDateTime
+            return new AppDate(data.year, data.month - 1, data.day, data.hour, data.minute, data.second).toISOString() as IDateTime
         }
         if (typeof data === 'string') {
-            const date = new Date(data)
+            const date = new AppDate(data)
             return {
                 year: date.getUTCFullYear(),
                 month: date.getUTCMonth() + 1,
@@ -53,14 +54,13 @@ export class DateService implements IDateService {
 
     getDateDifference(dto: GetDateDifferenceDTO): Date[] {
         const ONE_DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000
-        const startDate = new Date(dto.startDate)
-        const endDate = new Date(dto.endDate)
+        const startDate = new AppDate(dto.startDate)
+        const endDate = new AppDate(dto.endDate)
+        let currentDate = new AppDate(startDate)
         const days: Date[] = []
-        let currentDate = new Date(startDate)
-        days.push(currentDate)
         while (currentDate < endDate) {
-            currentDate = new Date(currentDate.getTime() + ONE_DAY_IN_MILLISECONDS)
             days.push(currentDate)
+            currentDate = new AppDate(currentDate.getTime() + ONE_DAY_IN_MILLISECONDS)
         }
         return days
     }

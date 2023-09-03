@@ -5,12 +5,11 @@ import { firstValueFrom } from 'rxjs'
 import type ImageKitClass from 'imagekit'
 const ImageKit = require('imagekit') as ImageKitClass
 import { CreateImageDTO } from '../dto/create-image.dto'
-import { GetUrlDTO } from '../dto/get-url.dto'
+import { GetImageDTO } from '../dto/get-image.dto'
 import { DeleteImageDTO } from '../dto/delete-image.dto'
 import { IImageService } from '../interfaces/image-service.interface'
 import { UpdateImageDTO } from '../dto/update-image.dto'
-import { GetBufferDTO } from '../dto/get-buffer.dto'
-import { CommonService } from '../../common/common.service'
+import { CommonService } from '../../common/services/common.service'
 import { Environment } from '../../common/constants/environment'
 import { InjectCacheManager } from '../../cache/decorators/inject-cache-manager.decorator'
 import { ICache } from '../../cache/interfaces/cache.interface'
@@ -35,7 +34,7 @@ export class ImageKitService implements IImageService {
         })
     }
 
-    async createImage(dto: CreateImageDTO): Promise<string> {
+    async create(dto: CreateImageDTO): Promise<string> {
         const link = this.commonService.generateUniqueString()
         const fileName = `${link}.${dto.extension}`
         const response = await this.imageKit.upload({
@@ -46,12 +45,35 @@ export class ImageKitService implements IImageService {
         return demonstration
     }
 
-    async updateImage(dto: UpdateImageDTO): Promise<string> {
-        await this.deleteImage(dto)
-        return this.createImage(dto)
+    async update(dto: UpdateImageDTO): Promise<string> {
+        await this.delete(dto)
+        return this.create(dto)
     }
 
-    async getUrl(dto: GetUrlDTO): Promise<string> {
+    async get(dto: GetImageDTO): Promise<Buffer> {
+        const url = await this.getUrl(dto)
+        const cachedBuffer = await this.cacheManager.get<Buffer>(url)
+        if (cachedBuffer) {
+            return cachedBuffer
+        }
+        const response = await firstValueFrom(
+            this.httpService.get<Buffer>(
+                url,
+                {
+                    responseType: 'arraybuffer'
+                }
+            )
+        )
+        const buffer = response.data
+        await this.cacheManager.set(url, buffer)
+        return buffer
+    }
+
+    async delete(dto: DeleteImageDTO): Promise<void> {
+        await this.imageKit.deleteFile(dto.demonstration)
+    }
+
+    private async getUrl(dto: GetImageDTO): Promise<string> {
         const details = await this.imageKit.getFileDetails(dto.demonstration)
         const url = this.imageKit.url({
             path: details.filePath,
@@ -63,27 +85,5 @@ export class ImageKitService implements IImageService {
             }]
         })
         return url
-    }
-
-    async getBuffer(dto: GetBufferDTO): Promise<Buffer> {
-        const cachedBuffer = await this.cacheManager.get<Buffer>(dto.url)
-        if (cachedBuffer) {
-            return cachedBuffer
-        }
-        const response = await firstValueFrom(
-            this.httpService.get<Buffer>(
-                dto.url,
-                {
-                    responseType: 'arraybuffer'
-                }
-            )
-        )
-        const buffer = response.data
-        await this.cacheManager.set(dto.url, buffer)
-        return buffer
-    }
-
-    async deleteImage(dto: DeleteImageDTO): Promise<void> {
-        await this.imageKit.deleteFile(dto.demonstration)
     }
 }

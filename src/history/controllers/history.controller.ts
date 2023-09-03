@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Patch, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpStatus, Patch, Query, UseGuards } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { IHistoryController } from '../interfaces/history-controller.interface'
 import { HistoryService } from '../services/history.service'
@@ -44,9 +44,10 @@ export class HistoryController implements IHistoryController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
+    @UseGuards(AuthGuard)
     @Get()
     async getUserHistory(
-        @Body(AppValidationPipe) dto: GetUserHistoryBodyDTO,
+        @Query() dto: GetUserHistoryBodyDTO,
         @UserId() userId: number
     ): Promise<HistoryDTO> {
         return this.historyService.getUserHistory({

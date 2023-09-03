@@ -9,6 +9,7 @@ import { GetUserDTO } from '../dto/get-user.dto'
 import { ActivateUserDTO } from '../dto/activate-user.dto'
 import { UserPayloadDTO } from '../dto/user-payload.dto'
 import { CheckPasswordDTO } from '../dto/check-password.dto'
+import { AppDate } from '../../common/services/app-date.service'
 
 describe('UserService', () => {
     let service: UserService
@@ -20,9 +21,9 @@ describe('UserService', () => {
         height: 100,
         weight: 100,
         goalWeight: 50,
-        goalDate: new Date(3000, 0, 1),
+        goalDate: new AppDate(3000, 0, 1),
         gender: UserGender.MALE,
-        registeredAt: new Date(Date.now()),
+        registeredAt: new AppDate(Date.now()),
         link: '',
         password: '',
         isActive: false,
@@ -70,7 +71,7 @@ describe('UserService', () => {
             height: 100,
             weight: 100,
             goalWeight: 50,
-            goalDate: new Date(3000, 0, 1),
+            goalDate: new AppDate(3000, 0, 1),
             gender: UserGender.FEMALE,
             newPassword: '',
             currentPassword: '',

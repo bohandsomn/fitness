@@ -11,14 +11,18 @@ import { UserPayloadDTO } from '../dto/user-payload.dto'
 import { CheckPasswordDTO } from '../dto/check-password.dto'
 import { AssignAdminRoleDTO } from '../dto/assign-admin-role.dto'
 import { UserRole } from '../constants/user.const'
-import { OrmService } from '../../orm/services/orm.service'
 import { ProgressService } from '../../progress/services/progress.service'
+import { AppDate } from '../../common/services/app-date.service'
+import { SaveTokenDTO } from '../dto/save-token.dto'
+import { DeleteTokenDTO } from '../dto/delete-token.dto'
+import { InjectUserOrm } from '../decorators/user-orm.decorator'
+import { IUserOrmService } from '../interfaces/user-orm-service.interface'
 
 @Injectable()
 export class UserService implements IUserService {
     constructor(
-        private readonly ormService: OrmService,
         @Inject(forwardRef(() => ProgressService)) private readonly progressService: ProgressService,
+        @InjectUserOrm() private readonly userOrmService: IUserOrmService,
     ) { }
 
     async createUser(dto: CreateUserDTO): Promise<User> {
@@ -28,13 +32,11 @@ export class UserService implements IUserService {
         }
         const { password, goalDate, birthday, ...data } = dto
         const hashPassword = await this.hashPassword(password)
-        const user = await this.ormService.user.create({
-            data: {
-                ...data,
-                goalDate: new Date(goalDate),
-                birthday: new Date(birthday),
-                password: hashPassword,
-            }
+        const user = await this.userOrmService.create({
+            ...data,
+            goalDate: new AppDate(goalDate),
+            birthday: new AppDate(birthday),
+            password: hashPassword,
         })
         return user
     }
@@ -55,17 +57,10 @@ export class UserService implements IUserService {
         const newHashPassword = newPassword
             ? await this.hashPassword(newPassword)
             : null
-        const newUser = await this.ormService.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                ...user,
-                ...data,
-                goalDate: goalDate ? new Date(goalDate) : goalDate,
-                birthday: birthday ? new Date(birthday) : birthday,
-                password: newHashPassword || user.password
-            }
+        const newUser = await this.userOrmService.update({
+            ...user,
+            ...data,
+            password: newHashPassword || user.password,
         })
         return newUser
     }
@@ -80,19 +75,15 @@ export class UserService implements IUserService {
 
     async activateUser(dto: ActivateUserDTO): Promise<void> {
         const user = await this.getUser(dto)
-        await this.ormService.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                isActive: true,
-            }
+        await this.userOrmService.update({
+            id: user.id,
+            isActive: true,
         })
     }
 
     async adaptUser(user: User): Promise<UserPayloadDTO> {
-        const birthdayDate = new Date(user.birthday)
-        const currentDate = new Date()
+        const birthdayDate = new AppDate(user.birthday)
+        const currentDate = new AppDate()
         const age = currentDate.getFullYear() - birthdayDate.getFullYear()
         const { lostCalories, goalCalories } = await this.progressService.getFullProgressInCalories({ userId: user.id })
         return {
@@ -123,44 +114,28 @@ export class UserService implements IUserService {
     }
 
     async assignAdminRole(dto: AssignAdminRoleDTO): Promise<User> {
-        return this.ormService.user.update({
-            where: {
-                id: dto.userId
-            },
-            data: {
-                role: UserRole.ADMIN
-            }
+        return this.userOrmService.update({
+            id: dto.userId,
+            role: UserRole.ADMIN
+        })
+    }
+
+    async saveToken(dto: SaveTokenDTO): Promise<void> {
+        await this.userOrmService.update({
+            id: dto.userId,
+            refreshToken: dto.token,
+        })
+    }
+
+    async deleteToken(dto: DeleteTokenDTO): Promise<void> {
+        await this.userOrmService.update({
+            id: dto.userId,
+            refreshToken: '',
         })
     }
 
     private async queryUser(dto: GetUserDTO): Promise<User | null> {
-        const conditions: Partial<User>[] = []
-        if (dto.id) {
-            conditions.push({
-                id: dto.id,
-            })
-        }
-        if (dto.email) {
-            conditions.push({
-                email: dto.email,
-            })
-        }
-        if (dto.link) {
-            conditions.push({
-                link: dto.link,
-            })
-        }
-        if (conditions.length === 0) {
-            return null
-        }
-        const user = await this.ormService.user.findFirst({
-            where: {
-                OR: conditions
-            }
-        })
-        if (!user) {
-            return null
-        }
+        const user = await this.userOrmService.queryOne(dto)
         return user
     }
 

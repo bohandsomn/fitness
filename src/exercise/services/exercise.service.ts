@@ -8,32 +8,31 @@ import { ExerciseException } from '../constants/exercise.exception'
 import { GetManyExercisesDTO } from '../dto/get-many-exercises.dto'
 import { DeleteExerciseDTO } from '../dto/delete-exercise.dto'
 import { ExerciseDTO } from '../dto/exercise.dto'
-import { OrmService } from '../../orm/services/orm.service'
 import { UserService } from '../../user/services/user.service'
 import { RepetitionsService } from '../../repetitions/services/repetitions.service'
 import { GetExerciseCaloriesDTO } from '../dto/get-exercise-calories.dto'
 import { UserDifficulty } from '../../user/constants/user.const'
 import { InjectImage } from '../../image/decorators/inject-image.decorator'
 import { IImageService } from '../../image/interfaces/image-service.interface'
+import { InjectExerciseOrm } from '../decorators/exercise-orm.decorator'
+import { IExerciseOrmService } from '../interfaces/exercise-orm-service.interface'
 
 @Injectable()
 export class ExerciseService implements IExerciseService {
     constructor(
         @InjectImage() private readonly imageService: IImageService,
-        private readonly ormService: OrmService,
+        @InjectExerciseOrm() private readonly exerciseOrmService: IExerciseOrmService,
         private readonly userService: UserService,
         private readonly repetitionsService: RepetitionsService
     ) { }
 
     async createExercise(dto: CreateExerciseDTO): Promise<ExercisePayloadDTO> {
-        const demonstration = await this.imageService.createImage(dto.image)
-        const exercise = await this.ormService.exercise.create({
-            data: {
-                calories: dto.calories,
-                header: dto.header,
-                description: dto.description,
-                demonstration,
-            },
+        const demonstration = await this.imageService.create(dto.image)
+        const exercise = await this.exerciseOrmService.create({
+            calories: dto.calories,
+            header: dto.header,
+            description: dto.description,
+            demonstration,
         })
         await this.repetitionsService.createRepetitions({
             exerciseId: exercise.id,
@@ -45,7 +44,7 @@ export class ExerciseService implements IExerciseService {
     async updateExercise(dto: UpdateExerciseDTO): Promise<ExercisePayloadDTO> {
         const exercise = await this.getOneExercise(dto)
         const demonstration = dto.image
-            ? await this.imageService.updateImage({
+            ? await this.imageService.update({
                 ...dto.image,
                 demonstration: exercise.demonstration,
             })
@@ -54,16 +53,12 @@ export class ExerciseService implements IExerciseService {
             exerciseId: exercise.id,
             ...dto
         })
-        return this.ormService.exercise.update({
-            where: {
-                id: exercise.id,
-            },
-            data: {
-                calories: dto.calories || exercise.calories,
-                header: dto.header || exercise.header,
-                description: dto.description || exercise.description,
-                demonstration: demonstration || exercise.demonstration,
-            }
+        return this.exerciseOrmService.update({
+            id: exercise.id,
+            calories: dto.calories,
+            header: dto.header,
+            description: dto.description,
+            demonstration: demonstration,
         })
     }
 
@@ -76,33 +71,13 @@ export class ExerciseService implements IExerciseService {
     }
 
     async getManyExercises(dto: GetManyExercisesDTO): Promise<ExercisePayloadDTO[]> {
-        const exercises = await this.ormService.exercise.findMany({
-            where: {
-                OR: {
-                    set: {
-                        every: {
-                            id: dto.setId,
-                        }
-                    },
-                    header: {
-                        search: dto.header
-                    },
-                    calories: {
-                        gte: dto.caloriesFrom,
-                        lte: dto.caloriesTo
-                    },
-                    type: {
-                        every: {
-                            value: dto.type
-                        }
-                    },
-                    bodyParts: {
-                        every: {
-                            value: dto.bodyPart
-                        }
-                    }
-                }
-            }
+        const exercises = await this.exerciseOrmService.getMany({
+            setId: dto.setId,
+            header: dto.header,
+            caloriesFrom: dto.caloriesFrom,
+            caloriesTo: dto.caloriesTo,
+            type: dto.type,
+            bodyPart: dto.bodyPart,
         })
         const exercisesWithCalories = await Promise.all(
             exercises.map(async (exercise) => {
@@ -120,26 +95,23 @@ export class ExerciseService implements IExerciseService {
     }
 
     async deleteExercise(dto: DeleteExerciseDTO): Promise<void> {
-        await this.ormService.exercise.delete({
-            where: {
-                id: dto.id,
-            }
+        const exercise = await this.exerciseOrmService.queryOne({
+            id: dto.id,
+        })
+        if (!exercise) {
+            return
+        }
+        await this.exerciseOrmService.delete({
+            id: dto.id,
+        })
+        await this.imageService.delete({
+            demonstration: exercise.demonstration,
         })
     }
 
     private async queryExercise(dto: GetOneExerciseDTO): Promise<ExerciseDTO | null> {
-        const user = await this.userService.getUser({ id: dto.userId })
-        const exercise = await this.ormService.exercise.findFirst({
-            where: {
-                AND: {
-                    repetitions: {
-                        every: {
-                            difficulty: user.difficulty,
-                        }
-                    },
-                    id: dto.id
-                }
-            }
+        const exercise = await this.exerciseOrmService.queryOne({
+            id: dto.id
         })
         const calories = await this.getExerciseCalories(dto)
         if (!exercise) {
@@ -152,10 +124,8 @@ export class ExerciseService implements IExerciseService {
     }
 
     async getExerciseCalories(dto: GetExerciseCaloriesDTO): Promise<number> {
-        const exercise = await this.ormService.exercise.findFirst({
-            where: {
-                id: dto.id,
-            }
+        const exercise = await this.exerciseOrmService.queryOne({
+            id: dto.id,
         })
         if (!exercise) {
             throw new NotFoundException(ExerciseException.NOT_FOUND)

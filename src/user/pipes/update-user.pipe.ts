@@ -1,7 +1,7 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common'
 import { UpdateUserDTO } from '../dto/update-user.dto'
 import { UserService } from '../services/user.service'
-import { CommonService } from '../../common/common.service'
+import { CommonService } from '../../common/services/common.service'
 
 @Injectable()
 export class UpdateUserPipe implements PipeTransform<Partial<UpdateUserDTO>, Promise<Partial<UpdateUserDTO>>> {

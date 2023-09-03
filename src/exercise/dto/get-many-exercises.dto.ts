@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
 import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value'
 import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'

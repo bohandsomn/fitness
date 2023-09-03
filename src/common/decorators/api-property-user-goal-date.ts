@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
+import { AppDate } from '../services/app-date.service'
 
 export const ApiPropertyUserGoalDate = (options?: ApiPropertyOptions) => ApiProperty({
-    example: new Date(2030, 0, 1),
+    example: new AppDate(2030, 0, 1),
     required: true,
     nullable: false,
     description: 'The date when the user stops training',

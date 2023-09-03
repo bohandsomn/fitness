@@ -9,7 +9,7 @@ export interface ISetController {
     updateSet(dto: UpdateSetBodyDTO, imageDTO: ImageDTO | undefined, userId: number): Promise<SetPreviewDTO>
     getSet(id: number, userId: number): Promise<SetDTO>
     getSets(userId: number): Promise<SetPreviewDTO[]>
-    deleteSet(id: number): Promise<void>
+    deleteSet(id: number, userId: number): Promise<void>
     addExerciseSet(exerciseId: number, setId: number): Promise<void>
     removeExerciseSet(exerciseId: number, setId: number): Promise<void>
     getCommonSets(userId: number): Promise<SetPreviewDTO[]>

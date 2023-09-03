@@ -9,6 +9,7 @@ import { HistoryService } from '../../history/services/history.service'
 import { DateService } from '../../date/services/date.service'
 import { InjectCalorieCalculation } from '../decorators/inject-calorie-calculation.decorator'
 import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface'
+import { AppDate } from '../../common/services/app-date.service'
 
 @Injectable()
 export class ProgressService implements IProgressService {
@@ -23,8 +24,8 @@ export class ProgressService implements IProgressService {
         const user = await this.userService.getUser({ id: dto.userId })
         const userId = user.id
         const userPreview = await this.userService.adaptUser(user)
-        const startDate = new Date(dto.startDate || userPreview.registeredAt)
-        const endDate = new Date(dto.endDate || userPreview.goalDate)
+        const startDate = new AppDate(dto.startDate || userPreview.registeredAt)
+        const endDate = new AppDate(dto.endDate || userPreview.goalDate)
         const dates = this.dateService.getDateDifference({
             startDate,
             endDate,
@@ -47,7 +48,7 @@ export class ProgressService implements IProgressService {
         })
         const progressInCaloriesList = histories.map((history): ProgressInCaloriesDTO => {
             return {
-                date: new Date(history.date),
+                date: new AppDate(history.date),
                 lostCalories: history.calories,
                 goalCalories: dailyGoalCalories
             }
@@ -58,10 +59,10 @@ export class ProgressService implements IProgressService {
     async getFullProgressInCalories(dto: GetFullProgressInCaloriesDTO): Promise<FullProgressInCaloriesDTO> {
         const user = await this.userService.getUser({ id: dto.userId })
         const userId = user.id
-        const birthdayDate = new Date(user.birthday)
-        const currentDate = new Date()
-        const startDate = new Date(user.registeredAt)
-        const endDate = new Date(user.goalDate)
+        const birthdayDate = new AppDate(user.birthday)
+        const currentDate = new AppDate()
+        const startDate = new AppDate(user.registeredAt)
+        const endDate = new AppDate(user.goalDate)
         const age = currentDate.getFullYear() - birthdayDate.getFullYear()
         const history = await this.historyService.getUserHistory({
             userId,

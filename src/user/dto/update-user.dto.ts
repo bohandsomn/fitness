@@ -12,6 +12,7 @@ import { ApiPropertyUserWeight } from '../../common/decorators/api-property-user
 import { ApiPropertyUserGoalWeight } from '../../common/decorators/api-property-user-goal-weight'
 import { ApiPropertyUserGoalDate } from '../../common/decorators/api-property-user-goal-date'
 import { ApiPropertyGender } from '../../common/decorators/api-property-gender'
+import { AppDate } from '../../common/services/app-date.service'
 
 export class UpdateUserDTO implements Prisma.UserUpdateInput {
     @ApiPropertyUserId()
@@ -70,7 +71,7 @@ export class UpdateUserBodyDTO {
     @ApiProperty({ example: 70, required: false, nullable: true, description: 'Goal weight. Less than current weight' })
     readonly goalWeight?: number
 
-    @ApiProperty({ example: new Date(2030, 0, 1), required: false, nullable: true, description: 'The date when the user stops training' })
+    @ApiProperty({ example: new AppDate(2030, 0, 1), required: false, nullable: true, description: 'The date when the user stops training' })
     readonly goalDate?: Date | string
 
     @ApiProperty({ enum: UserGender, example: UserGender.MALE, required: false, nullable: true, description: 'User\'s gender' })

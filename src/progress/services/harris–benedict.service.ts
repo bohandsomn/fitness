@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { CalculateCaloriesDTO } from '../dto/calculate-calories.dto'
 import { UserGender } from '../../user/constants/user.const'
 import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface'
+import { AppDate } from '../../common/services/app-date.service'
 
 @Injectable()
 export class HarrisBenedictService implements ICalorieCalculation {
@@ -25,7 +26,7 @@ export class HarrisBenedictService implements ICalorieCalculation {
     }
 
     private getDaysDifference(startDate: Date, endDate: Date): number {
-        const dateDifference = new Date(endDate).getTime() - new Date(startDate).getTime()
+        const dateDifference = new AppDate(endDate).getTime() - new AppDate(startDate).getTime()
         return Math.round(dateDifference / 1000 / 60 / 60)
     }
 }

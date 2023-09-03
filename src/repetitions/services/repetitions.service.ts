@@ -1,44 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { Repetitions } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
 import { IRepetitionsService } from '../interfaces/repetitions-service.interface'
-import { OrmService } from '../../orm/services/orm.service'
 import { CreateRepetitionsDTO } from '../dto/create-repetitions.dto'
 import { RepetitionsDTO } from '../dto/repetitions.dto'
-import { UserDifficulty } from '../../user/constants/user.const'
 import { UpdateRepetitionsDTO } from '../dto/update-repetitions.dto'
 import { GetRepetitionsDTO } from '../dto/get-repetitions.dto'
-import { RepetitionsException } from '../constants/repetitions.exception'
-import { UpdateRepetitionDTO } from '../dto/update-repetition.dto'
-import { GetRepetitionDTO } from '../dto/get-repetition.dto'
+import { InjectAdvancedRepetitionOrm, InjectBeginnerRepetitionOrm, InjectIntermediateRepetitionOrm } from '../decorators/repetition-orm.decorator'
+import { IRepetitionOrmService } from '../interfaces/repetition-orm-service.interface'
 
 @Injectable()
 export class RepetitionsService implements IRepetitionsService {
     constructor(
-        private readonly ormService: OrmService
+        @InjectBeginnerRepetitionOrm() private readonly beginner: IRepetitionOrmService,
+        @InjectIntermediateRepetitionOrm() private readonly intermediate: IRepetitionOrmService,
+        @InjectAdvancedRepetitionOrm() private readonly advanced: IRepetitionOrmService,
     ) { }
 
     async createRepetitions(dto: CreateRepetitionsDTO): Promise<RepetitionsDTO> {
-        const beginner = await this.ormService.repetitions.create({
-            data: {
-                value: dto.beginnerRepetitions,
-                difficulty: UserDifficulty.BEGINNER,
-                exerciseId: dto.exerciseId
-            }
-        })
-        const intermediate = await this.ormService.repetitions.create({
-            data: {
-                value: dto.intermediateRepetitions,
-                difficulty: UserDifficulty.INTERMEDIATE,
-                exerciseId: dto.exerciseId
-            }
-        })
-        const advanced = await this.ormService.repetitions.create({
-            data: {
-                value: dto.advancedRepetitions,
-                difficulty: UserDifficulty.ADVANCED,
-                exerciseId: dto.exerciseId
-            }
-        })
+        const [beginner, intermediate, advanced] = await this.allCreate(dto)
         return {
             beginner: beginner.value,
             intermediate: intermediate.value,
@@ -47,32 +25,21 @@ export class RepetitionsService implements IRepetitionsService {
     }
 
     async updateRepetitions(dto: UpdateRepetitionsDTO): Promise<RepetitionsDTO> {
-        const beginner = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.BEGINNER
-        })
-        const intermediate = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.INTERMEDIATE
-        })
-        const advanced = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.ADVANCED
-        })
-        const updatedBeginner = beginner && dto.beginnerRepetitions
-            ? await this.updateRepetition({
+        const [beginner, intermediate, advanced] = await this.allGetOne(dto.exerciseId)
+        const updatedBeginner = dto.beginnerRepetitions
+            ? await this.beginner.update({
                 id: beginner.id,
                 value: dto.beginnerRepetitions
             })
             : beginner
-        const updatedIntermediate = intermediate && dto.intermediateRepetitions
-            ? await this.updateRepetition({
+        const updatedIntermediate = dto.intermediateRepetitions
+            ? await this.intermediate.update({
                 id: intermediate.id,
                 value: dto.intermediateRepetitions
             })
             : intermediate
-        const updatedAdvanced = advanced && dto.advancedRepetitions
-            ? await this.updateRepetition({
+        const updatedAdvanced = dto.advancedRepetitions
+            ? await this.advanced.update({
                 id: advanced.id,
                 value: dto.advancedRepetitions
             })
@@ -85,18 +52,7 @@ export class RepetitionsService implements IRepetitionsService {
     }
 
     async getRepetitions(dto: GetRepetitionsDTO): Promise<RepetitionsDTO> {
-        const beginner = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.BEGINNER
-        })
-        const intermediate = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.INTERMEDIATE
-        })
-        const advanced = await this.getRepetition({
-            exerciseId: dto.exerciseId,
-            difficulty: UserDifficulty.ADVANCED
-        })
+        const [beginner, intermediate, advanced] = await this.allGetOne(dto.exerciseId)
         return {
             beginner: beginner.value,
             intermediate: intermediate.value,
@@ -104,27 +60,32 @@ export class RepetitionsService implements IRepetitionsService {
         }
     }
 
-    private async updateRepetition(dto: UpdateRepetitionDTO): Promise<Repetitions> {
-        return this.ormService.repetitions.update({
-            where: {
-                id: dto.id,
-            },
-            data: {
-                value: dto.value,
-            }
+    private async allCreate(dto: CreateRepetitionsDTO) {
+        const beginner = await this.beginner.create({
+            value: dto.beginnerRepetitions,
+            exerciseId: dto.exerciseId
         })
+        const intermediate = await this.intermediate.create({
+            value: dto.intermediateRepetitions,
+            exerciseId: dto.exerciseId
+        })
+        const advanced = await this.advanced.create({
+            value: dto.advancedRepetitions,
+            exerciseId: dto.exerciseId
+        })
+        return [beginner, intermediate, advanced] as const
     }
 
-    private async getRepetition(dto: GetRepetitionDTO): Promise<Repetitions> {
-        const repetitions = await this.ormService.repetitions.findFirst({
-            where: {
-                difficulty: dto.difficulty,
-                exerciseId: dto.exerciseId
-            }
+    private async allGetOne(exerciseId: number) {
+        const beginner = await this.beginner.getOne({
+            exerciseId,
         })
-        if (!repetitions) {
-            throw new NotFoundException(RepetitionsException.NOT_FOUND)
-        }
-        return repetitions
+        const intermediate = await this.intermediate.getOne({
+            exerciseId,
+        })
+        const advanced = await this.advanced.getOne({
+            exerciseId,
+        })
+        return [beginner, intermediate, advanced] as const
     }
 }

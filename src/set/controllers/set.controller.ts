@@ -16,6 +16,7 @@ import { AuthGuard } from '../../auth/guards/auth.guard'
 import { SetRoleGuard } from '../../role/guards/set-role.guard'
 import { AppFileInterceptor } from '../../interceptors/app-file.interceptor'
 import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
+import { BodyData } from '../../common/decorators/body-data.decorator'
 
 @ApiTags('Set')
 @Controller('set')
@@ -37,7 +38,7 @@ export class SetController implements ISetController {
     @UseInterceptors(AppFileInterceptor())
     @UseGuards(AuthGuard)
     async createSet(
-        @Body(AppValidationPipe) dto: CreateSetBodyDTO,
+        @BodyData(AppValidationPipe) dto: CreateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO,
         @UserId() userId: number
     ): Promise<SetPreviewDTO> {
@@ -59,9 +60,9 @@ export class SetController implements ISetController {
     @ApiPropertyHeadersAuthorization()
     @Put()
     @UseInterceptors(AppFileInterceptor())
-    @UseGuards(SetRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, SetRoleGuard)
     async updateSet(
-        @Body(AppValidationPipe) dto: UpdateSetBodyDTO,
+        @BodyData(AppValidationPipe) dto: UpdateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO | undefined,
         @UserId() userId: number
     ): Promise<SetPreviewDTO> {
@@ -70,6 +71,19 @@ export class SetController implements ISetController {
             image: imageDTO,
             userId
         })
+    }
+
+    @ApiOperation({ summary: 'Receiving a common sets' })
+    @ApiResponse({ status: HttpStatus.OK, type: [SetPreviewDTO] })
+    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
+    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
+    @ApiPropertyHeadersAuthorization()
+    @UseGuards(AuthGuard)
+    @Get('/common')
+    async getCommonSets(
+        @UserId() userId: number
+    ): Promise<SetPreviewDTO[]> {
+        return this.setService.getCommonSets({ userId })
     }
 
     @ApiOperation({ summary: 'Receiving a set' })
@@ -102,30 +116,18 @@ export class SetController implements ISetController {
         return this.setService.getSets({ userId })
     }
 
-    @ApiOperation({ summary: 'Receiving a common sets' })
-    @ApiResponse({ status: HttpStatus.OK, type: [SetPreviewDTO] })
-    @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
-    @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
-    @ApiPropertyHeadersAuthorization()
-    @UseGuards(AuthGuard)
-    @Get('/common')
-    async getCommonSets(
-        @UserId() userId: number
-    ): Promise<SetPreviewDTO[]> {
-        return this.setService.getCommonSets({ userId })
-    }
-
     @ApiOperation({ summary: 'Deleting a set' })
     @ApiResponse({ status: HttpStatus.OK })
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Delete('/:id')
-    @UseGuards(SetRoleGuard, AuthGuard)
+    @UseGuards(AuthGuard, SetRoleGuard)
     async deleteSet(
-        @Param('id', ParseIntPipe) id: number
+        @Param('id', ParseIntPipe) id: number,
+        @UserId() userId: number,
     ): Promise<void> {
-        return this.setService.deleteSet({ id })
+        return this.setService.deleteSet({ id, userId })
     }
 
     @ApiOperation({ summary: 'Adding an exercise to the set' })

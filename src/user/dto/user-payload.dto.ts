@@ -9,6 +9,7 @@ import { ApiPropertyUserGoalWeight } from '../../common/decorators/api-property-
 import { ApiPropertyUserGoalDate } from '../../common/decorators/api-property-user-goal-date'
 import { ApiPropertyGender } from '../../common/decorators/api-property-gender'
 import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { AppDate } from '../../common/services/app-date.service'
 
 export class UserPayloadDTO implements Partial<User> {
     @ApiPropertyUserName()
@@ -35,7 +36,7 @@ export class UserPayloadDTO implements Partial<User> {
     @ApiPropertyGender()
     readonly gender: Gender
 
-    @ApiProperty({ example: new Date(2023, 5, 14), required: true, nullable: false, description: 'User registration date' })
+    @ApiProperty({ example: new AppDate(2023, 5, 14), required: true, nullable: false, description: 'User registration date' })
     readonly registeredAt: Date
 
     @ApiProperty({ example: 20, required: true, nullable: false, description: 'Age of user' })
