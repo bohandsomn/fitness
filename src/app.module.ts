@@ -28,8 +28,8 @@ import { CommonModule } from './common/common.module.js'
             envFilePath: process.env.NODE_ENV === 'development'
                 ? path.resolve(path.resolve(), '..', '.env.development')
                 // DEBUG:
-                // : path.resolve(__dirname, '..', '.env'),
-                : path.resolve(path.resolve(), '..', '.env.production'),
+                // : path.resolve(path.resolve(), '..', '.env.production'),
+                : path.resolve(path.resolve(), '..', '.env'),
         }),
         JwtModule.register({
             global: true,
