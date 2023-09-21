@@ -10,9 +10,7 @@ import { getSolution } from '../common/functions/get-solution.function.mjs'
 export class AppExceptionFilter implements ExceptionFilter {
     constructor(
         private readonly colorLoggerService: ColorLoggerService,
-    ) {
-        this
-    }
+    ) { }
 
     async catch(exception: any, host: ArgumentsHost) {
         this.colorLoggerService.error(exception)

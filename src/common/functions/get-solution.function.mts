@@ -10,6 +10,7 @@ config({
 
 export async function getSolution(error: unknown): Promise<void> {
     const bardCookie = process.env.BARD_COOKIE
+    const bardAccount = process.env.BARD_ACCOUNT as `${number}` | undefined
     if (!bardCookie) {
         throw new InternalServerErrorException(AppException.AI_CREDENTIALS)
     }
@@ -19,6 +20,7 @@ export async function getSolution(error: unknown): Promise<void> {
         .setStackOverflow()
         .setBard({
             cookie: bardCookie,
+            account: bardAccount,
         })
         .build()
     ai.catch(error, (solution) => process.stdout.write(solution))
