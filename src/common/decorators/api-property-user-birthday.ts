@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
-import { AppDate } from '../services/app-date.service'
+import { AppDate } from '../services/app-date.service.js'
 
 export const ApiPropertyUserBirthday = (options?: ApiPropertyOptions) => ApiProperty({
     example: new AppDate(2000, 0, 1, 3),

@@ -2,24 +2,24 @@ import { Body, Controller, Post, Get, UseGuards, Put, Param, Res, HttpStatus, Us
 import { ConfigService } from '@nestjs/config'
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
-import { IAuthController } from '../interfaces/auth-controller.interface'
-import { AuthService } from '../services/auth.service'
-import { RegisterUserDTO } from '../dto/register-user.dto'
-import { UserTokensDTO } from '../dto/user-tokens.dto'
-import { LogInUserDTO } from '../dto/log-in-user.dto'
-import { AuthGuard } from '../guards/auth.guard'
-import { Cookies } from '../decorators/cookies.decorator'
-import { SaveTokenInterceptor } from '../interceptors/save-token.interceptor'
-import { EmailConfirmationInterceptor } from '../interceptors/email-confirmation.interceptor'
-import { CreateUserPipe } from '../../user/pipes/create-user.pipe'
-import { UserId } from '../../user/decorators/user.decorator'
-import { AppValidationPipe } from '../../pipes/app-validation.pipe'
-import { ClearTokenInterceptor } from '../interceptors/clear-token.interceptor'
-import { UserTokenDTO } from '../dto/user-token.dto'
-import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
-import { Environment } from '../../common/constants/environment'
-import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
+import { IAuthController } from '../interfaces/auth-controller.interface.js'
+import { AuthService } from '../services/auth.service.js'
+import { RegisterUserDTO } from '../dto/register-user.dto.js'
+import { UserTokensDTO } from '../dto/user-tokens.dto.js'
+import { LogInUserDTO } from '../dto/log-in-user.dto.js'
+import { AuthGuard } from '../guards/auth.guard.js'
+import { Cookies } from '../decorators/cookies.decorator.js'
+import { SaveTokeninterceptor } from '../interceptors/save-token.interceptor.js'
+import { EmailConfirmationinterceptor } from '../interceptors/email-confirmation.interceptor.js'
+import { CreateUserPipe } from '../../user/pipes/create-user.pipe.js'
+import { UserId } from '../../user/decorators/user.decorator.js'
+import { AppValidationPipe } from '../../pipes/app-validation.pipe.js'
+import { ClearTokenInterceptor } from '../interceptors/clear-token.interceptor.js'
+import { UserTokenDTO } from '../dto/user-token.dto.js'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto.js'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto.js'
+import { Environment } from '../../common/constants/environment.js'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization.js'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -35,7 +35,7 @@ export class AuthController implements IAuthController {
     @ApiResponse({ status: HttpStatus.CONFLICT, type: ExceptionErrorResponseDTO })
     @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, type: ExceptionErrorResponseDTO })
     @Post('/register')
-    @UseInterceptors(EmailConfirmationInterceptor, SaveTokenInterceptor)
+    @UseInterceptors(EmailConfirmationinterceptor, SaveTokeninterceptor)
     async registerUser(
         @Body(AppValidationPipe, CreateUserPipe) dto: RegisterUserDTO
     ): Promise<UserTokensDTO> {
@@ -49,7 +49,7 @@ export class AuthController implements IAuthController {
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @Post('/log-in')
     @HttpCode(HttpStatus.OK)
-    @UseInterceptors(SaveTokenInterceptor)
+    @UseInterceptors(SaveTokeninterceptor)
     async logInUser(
         @Body(AppValidationPipe) dto: LogInUserDTO
     ): Promise<UserTokensDTO> {
@@ -62,7 +62,7 @@ export class AuthController implements IAuthController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Get('/auto-log-in')
-    @UseInterceptors(SaveTokenInterceptor)
+    @UseInterceptors(SaveTokeninterceptor)
     @UseGuards(AuthGuard)
     async autoLogInUser(
         @UserId() userId: number
@@ -76,7 +76,7 @@ export class AuthController implements IAuthController {
     @ApiResponse({ status: HttpStatus.NOT_FOUND, type: ExceptionErrorResponseDTO })
     @ApiCookieAuth('token')
     @Put('/refresh')
-    @UseInterceptors(SaveTokenInterceptor)
+    @UseInterceptors(SaveTokeninterceptor)
     async refreshToken(
         @Cookies('token') refreshToken: string
     ): Promise<UserTokensDTO> {

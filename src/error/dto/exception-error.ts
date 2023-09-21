@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ExceptionErrorResponse } from './exception-error-response'
-import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message'
-import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status'
-import { ApiPropertyError } from '../../common/decorators/api-property-error'
+import { ExceptionErrorResponse } from './exception-error-response.js'
+import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message.js'
+import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status.js'
+import { ApiPropertyError } from '../../common/decorators/api-property-error.js'
 
 export class ExceptionError {
     static isExceptionError(data: unknown): data is ExceptionError {

@@ -1,10 +1,10 @@
 import { Injectable, OnModuleInit } from '@nestjs/common'
-import * as chalk from 'chalk'
+import chalk from 'chalk'
 
 @Injectable()
 export class ColorLoggerService implements OnModuleInit {
     onModuleInit() {
-        // chalk.level = 1
+        chalk.level = 1
     }
 
     adapt<Data extends any[]>(...data: Data): string {

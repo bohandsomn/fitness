@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ExerciseService } from './exercise.service';
-import { OrmModule } from '../../orm/orm.module';
-import { ExerciseController } from '../controllers/exercise.controller';
+import { ExerciseService } from './exercise.service.js';
+import { OrmModule } from '../../orm/orm.module.js';
+import { ExerciseController } from '../controllers/exercise.controller.js';
 
 describe('ExerciseService', () => {
   let service: ExerciseService;

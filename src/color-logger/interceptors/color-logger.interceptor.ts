@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, StreamableFile } from '@nestjs/common'
 import { Request } from 'express'
 import { Observable, map } from 'rxjs'
-import { ColorLoggerService } from '../services/color-logger.service'
+import { ColorLoggerService } from '../services/color-logger.service.js'
 
 @Injectable()
 export class ColorLoggerInterceptor implements NestInterceptor {

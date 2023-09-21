@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories.js'
 
 export class ProgressInCaloriesDTO {
     @ApiPropertyCalories()

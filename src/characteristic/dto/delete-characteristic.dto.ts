@@ -1,4 +1,4 @@
-import { ApiPropertyCharacteristicId } from '../../common/decorators/api-property-characteristic-id'
+import { ApiPropertyCharacteristicId } from '../../common/decorators/api-property-characteristic-id.js'
 
 export class DeleteCharacteristicDTO {
     @ApiPropertyCharacteristicId()

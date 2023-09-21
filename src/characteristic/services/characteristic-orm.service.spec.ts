@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CharacteristicOrmService } from './characteristic-orm.service';
+import { CharacteristicOrmService } from './characteristic-orm.service.js';
 
 describe('CharacteristicOrmService', () => {
   let service: CharacteristicOrmService;

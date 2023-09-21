@@ -1,12 +1,12 @@
-import { IRepetitionOrmService } from '../interfaces/repetition-orm-service.interface'
-import { UserDifficulty } from '../../user/constants/user.const'
-import { OrmService } from '../../orm/services/orm.service'
-import { CreateRepetitionsInput } from '../dto/create-repetitions.input'
-import { RepetitionModel } from '../models/repetition.model'
-import { UpdateRepetitionsInput } from '../dto/update-repetitions.input'
-import { GetRepetitionsInput } from '../dto/get-repetitions.input'
+import { IRepetitionOrmService } from '../interfaces/repetition-orm-service.interface.js'
+import { UserDifficulty } from '../../user/constants/user.const.js'
+import { OrmService } from '../../orm/services/orm.service.js'
+import { CreateRepetitionsInput } from '../dto/create-repetitions.input.js'
+import { RepetitionModel } from '../models/repetition.model.js'
+import { UpdateRepetitionsInput } from '../dto/update-repetitions.input.js'
+import { GetRepetitionsInput } from '../dto/get-repetitions.input.js'
 import { NotFoundException } from '@nestjs/common'
-import { RepetitionsException } from '../constants/repetitions.exception'
+import { RepetitionsException } from '../constants/repetitions.exception.js'
 
 export abstract class RepetitionOrmService implements IRepetitionOrmService {
     constructor(

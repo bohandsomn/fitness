@@ -2,12 +2,12 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { ConfigService } from '@nestjs/config'
 import { Observable, map } from 'rxjs'
 import { Response } from 'express'
-import { UserTokensDTO } from '../dto/user-tokens.dto'
-import { UserTokenDTO } from '../dto/user-token.dto'
-import { Environment } from '../../common/constants/environment'
+import { UserTokensDTO } from '../dto/user-tokens.dto.js'
+import { UserTokenDTO } from '../dto/user-token.dto.js'
+import { Environment } from '../../common/constants/environment.js'
 
 @Injectable()
-export class SaveTokenInterceptor implements NestInterceptor<UserTokensDTO, UserTokenDTO> {
+export class SaveTokeninterceptor implements NestInterceptor<UserTokensDTO, UserTokenDTO> {
     constructor(
         private readonly configService: ConfigService,
     ) { }

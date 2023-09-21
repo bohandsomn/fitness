@@ -1,5 +1,5 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common'
-import { ImageDTO } from '../dto/image.dto'
+import { ImageDTO } from '../dto/image.dto.js'
 
 @Injectable()
 export class ImagePipe implements PipeTransform<Express.Multer.File, ImageDTO | undefined> {

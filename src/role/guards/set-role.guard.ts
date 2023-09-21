@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable, InternalServerErrorException } from '@nestjs/common'
-import { RoleException } from '../constants/role.exception'
-import { AppRequest } from '../../auth/interfaces/app-request.interface'
-import { SetService } from '../../set/services/set.service'
+import { RoleException } from '../constants/role.exception.js'
+import { AppRequest } from '../../auth/interfaces/app-request.interface.js'
+import { SetService } from '../../set/services/set.service.js'
 
 @Injectable()
 export class SetRoleGuard implements CanActivate {

@@ -1,7 +1,7 @@
-import { CreateRepetitionsInput } from '../dto/create-repetitions.input'
-import { UpdateRepetitionsInput } from '../dto/update-repetitions.input'
-import { GetRepetitionsInput } from '../dto/get-repetitions.input'
-import { RepetitionModel } from '../models/repetition.model'
+import { CreateRepetitionsInput } from '../dto/create-repetitions.input.js'
+import { UpdateRepetitionsInput } from '../dto/update-repetitions.input.js'
+import { GetRepetitionsInput } from '../dto/get-repetitions.input.js'
+import { RepetitionModel } from '../models/repetition.model.js'
 
 export interface IRepetitionOrmService {
     create(input: CreateRepetitionsInput): Promise<RepetitionModel>

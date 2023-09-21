@@ -1,22 +1,22 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { ISetController } from '../interfaces/set-controller.interface'
-import { SetService } from '../services/set.service'
-import { CreateSetBodyDTO } from '../dto/create-set.dto'
-import { SetDTO } from '../dto/set.dto'
-import { ImageDTO } from '../../image/dto/image.dto'
-import { AppValidationPipe } from '../../pipes/app-validation.pipe'
-import { ImagePipe } from '../../image/pipes/image.pipe'
-import { User, UserId } from '../../user/decorators/user.decorator'
-import { UpdateSetBodyDTO } from '../dto/update-set.dto'
-import { SetPreviewDTO } from '../dto/set-preview.dto'
-import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
-import { AuthGuard } from '../../auth/guards/auth.guard'
-import { SetRoleGuard } from '../../role/guards/set-role.guard'
-import { AppFileInterceptor } from '../../interceptors/app-file.interceptor'
-import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
-import { BodyData } from '../../common/decorators/body-data.decorator'
+import { ISetController } from '../interfaces/set-controller.interface.js'
+import { SetService } from '../services/set.service.js'
+import { CreateSetBodyDTO } from '../dto/create-set.dto.js'
+import { SetDTO } from '../dto/set.dto.js'
+import { ImageDTO } from '../../image/dto/image.dto.js'
+import { AppValidationPipe } from '../../pipes/app-validation.pipe.js'
+import { ImagePipe } from '../../image/pipes/image.pipe.js'
+import { User, UserId } from '../../user/decorators/user.decorator.js'
+import { UpdateSetBodyDTO } from '../dto/update-set.dto.js'
+import { SetPreviewDTO } from '../dto/set-preview.dto.js'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto.js'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto.js'
+import { AuthGuard } from '../../auth/guards/auth.guard.js'
+import { SetRoleGuard } from '../../role/guards/set-role.guard.js'
+import { AppFileInterceptor } from '../../interceptors/app-file.interceptor.js'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization.js'
+import { BodyData } from '../../common/decorators/body-data.decorator.js'
 
 @ApiTags('Set')
 @Controller('set')
@@ -40,7 +40,7 @@ export class SetController implements ISetController {
     async createSet(
         @BodyData(AppValidationPipe) dto: CreateSetBodyDTO,
         @UploadedFile(ImagePipe) imageDTO: ImageDTO,
-        @UserId() userId: number
+        @UserId() userId: number,
     ): Promise<SetPreviewDTO> {
         return this.setService.createSet({
             ...dto,

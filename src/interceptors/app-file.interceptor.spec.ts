@@ -1,7 +1,7 @@
-import { AppFileInterceptor } from './app-file.interceptor';
+import { AppFileinterceptor } from './app-file.interceptor.js';
 
-describe('AppFileInterceptor', () => {
+describe('AppFileinterceptor', () => {
   it('should be defined', () => {
-    expect(new AppFileInterceptor()).toBeDefined();
+    expect(new AppFileinterceptor()).toBeDefined();
   });
 });

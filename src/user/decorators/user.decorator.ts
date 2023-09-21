@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext, InternalServerErrorException, PipeTransform, Type } from '@nestjs/common'
-import { GenerateTokenDTO } from '../../token/dto/generate-token.dto'
-import { AppRequest } from '../../auth/interfaces/app-request.interface'
-import { RoleException } from '../../role/constants/role.exception'
+import { GenerateTokenDTO } from '../../token/dto/generate-token.dto.js'
+import { AppRequest } from '../../auth/interfaces/app-request.interface.js'
+import { RoleException } from '../../role/constants/role.exception.js'
 
 export const User = createParamDecorator((key: keyof GenerateTokenDTO, context: ExecutionContext) => {
     const request: AppRequest = context.switchToHttp().getRequest()

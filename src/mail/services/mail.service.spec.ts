@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter'
 import * as path from 'path';
-import { MailService } from './mail.service';
+import { MailService } from './mail.service.js';
 
 describe('MailService', () => {
   let service: MailService;

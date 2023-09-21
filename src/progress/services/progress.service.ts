@@ -1,20 +1,21 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common'
-import { IProgressService } from '../interfaces/progress-service.interface'
-import { GetProgressInCaloriesDTO } from '../dto/get-progress-in-calories.dto'
-import { ProgressInCaloriesDTO } from '../dto/progress-in-calories.dto'
-import { FullProgressInCaloriesDTO } from '../dto/full-progress-in-calories.dto'
-import { GetFullProgressInCaloriesDTO } from '../dto/get-full-progress-in-calories.dto'
-import { UserService } from '../../user/services/user.service'
-import { HistoryService } from '../../history/services/history.service'
-import { DateService } from '../../date/services/date.service'
-import { InjectCalorieCalculation } from '../decorators/inject-calorie-calculation.decorator'
-import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface'
-import { AppDate } from '../../common/services/app-date.service'
+import { Injectable } from '@nestjs/common'
+import { IProgressService } from '../interfaces/progress-service.interface.js'
+import { GetProgressInCaloriesDTO } from '../dto/get-progress-in-calories.dto.js'
+import { ProgressInCaloriesDTO } from '../dto/progress-in-calories.dto.js'
+import { FullProgressInCaloriesDTO } from '../dto/full-progress-in-calories.dto.js'
+import { GetFullProgressInCaloriesDTO } from '../dto/get-full-progress-in-calories.dto.js'
+import { HistoryService } from '../../history/services/history.service.js'
+import { DateService } from '../../date/services/date.service.js'
+import { InjectCalorieCalculation } from '../decorators/inject-calorie-calculation.decorator.js'
+import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface.js'
+import { AppDate } from '../../common/services/app-date.service.js'
+import { InjectUser } from '../../user/decorators/user-service.decorator.js'
+import { IUserService } from '../../user/interfaces/user-service.interface.js'
 
 @Injectable()
 export class ProgressService implements IProgressService {
     constructor(
-        @Inject(forwardRef(() => UserService)) private readonly userService: UserService,
+        @InjectUser() private readonly userService: IUserService,
         @InjectCalorieCalculation() private readonly calorieCalculationService: ICalorieCalculation,
         private readonly historyService: HistoryService,
         private readonly dateService: DateService,

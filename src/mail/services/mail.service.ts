@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
-import { EmailConfirmationDTO } from '../dto/email-confirmation.dto'
-import { AuthConst } from '../../auth/constants/auth.conts'
+import { EmailConfirmationDTO } from '../dto/email-confirmation.dto.js'
+import { AuthConst } from '../../auth/constants/auth.cont.js'
 
 @Injectable()
 export class MailService {

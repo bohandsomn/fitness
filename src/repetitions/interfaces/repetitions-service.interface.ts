@@ -1,7 +1,7 @@
-import { CreateRepetitionsDTO } from '../dto/create-repetitions.dto'
-import { UpdateRepetitionsDTO } from '../dto/update-repetitions.dto'
-import { GetRepetitionsDTO } from '../dto/get-repetitions.dto'
-import { RepetitionsDTO } from '../dto/repetitions.dto'
+import { CreateRepetitionsDTO } from '../dto/create-repetitions.dto.js'
+import { UpdateRepetitionsDTO } from '../dto/update-repetitions.dto.js'
+import { GetRepetitionsDTO } from '../dto/get-repetitions.dto.js'
+import { RepetitionsDTO } from '../dto/repetitions.dto.js'
 
 export interface IRepetitionsService {
     createRepetitions(dto: CreateRepetitionsDTO): Promise<RepetitionsDTO>

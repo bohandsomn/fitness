@@ -1,5 +1,5 @@
-import { ApiPropertyToken } from "../../common/decorators/api-property-token";
-import { ApiPropertyUserId } from "../../common/decorators/api-property-user-id";
+import { ApiPropertyToken } from '../../common/decorators/api-property-token.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
 
 export class SaveTokenDTO {
     @ApiPropertyUserId()

@@ -1,18 +1,19 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common'
-import { IHistoryService } from '../interfaces/history-service.interface'
-import { PushHistoryDTO } from '../dto/push-history.dto'
-import { GetUserHistoryDTO } from '../dto/get-user-history.dto'
-import { HistoryDTO } from '../dto/history.dto'
-import { DateService } from '../../date/services/date.service'
-import { ExerciseService } from '../../exercise/services/exercise.service'
-import { IHistoryOrmService } from '../interfaces/history-orm-service.interface'
-import { InjectHistoryOrm } from '../decorators/history-orm.decorator'
+import { Injectable } from '@nestjs/common'
+import { IHistoryService } from '../interfaces/history-service.interface.js'
+import { PushHistoryDTO } from '../dto/push-history.dto.js'
+import { GetUserHistoryDTO } from '../dto/get-user-history.dto.js'
+import { HistoryDTO } from '../dto/history.dto.js'
+import { DateService } from '../../date/services/date.service.js'
+import { InjectExercise } from '../../exercise/decorators/exercise.decorator.js'
+import { IHistoryOrmService } from '../interfaces/history-orm-service.interface.js'
+import { InjectHistoryOrm } from '../decorators/history-orm.decorator.js'
+import { IExerciseService } from '../../exercise/interfaces/exercise-service.interface.js'
 
 @Injectable()
 export class HistoryService implements IHistoryService {
     constructor(
         @InjectHistoryOrm() private readonly historyOrmService: IHistoryOrmService,
-        @Inject(forwardRef(() => ExerciseService)) private readonly exerciseService: ExerciseService,
+        @InjectExercise() private readonly exerciseService: IExerciseService,
         private readonly dateService: DateService,
     ) { }
 

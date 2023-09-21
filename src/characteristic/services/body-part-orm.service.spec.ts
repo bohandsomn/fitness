@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BodyPartOrmService } from './body-part-orm.service';
+import { BodyPartOrmService } from './body-part-orm.service.js';
 
 describe('BodyPartOrmService', () => {
   let service: BodyPartOrmService;

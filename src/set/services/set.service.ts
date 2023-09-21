@@ -1,26 +1,26 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { ISetService } from '../interfaces/set-service.interface'
-import { GetSetDTO } from '../dto/get-set.dto'
-import { SetDTO } from '../dto/set.dto'
-import { GetSetCaloriesDTO } from '../dto/get-set-calories.dto'
-import { CreateSetDTO } from '../dto/create-set.dto'
-import { UpdateSetDTO } from '../dto/update-set.dto'
-import { SetException } from '../constants/set.exception'
-import { GetSetsDTO } from '../dto/get-sets.dto'
-import { DeleteSetDTO } from '../dto/delete-set.dto'
-import { AddExerciseSetDTO } from '../dto/add-exercise-set.dto'
-import { RemoveExerciseSetDTO } from '../dto/remove-exercise-set.dto'
-import { ExerciseService } from '../../exercise/services/exercise.service'
-import { SetPreviewDTO } from '../dto/set-preview.dto'
-import { IsSetOwnerDTO } from '../dto/is-set-owner.dto'
-import { GetCommonSetsDTO } from '../dto/get-common-sets.dto'
-import { Environment } from '../../common/constants/environment'
-import { IImageService } from '../../image/interfaces/image-service.interface'
-import { InjectImage } from '../../image/decorators/inject-image.decorator'
-import { RoleException } from '../../role/constants/role.exception'
-import { InjectSetOrm } from '../decorators/set-orm.decorator'
-import { ISetOrmService } from '../interfaces/set-orm-service.interface'
+import { ISetService } from '../interfaces/set-service.interface.js'
+import { GetSetDTO } from '../dto/get-set.dto.js'
+import { SetDTO } from '../dto/set.dto.js'
+import { GetSetCaloriesDTO } from '../dto/get-set-calories.dto.js'
+import { CreateSetDTO } from '../dto/create-set.dto.js'
+import { UpdateSetDTO } from '../dto/update-set.dto.js'
+import { SetException } from '../constants/set.exception.js'
+import { GetSetsDTO } from '../dto/get-sets.dto.js'
+import { DeleteSetDTO } from '../dto/delete-set.dto.js'
+import { AddExerciseSetDTO } from '../dto/add-exercise-set.dto.js'
+import { RemoveExerciseSetDTO } from '../dto/remove-exercise-set.dto.js'
+import { ExerciseService } from '../../exercise/services/exercise.service.js'
+import { SetPreviewDTO } from '../dto/set-preview.dto.js'
+import { IsSetOwnerDTO } from '../dto/is-set-owner.dto.js'
+import { GetCommonSetsDTO } from '../dto/get-common-sets.dto.js'
+import { Environment } from '../../common/constants/environment.js'
+import { IImageService } from '../../image/interfaces/image-service.interface.js'
+import { InjectImage } from '../../image/decorators/inject-image.decorator.js'
+import { RoleException } from '../../role/constants/role.exception.js'
+import { InjectSetOrm } from '../decorators/set-orm.decorator.js'
+import { ISetOrmService } from '../interfaces/set-orm-service.interface.js'
 
 @Injectable()
 export class SetService implements ISetService {
@@ -120,8 +120,15 @@ export class SetService implements ISetService {
         if (!isSetOwner) {
             throw new ForbiddenException(RoleException.USER_IS_NOW_SET_OWNER)
         }
+        const set = await this.setOrmService.queryOne(dto)
+        if (!set) {
+            return
+        }
         await this.setOrmService.delete({
             id: dto.id,
+        })
+        await this.imageService.delete({
+            demonstration: set.demonstration,
         })
     }
 
@@ -149,13 +156,20 @@ export class SetService implements ISetService {
     }
 
     async getSetCalories(dto: GetSetCaloriesDTO): Promise<number> {
-        const exercises = await this.exerciseService.getManyExercises({ setId: dto.setId, userId: dto.userId })
-        const calories = exercises.reduce((calories, exercise) => calories + exercise.calories, 0)
+        const exercises = await this.exerciseService.getManyExercises({
+            setId: dto.setId,
+            userId: dto.userId
+        })
+        const calories = exercises.reduce((calories, exercise) => {
+            return calories + exercise.calories
+        }, 0)
         return calories
     }
 
     async getCommonSets(dto: GetCommonSetsDTO): Promise<SetPreviewDTO[]> {
-        const commonSetIds = this.configService.getOrThrow<string>(Environment.COMMON_SET_IDS)
+        const commonSetIds = this.configService.getOrThrow<string>(
+            Environment.COMMON_SET_IDS
+        )
         const ids = commonSetIds.split(',').map(Number)
         const sets = (await Promise.all(
             ids.map((id) => this.querySet({ id, userId: dto.userId }))
@@ -174,9 +188,14 @@ export class SetService implements ISetService {
             setId: set.id,
             userId: dto.userId,
         })
+        const isOwner = await this.isSetOwner({
+            setId: set.id,
+            userId: dto.userId,
+        })
         return {
             ...set,
-            calories
+            calories,
+            isOwner,
         }
     }
 }

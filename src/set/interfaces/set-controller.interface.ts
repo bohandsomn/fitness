@@ -1,8 +1,8 @@
-import { CreateSetBodyDTO } from '../dto/create-set.dto'
-import { SetDTO } from '../dto/set.dto'
-import { UpdateSetBodyDTO } from '../dto/update-set.dto'
-import { SetPreviewDTO } from '../dto/set-preview.dto'
-import { ImageDTO } from '../../image/dto/image.dto'
+import { CreateSetBodyDTO } from '../dto/create-set.dto.js'
+import { SetDTO } from '../dto/set.dto.js'
+import { UpdateSetBodyDTO } from '../dto/update-set.dto.js'
+import { SetPreviewDTO } from '../dto/set-preview.dto.js'
+import { ImageDTO } from '../../image/dto/image.dto.js'
 
 export interface ISetController {
     createSet(dto: CreateSetBodyDTO, imageDTO: ImageDTO, userId: number): Promise<SetPreviewDTO>

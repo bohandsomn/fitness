@@ -1,5 +1,5 @@
-import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
-import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id.js'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id.js'
 
 export class RemoveExerciseSetDTO {
     @ApiPropertyExerciseId()

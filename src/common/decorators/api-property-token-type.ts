@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
-import { TokenType } from '../../token/constants/token.const'
+import { TokenType } from '../../token/constants/token.const.js'
 
 export const ApiPropertyTokenType = (options?: ApiPropertyOptions) => ApiProperty({
     enum: TokenType,

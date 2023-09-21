@@ -1,7 +1,7 @@
-import { CreateUserInput } from '../dto/create-user.input'
-import { UpdateUserInput } from '../dto/update-user.input'
-import { GetUserInput } from '../dto/get-user.input'
-import { UserModel } from '../models/user.model'
+import { CreateUserInput } from '../dto/create-user.input.js'
+import { UpdateUserInput } from '../dto/update-user.input.js'
+import { GetUserInput } from '../dto/get-user.input.js'
+import { UserModel } from '../models/user.model.js'
 
 export interface IUserOrmService {
     create(input: CreateUserInput): Promise<UserModel>

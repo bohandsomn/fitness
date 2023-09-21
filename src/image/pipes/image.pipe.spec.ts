@@ -1,4 +1,4 @@
-import { ImagePipe } from './image.pipe';
+import { ImagePipe } from './image.pipe.js';
 
 describe('ImagePipe', () => {
   it('should be defined', () => {

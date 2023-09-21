@@ -1,20 +1,20 @@
 import { Body, Controller, HttpStatus, Patch, Put, UseGuards, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { IUserController } from '../interfaces/user-controller.interface'
-import { UserService } from '../services/user.service'
-import { UpdateUserBodyDTO } from '../dto/update-user.dto'
-import { UserId } from '../decorators/user.decorator'
-import { UserTokensDTO } from '../../auth/dto/user-tokens.dto'
-import { AuthGuard } from '../../auth/guards/auth.guard'
-import { AppValidationPipe } from '../../pipes/app-validation.pipe'
-import { TokenService } from '../../token/services/token.service'
-import { SaveTokenInterceptor } from '../../auth/interceptors/save-token.interceptor'
-import { AssignAdminRoleDTO } from '../dto/assign-admin-role.dto'
-import { AssignRoleGuard } from '../../role/guards/assign-role.guard'
-import { UserTokenDTO } from '../../auth/dto/user-token.dto'
-import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto'
-import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto'
-import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization'
+import { IUserController } from '../interfaces/user-controller.interface.js'
+import { UserService } from '../services/user.service.js'
+import { UpdateUserBodyDTO } from '../dto/update-user.dto.js'
+import { UserId } from '../decorators/user.decorator.js'
+import { UserTokensDTO } from '../../auth/dto/user-tokens.dto.js'
+import { AuthGuard } from '../../auth/guards/auth.guard.js'
+import { AppValidationPipe } from '../../pipes/app-validation.pipe.js'
+import { TokenService } from '../../token/services/token.service.js'
+import { SaveTokeninterceptor } from '../../auth/interceptors/save-token.interceptor.js'
+import { AssignAdminRoleDTO } from '../dto/assign-admin-role.dto.js'
+import { AssignRoleGuard } from '../../role/guards/assign-role.guard.js'
+import { UserTokenDTO } from '../../auth/dto/user-token.dto.js'
+import { ValidationErrorResponseDTO } from '../../error/dto/validation-error-response.dto.js'
+import { ExceptionErrorResponseDTO } from '../../error/dto/exception-error-response.dto.js'
+import { ApiPropertyHeadersAuthorization } from '../../common/decorators/api-headers-authorization.js'
 
 @ApiTags('User')
 @Controller('user')
@@ -32,7 +32,7 @@ export class UserController implements IUserController {
     @ApiResponse({ status: HttpStatus.UNAUTHORIZED, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Put()
-    @UseInterceptors(SaveTokenInterceptor)
+    @UseInterceptors(SaveTokeninterceptor)
     @UseGuards(AuthGuard)
     async updateUser(
         @Body(AppValidationPipe) dto: UpdateUserBodyDTO,
@@ -61,7 +61,7 @@ export class UserController implements IUserController {
     @ApiResponse({ status: HttpStatus.FORBIDDEN, type: ExceptionErrorResponseDTO })
     @ApiPropertyHeadersAuthorization()
     @Patch()
-    @UseInterceptors(SaveTokenInterceptor)
+    @UseInterceptors(SaveTokeninterceptor)
     @UseGuards(AssignRoleGuard)
     async assignAdminRole(
         @Body(AppValidationPipe) dto: AssignAdminRoleDTO,

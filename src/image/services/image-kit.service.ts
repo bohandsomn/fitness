@@ -1,89 +1,118 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { HttpService } from '@nestjs/axios'
 import { firstValueFrom } from 'rxjs'
-import type ImageKitClass from 'imagekit'
-const ImageKit = require('imagekit') as ImageKitClass
-import { CreateImageDTO } from '../dto/create-image.dto'
-import { GetImageDTO } from '../dto/get-image.dto'
-import { DeleteImageDTO } from '../dto/delete-image.dto'
-import { IImageService } from '../interfaces/image-service.interface'
-import { UpdateImageDTO } from '../dto/update-image.dto'
-import { CommonService } from '../../common/services/common.service'
-import { Environment } from '../../common/constants/environment'
-import { InjectCacheManager } from '../../cache/decorators/inject-cache-manager.decorator'
-import { ICache } from '../../cache/interfaces/cache.interface'
+import ImageKit from 'imagekit'
+import { CreateImageDTO } from '../dto/create-image.dto.js'
+import { GetImageDTO } from '../dto/get-image.dto.js'
+import { DeleteImageDTO } from '../dto/delete-image.dto.js'
+import { IImageService } from '../interfaces/image-service.interface.js'
+import { UpdateImageDTO } from '../dto/update-image.dto.js'
+import { CommonService } from '../../common/services/common.service.js'
+import { Environment } from '../../common/constants/environment.js'
+import { InjectCacheManager } from '../../cache/decorators/inject-cache-manager.decorator.js'
+import { ICache } from '../../cache/interfaces/cache.interface.js'
+import { AppException } from '../../constants/app.exception.js'
 
 @Injectable()
-export class ImageKitService implements IImageService {
-    private readonly imageKit: ImageKitClass
+export class ImageKitService implements IImageService, OnModuleInit {
+    private _imageKit: ImageKit | null
 
     constructor(
         @InjectCacheManager() private readonly cacheManager: ICache,
         private readonly configService: ConfigService,
         private readonly commonService: CommonService,
         private readonly httpService: HttpService,
-    ) {
+    ) { }
+
+    async create(dto: CreateImageDTO): Promise<string> {
+        try {
+            const link = this.commonService.generateUniqueString()
+            const fileName = `${link}.${dto.extension}`
+            const response = await this.imageKit.upload({
+                file: dto.file,
+                fileName,
+            })
+            const demonstration = response.fileId
+            return demonstration
+        } catch (error) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR, error)
+        }
+    }
+
+    async update(dto: UpdateImageDTO): Promise<string> {
+        try {
+            await this.delete(dto)
+            return this.create(dto)
+        } catch (error) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR, error)
+        }
+    }
+
+    async get(dto: GetImageDTO): Promise<Buffer> {
+        try {
+            const url = await this.getUrl(dto)
+            const cachedBuffer = await this.cacheManager.get<Buffer>(url)
+            if (cachedBuffer) {
+                return cachedBuffer
+            }
+            const response = await firstValueFrom(
+                this.httpService.get<Buffer>(
+                    url,
+                    {
+                        responseType: 'arraybuffer'
+                    }
+                )
+            )
+            const buffer = response.data
+            await this.cacheManager.set(url, buffer)
+            return buffer
+        } catch (error) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR, error)
+        }
+    }
+
+    async delete(dto: DeleteImageDTO): Promise<void> {
+        try {
+            await this.imageKit.deleteFile(dto.demonstration)
+        } catch (error) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR, error)
+        }
+    }
+
+    private async getUrl(dto: GetImageDTO): Promise<string> {
+        try {
+            const details = await this.imageKit.getFileDetails(dto.demonstration)
+            const url = this.imageKit.url({
+                path: details.filePath,
+                transformation: [{
+                    height: dto.height,
+                    width: dto.width,
+                    quality: dto.quality,
+                    format: 'webp'
+                }]
+            })
+            return url
+        } catch (error) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR, error)
+        }
+    }
+
+    private get imageKit(): ImageKit {
+        if (!this._imageKit) {
+            throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR)
+        }
+        return this._imageKit
+    }
+
+    onModuleInit() {
         const publicKey = this.configService.getOrThrow(Environment.IMAGE_PUBLIC_KEY)
         const privateKey = this.configService.getOrThrow(Environment.IMAGE_PRIVATE_KEY)
         const urlEndpoint = this.configService.getOrThrow(Environment.IMAGE_URL_ENDPOINT)
-        this.imageKit = new (ImageKit as any)({
+        this._imageKit = new ImageKit({
             publicKey,
             privateKey,
             urlEndpoint,
         })
-    }
-
-    async create(dto: CreateImageDTO): Promise<string> {
-        const link = this.commonService.generateUniqueString()
-        const fileName = `${link}.${dto.extension}`
-        const response = await this.imageKit.upload({
-            file: dto.file,
-            fileName,
-        })
-        const demonstration = response.fileId
-        return demonstration
-    }
-
-    async update(dto: UpdateImageDTO): Promise<string> {
-        await this.delete(dto)
-        return this.create(dto)
-    }
-
-    async get(dto: GetImageDTO): Promise<Buffer> {
-        const url = await this.getUrl(dto)
-        const cachedBuffer = await this.cacheManager.get<Buffer>(url)
-        if (cachedBuffer) {
-            return cachedBuffer
-        }
-        const response = await firstValueFrom(
-            this.httpService.get<Buffer>(
-                url,
-                {
-                    responseType: 'arraybuffer'
-                }
-            )
-        )
-        const buffer = response.data
-        await this.cacheManager.set(url, buffer)
-        return buffer
-    }
-
-    async delete(dto: DeleteImageDTO): Promise<void> {
-        await this.imageKit.deleteFile(dto.demonstration)
-    }
-
-    private async getUrl(dto: GetImageDTO): Promise<string> {
-        const details = await this.imageKit.getFileDetails(dto.demonstration)
-        const url = this.imageKit.url({
-            path: details.filePath,
-            transformation: [{
-                height: dto.height,
-                width: dto.width,
-                quality: dto.quality,
-                format: 'webp'
-            }]
-        })
-        return url
     }
 }

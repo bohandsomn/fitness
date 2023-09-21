@@ -1,9 +1,9 @@
-import { ExerciseModel } from '../models/exercise.model'
-import { CreateExerciseInput } from '../dto/create-exercise.input'
-import { UpdateExerciseInput } from '../dto/update-exercise.input'
-import { GetExercisesInput } from '../dto/get-exercises.input'
-import { DeleteExerciseInput } from '../dto/delete-exercise.input'
-import { GetOneExerciseInput } from '../dto/get-one-exercise.input'
+import { ExerciseModel } from '../models/exercise.model.js'
+import { CreateExerciseInput } from '../dto/create-exercise.input.js'
+import { UpdateExerciseInput } from '../dto/update-exercise.input.js'
+import { GetExercisesInput } from '../dto/get-exercises.input.js'
+import { DeleteExerciseInput } from '../dto/delete-exercise.input.js'
+import { GetOneExerciseInput } from '../dto/get-one-exercise.input.js'
 
 export interface IExerciseOrmService {
     create(input: CreateExerciseInput): Promise<ExerciseModel>

@@ -1,7 +1,7 @@
-import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
-import { ApiPropertySetCalories } from '../../common/decorators/api-property-set-calories'
-import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
-import { ApiPropertySetName } from '../../common/decorators/api-property-set-name'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration.js'
+import { ApiPropertySetCalories } from '../../common/decorators/api-property-set-calories.js'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id.js'
+import { ApiPropertySetName } from '../../common/decorators/api-property-set-name.js'
 
 export class SetPreviewDTO {
     @ApiPropertySetId()

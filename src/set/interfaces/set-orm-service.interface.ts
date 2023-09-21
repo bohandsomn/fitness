@@ -1,11 +1,11 @@
-import { AddExerciseSetInput } from '../dto/add-exercise-set.input'
-import { CreateSetInput } from '../dto/create-set.input'
-import { DeleteSetInput } from '../dto/delete-set.input'
-import { GetSetInput } from '../dto/get-set.input'
-import { GetSetsInput } from '../dto/get-sets.input'
-import { RemoveExerciseSetInput } from '../dto/remove-exercise-set.input'
-import { UpdateSetInput } from '../dto/update-set.input'
-import { SetModel } from '../models/set.model'
+import { AddExerciseSetInput } from '../dto/add-exercise-set.input.js'
+import { CreateSetInput } from '../dto/create-set.input.js'
+import { DeleteSetInput } from '../dto/delete-set.input.js'
+import { GetSetInput } from '../dto/get-set.input.js'
+import { GetSetsInput } from '../dto/get-sets.input.js'
+import { RemoveExerciseSetInput } from '../dto/remove-exercise-set.input.js'
+import { UpdateSetInput } from '../dto/update-set.input.js'
+import { SetModel } from '../models/set.model.js'
 
 export interface ISetOrmService {
     create(input: CreateSetInput): Promise<SetModel>

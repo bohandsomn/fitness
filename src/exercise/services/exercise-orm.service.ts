@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { IExerciseOrmService } from '../interfaces/exercise-orm-service.interface'
-import { OrmService } from '../../orm/services/orm.service'
-import { CreateExerciseInput } from '../dto/create-exercise.input'
-import { ExerciseModel } from '../models/exercise.model'
-import { UpdateExerciseInput } from '../dto/update-exercise.input'
-import { GetOneExerciseInput } from '../dto/get-one-exercise.input'
-import { GetExercisesInput } from '../dto/get-exercises.input'
-import { DeleteExerciseInput } from '../dto/delete-exercise.input'
+import { IExerciseOrmService } from '../interfaces/exercise-orm-service.interface.js'
+import { OrmService } from '../../orm/services/orm.service.js'
+import { CreateExerciseInput } from '../dto/create-exercise.input.js'
+import { ExerciseModel } from '../models/exercise.model.js'
+import { UpdateExerciseInput } from '../dto/update-exercise.input.js'
+import { GetOneExerciseInput } from '../dto/get-one-exercise.input.js'
+import { GetExercisesInput } from '../dto/get-exercises.input.js'
+import { DeleteExerciseInput } from '../dto/delete-exercise.input.js'
 
 @Injectable()
 export class ExerciseOrmService implements IExerciseOrmService {
@@ -62,7 +62,7 @@ export class ExerciseOrmService implements IExerciseOrmService {
         const condition: any = {}
         if (input.setId) {
             condition.set = {
-                every: {
+                some: {
                     id: input.setId,
                 }
             }
@@ -92,14 +92,14 @@ export class ExerciseOrmService implements IExerciseOrmService {
         }
         if (input.type) {
             condition.type = {
-                every: {
+                some: {
                     value: input.type
                 }
             }
         }
         if (input.bodyPart) {
             condition.bodyPart = {
-                every: {
+                some: {
                     value: input.bodyPart
                 }
             }

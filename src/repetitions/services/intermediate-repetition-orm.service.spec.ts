@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { IntermediateRepetitionOrmService } from './intermediate-repetition-orm.service';
+import { IntermediateRepetitionOrmService } from './intermediate-repetition-orm.service.js';
 
 describe('IntermediateRepetitionOrmService', () => {
   let service: IntermediateRepetitionOrmService;

@@ -1,10 +1,10 @@
-import { AutoLogInUserDTO } from '../dto/auto-log-in-user.dto'
-import { LogInUserDTO } from '../dto/log-in-user.dto'
-import { RegisterUserDTO } from '../dto/register-user.dto'
-import { UserTokensDTO } from '../dto/user-tokens.dto'
-import { LogOutUserDTO } from '../dto/log-out-user.dto'
-import { RefreshTokenDTO } from '../../token/dto/refresh-token.dto'
-import { ActivateUserDTO } from '../../user/dto/activate-user.dto'
+import { AutoLogInUserDTO } from '../dto/auto-log-in-user.dto.js'
+import { LogInUserDTO } from '../dto/log-in-user.dto.js'
+import { RegisterUserDTO } from '../dto/register-user.dto.js'
+import { UserTokensDTO } from '../dto/user-tokens.dto.js'
+import { LogOutUserDTO } from '../dto/log-out-user.dto.js'
+import { RefreshTokenDTO } from '../../token/dto/refresh-token.dto.js'
+import { ActivateUserDTO } from '../../user/dto/activate-user.dto.js'
 
 export interface IAuthService {
     registerUser(dto: RegisterUserDTO): Promise<UserTokensDTO>

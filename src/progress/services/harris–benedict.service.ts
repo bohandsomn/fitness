@@ -1,8 +1,9 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
-import { CalculateCaloriesDTO } from '../dto/calculate-calories.dto'
-import { UserGender } from '../../user/constants/user.const'
-import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface'
-import { AppDate } from '../../common/services/app-date.service'
+import { CalculateCaloriesDTO } from '../dto/calculate-calories.dto.js'
+import { UserGender } from '../../user/constants/user.const.js'
+import { ICalorieCalculation } from '../interfaces/calorie-calculation.interface.js'
+import { AppDate } from '../../common/services/app-date.service.js'
+import { AppException } from '../../constants/app.exception.js'
 
 @Injectable()
 export class HarrisBenedictService implements ICalorieCalculation {
@@ -12,7 +13,7 @@ export class HarrisBenedictService implements ICalorieCalculation {
         } else if (dto.gender === UserGender.FEMALE) {
             return this.calculateForWoman(dto)
         }
-        throw new InternalServerErrorException()
+        throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR)
     }
 
     private calculateForMan(dto: CalculateCaloriesDTO): number {

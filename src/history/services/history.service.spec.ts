@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HistoryService } from './history.service';
+import { HistoryService } from './history.service.js';
 
 describe('HistoryService', () => {
   let service: HistoryService;

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsNumber } from 'class-validator'
-import { ImageDTO } from '../../image/dto/image.dto'
-import { AppException } from '../../constants/app.exception'
-import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
-import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
-import { ApiPropertyExerciseDescription } from '../../common/decorators/api-property-exercise-description'
-import { ApiPropertyRepetitions } from '../../common/decorators/api-property-repetitions'
+import { ImageDTO } from '../../image/dto/image.dto.js'
+import { AppException } from '../../constants/app.exception.js'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories.js'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header.js'
+import { ApiPropertyExerciseDescription } from '../../common/decorators/api-property-exercise-description.js'
+import { ApiPropertyRepetitions } from '../../common/decorators/api-property-repetitions.js'
 
 export class CreateExerciseDTO {
     @ApiPropertyCalories()

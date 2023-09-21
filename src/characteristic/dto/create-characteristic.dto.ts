@@ -1,4 +1,4 @@
-import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value'
+import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value.js'
 
 export class CreateCharacteristicDTO {
     @ApiPropertyCharacteristicValue()

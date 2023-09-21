@@ -1,8 +1,8 @@
 import { Exercise } from '@prisma/client'
-import { CreateExerciseBodyDTO } from '../dto/create-exercise.dto'
-import { ExercisePayloadDTO } from '../dto/exercise-payload.dto'
-import { UpdateExerciseBodyDTO } from '../dto/update-exercise.dto'
-import { ImageDTO } from '../../image/dto/image.dto'
+import { CreateExerciseBodyDTO } from '../dto/create-exercise.dto.js'
+import { ExercisePayloadDTO } from '../dto/exercise-payload.dto.js'
+import { UpdateExerciseBodyDTO } from '../dto/update-exercise.dto.js'
+import { ImageDTO } from '../../image/dto/image.dto.js'
 
 export interface IExerciseController {
     createExercise(

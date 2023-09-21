@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { IHistoryOrmService } from '../interfaces/history-orm-service.interface'
-import { OrmService } from '../../orm/services/orm.service'
-import { CreateHistoryInput } from '../dto/create-history.input'
-import { HistoryModel } from '../models/history.model'
-import { GetManyHistoriesInput } from '../dto/get-many-histories.input'
+import { IHistoryOrmService } from '../interfaces/history-orm-service.interface.js'
+import { OrmService } from '../../orm/services/orm.service.js'
+import { CreateHistoryInput } from '../dto/create-history.input.js'
+import { HistoryModel } from '../models/history.model.js'
+import { GetManyHistoriesInput } from '../dto/get-many-histories.input.js'
 
 @Injectable()
 export class HistoryOrmService implements IHistoryOrmService {

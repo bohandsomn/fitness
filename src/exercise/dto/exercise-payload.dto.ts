@@ -1,8 +1,8 @@
 import { Exercise } from '@prisma/client'
-import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
-import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
-import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
-import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id.js'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories.js'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header.js'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration.js'
 
 export class ExercisePayloadDTO implements Partial<Exercise> {
     @ApiPropertyExerciseId()

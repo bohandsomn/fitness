@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DateService } from './date.service';
+import { DateService } from './date.service.js';
 
 describe('DateService', () => {
   let service: DateService;

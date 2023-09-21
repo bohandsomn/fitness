@@ -1,5 +1,5 @@
-import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
 
 export class CheckPasswordDTO {
     @ApiPropertyUserId()

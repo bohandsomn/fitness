@@ -1,4 +1,4 @@
-import { ImageInterceptor } from './image.interceptor';
+import { ImageInterceptor } from './image.interceptor.js';
 
 describe('ImageInterceptor', () => {
   it('should be defined', () => {

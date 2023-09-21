@@ -1,7 +1,7 @@
 import { IsNumber } from 'class-validator'
-import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
-import { AppException } from '../../constants/app.exception'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
+import { AppException } from '../../constants/app.exception.js'
 
 export class PushHistoryDTO {
     @ApiPropertyUserId()

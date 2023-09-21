@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext, ForbiddenException } from '@nestjs/common'
 import { Request } from 'express'
-import { AppException } from '../../constants/app.exception'
+import { AppException } from '../../constants/app.exception.js'
 
 export const Cookies = createParamDecorator(
     (key: string | undefined, context: ExecutionContext): object | string => {

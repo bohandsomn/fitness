@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { SetService } from './services/set.service'
-import { SetController } from './controllers/set.controller'
-import { ExerciseModule } from '../exercise/exercise.module'
-import { ImageModule } from '../image/image.module'
-import { TokenModule } from '../token/token.module'
-import { SetOrmProvider } from './providers/set-orm.provider'
+import { SetService } from './services/set.service.js'
+import { SetController } from './controllers/set.controller.js'
+import { ExerciseModule } from '../exercise/exercise.module.js'
+import { ImageModule } from '../image/image.module.js'
+import { TokenModule } from '../token/token.module.js'
+import { SetOrmProvider } from './providers/set-orm.provider.js'
 
 @Module({
   imports: [

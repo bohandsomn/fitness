@@ -1,8 +1,8 @@
-import { ApiPropertyCalories } from '../../common/decorators/api-property-calories'
-import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value'
-import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header'
-import { ApiPropertySetId } from '../../common/decorators/api-property-set-id'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertyCalories } from '../../common/decorators/api-property-calories.js'
+import { ApiPropertyCharacteristicValue } from '../../common/decorators/api-property-characteristic-value.js'
+import { ApiPropertyExerciseHeader } from '../../common/decorators/api-property-exercise-header.js'
+import { ApiPropertySetId } from '../../common/decorators/api-property-set-id.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
 
 export class GetManyExercisesDTO {
     @ApiPropertyUserId()

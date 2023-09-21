@@ -1,4 +1,4 @@
-import { AssignRoleGuard } from './assign-role.guard';
+import { AssignRoleGuard } from './assign-role.guard.js';
 
 describe('AssignRoleGuard', () => {
   it('should be defined', () => {

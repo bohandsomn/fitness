@@ -1,7 +1,7 @@
-import { DeleteImageDTO } from '../dto/delete-image.dto'
-import { GetImageDTO } from '../dto/get-image.dto'
-import { CreateImageDTO } from '../dto/create-image.dto'
-import { UpdateImageDTO } from '../dto/update-image.dto'
+import { DeleteImageDTO } from '../dto/delete-image.dto.js'
+import { GetImageDTO } from '../dto/get-image.dto.js'
+import { CreateImageDTO } from '../dto/create-image.dto.js'
+import { UpdateImageDTO } from '../dto/update-image.dto.js'
 
 export interface IImageService {
     create(dto: CreateImageDTO): Promise<string>

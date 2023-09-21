@@ -1,7 +1,7 @@
 import { IsEmpty } from 'class-validator'
-import { AppException } from '../../constants/app.exception'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
-import { ApiPropertyHistoryDate } from '../../common/decorators/api-property-history-date'
+import { AppException } from '../../constants/app.exception.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
+import { ApiPropertyHistoryDate } from '../../common/decorators/api-property-history-date.js'
 
 export class GetUserHistoryDTO {
     @ApiPropertyUserId()

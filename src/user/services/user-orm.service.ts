@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
-import { IUserOrmService } from '../interfaces/user-orm-service.interface'
-import { OrmService } from '../../orm/services/orm.service'
-import { CreateUserInput } from '../dto/create-user.input'
-import { UserModel } from '../models/user.model'
-import { AppDate } from '../../common/services/app-date.service'
-import { UpdateUserInput } from '../dto/update-user.input'
-import { GetUserInput } from '../dto/get-user.input'
+import { IUserOrmService } from '../interfaces/user-orm-service.interface.js'
+import { OrmService } from '../../orm/services/orm.service.js'
+import { CreateUserInput } from '../dto/create-user.input.js'
+import { UserModel } from '../models/user.model.js'
+import { AppDate } from '../../common/services/app-date.service.js'
+import { UpdateUserInput } from '../dto/update-user.input.js'
+import { GetUserInput } from '../dto/get-user.input.js'
 
 @Injectable()
 export class UserOrmService implements IUserOrmService {

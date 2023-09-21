@@ -1,8 +1,8 @@
-import { ColorLoggerInterceptor } from './color-logger.interceptor'
-import { ColorLoggerService } from '../services/color-logger.service'
+import { ColorLoggerinterceptor } from './color-logger.interceptor.js'
+import { ColorLoggerService } from '../services/color-logger.service.js'
 
-describe('ColorLoggerInterceptor', () => {
+describe('ColorLoggerinterceptor', () => {
   it('should be defined', () => {
-    expect(new ColorLoggerInterceptor(new ColorLoggerService())).toBeDefined()
+    expect(new ColorLoggerinterceptor(new ColorLoggerService())).toBeDefined()
   })
 })

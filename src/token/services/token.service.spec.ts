@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { TokenService } from './token.service';
-import { UserModule } from '../../user/user.module';
-import { OrmModule } from '../../orm/orm.module';
+import { TokenService } from './token.service.js';
+import { UserModule } from '../../user/user.module.js';
+import { OrmModule } from '../../orm/orm.module.js';
 
 describe('TokenService', () => {
   let service: TokenService;

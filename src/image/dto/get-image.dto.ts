@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration'
+import { ApiPropertyDemonstration } from '../../common/decorators/api-property-demonstration.js'
 
 export class GetImageDTO {
     @ApiPropertyDemonstration()

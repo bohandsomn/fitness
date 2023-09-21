@@ -1,4 +1,4 @@
-import { ClearTokenInterceptor } from './clear-token.interceptor';
+import { ClearTokenInterceptor } from './clear-token.interceptor.js';
 
 describe('ClearTokenInterceptor', () => {
   it('should be defined', () => {

@@ -1,21 +1,22 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreateExerciseDTO } from '../dto/create-exercise.dto'
-import { IExerciseService } from '../interfaces/exercise-service.interface'
-import { ExercisePayloadDTO } from '../dto/exercise-payload.dto'
-import { UpdateExerciseDTO } from '../dto/update-exercise.dto'
-import { GetOneExerciseDTO } from '../dto/get-one-exercise.dto'
-import { ExerciseException } from '../constants/exercise.exception'
-import { GetManyExercisesDTO } from '../dto/get-many-exercises.dto'
-import { DeleteExerciseDTO } from '../dto/delete-exercise.dto'
-import { ExerciseDTO } from '../dto/exercise.dto'
-import { UserService } from '../../user/services/user.service'
-import { RepetitionsService } from '../../repetitions/services/repetitions.service'
-import { GetExerciseCaloriesDTO } from '../dto/get-exercise-calories.dto'
-import { UserDifficulty } from '../../user/constants/user.const'
-import { InjectImage } from '../../image/decorators/inject-image.decorator'
-import { IImageService } from '../../image/interfaces/image-service.interface'
-import { InjectExerciseOrm } from '../decorators/exercise-orm.decorator'
-import { IExerciseOrmService } from '../interfaces/exercise-orm-service.interface'
+import { CreateExerciseDTO } from '../dto/create-exercise.dto.js'
+import { IExerciseService } from '../interfaces/exercise-service.interface.js'
+import { ExercisePayloadDTO } from '../dto/exercise-payload.dto.js'
+import { UpdateExerciseDTO } from '../dto/update-exercise.dto.js'
+import { GetOneExerciseDTO } from '../dto/get-one-exercise.dto.js'
+import { ExerciseException } from '../constants/exercise.exception.js'
+import { GetManyExercisesDTO } from '../dto/get-many-exercises.dto.js'
+import { DeleteExerciseDTO } from '../dto/delete-exercise.dto.js'
+import { ExerciseDTO } from '../dto/exercise.dto.js'
+import { UserService } from '../../user/services/user.service.js'
+import { RepetitionsService } from '../../repetitions/services/repetitions.service.js'
+import { GetExerciseCaloriesDTO } from '../dto/get-exercise-calories.dto.js'
+import { UserDifficulty } from '../../user/constants/user.const.js'
+import { InjectImage } from '../../image/decorators/inject-image.decorator.js'
+import { IImageService } from '../../image/interfaces/image-service.interface.js'
+import { InjectExerciseOrm } from '../decorators/exercise-orm.decorator.js'
+import { IExerciseOrmService } from '../interfaces/exercise-orm-service.interface.js'
+import { AppException } from '../../constants/app.exception.js'
 
 @Injectable()
 export class ExerciseService implements IExerciseService {
@@ -136,13 +137,13 @@ export class ExerciseService implements IExerciseService {
         const user = await this.userService.getUser({ id: dto.userId })
         const difficulty = user.difficulty
         if (difficulty === UserDifficulty.BEGINNER) {
-            return repetitions.beginner
+            return repetitions.beginner * exercise.calories
         } else if (difficulty === UserDifficulty.INTERMEDIATE) {
-            return repetitions.intermediate
+            return repetitions.intermediate * exercise.calories
         } else if (difficulty === UserDifficulty.ADVANCED) {
-            return repetitions.advanced
+            return repetitions.advanced * exercise.calories
         }
-        throw new InternalServerErrorException()
+        throw new InternalServerErrorException(AppException.INTERNAL_SERVER_ERROR)
     }
 
     adaptExercise(exercise: ExerciseDTO): ExercisePayloadDTO {

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
-import { UserGender } from '../../user/constants/user.const'
+import { UserGender } from '../../user/constants/user.const.js'
 
 export const ApiPropertyGender = (options?: ApiPropertyOptions) => ApiProperty({
     enum: UserGender,

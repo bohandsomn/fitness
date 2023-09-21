@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, InternalServerErrorException, ForbiddenException } from '@nestjs/common'
-import { RoleException } from '../constants/role.exception'
-import { AppRequest } from '../../auth/interfaces/app-request.interface'
-import { UserRole } from '../../user/constants/user.const'
+import { RoleException } from '../constants/role.exception.js'
+import { AppRequest } from '../../auth/interfaces/app-request.interface.js'
+import { UserRole } from '../../user/constants/user.const.js'
 
 export abstract class RoleGuard implements CanActivate {
     constructor(

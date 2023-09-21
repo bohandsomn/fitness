@@ -1,11 +1,11 @@
-import { AddCharacteristicDTO } from '../dto/add-characteristic.dto'
-import { CharacteristicPreviewDTO } from '../dto/characteristic-preview.dto'
-import { CreateCharacteristicDTO } from '../dto/create-characteristic.dto'
-import { DeleteCharacteristicDTO } from '../dto/delete-characteristic.dto'
-import { GetCharacteristicDTO } from '../dto/get-characteristic.dto'
-import { GetCharacteristicsByExerciseDTO } from '../dto/get-characteristics-by-exercise.dto'
-import { RemoveCharacteristicDTO } from '../dto/remove-characteristic.dto'
-import { UpdateCharacteristicDTO } from '../dto/update-characteristic.dto'
+import { AddCharacteristicDTO } from '../dto/add-characteristic.dto.js'
+import { CharacteristicPreviewDTO } from '../dto/characteristic-preview.dto.js'
+import { CreateCharacteristicDTO } from '../dto/create-characteristic.dto.js'
+import { DeleteCharacteristicDTO } from '../dto/delete-characteristic.dto.js'
+import { GetCharacteristicDTO } from '../dto/get-characteristic.dto.js'
+import { GetCharacteristicsByExerciseDTO } from '../dto/get-characteristics-by-exercise.dto.js'
+import { RemoveCharacteristicDTO } from '../dto/remove-characteristic.dto.js'
+import { UpdateCharacteristicDTO } from '../dto/update-characteristic.dto.js'
 
 export interface ICharacteristicService {
     createCharacteristic(dto: CreateCharacteristicDTO): Promise<CharacteristicPreviewDTO>

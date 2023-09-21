@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
-import { IRepetitionsService } from '../interfaces/repetitions-service.interface'
-import { CreateRepetitionsDTO } from '../dto/create-repetitions.dto'
-import { RepetitionsDTO } from '../dto/repetitions.dto'
-import { UpdateRepetitionsDTO } from '../dto/update-repetitions.dto'
-import { GetRepetitionsDTO } from '../dto/get-repetitions.dto'
-import { InjectAdvancedRepetitionOrm, InjectBeginnerRepetitionOrm, InjectIntermediateRepetitionOrm } from '../decorators/repetition-orm.decorator'
-import { IRepetitionOrmService } from '../interfaces/repetition-orm-service.interface'
+import { IRepetitionsService } from '../interfaces/repetitions-service.interface.js'
+import { CreateRepetitionsDTO } from '../dto/create-repetitions.dto.js'
+import { RepetitionsDTO } from '../dto/repetitions.dto.js'
+import { UpdateRepetitionsDTO } from '../dto/update-repetitions.dto.js'
+import { GetRepetitionsDTO } from '../dto/get-repetitions.dto.js'
+import { InjectAdvancedRepetitionOrm, InjectBeginnerRepetitionOrm, InjectIntermediateRepetitionOrm } from '../decorators/repetition-orm.decorator.js'
+import { IRepetitionOrmService } from '../interfaces/repetition-orm-service.interface.js'
 
 @Injectable()
 export class RepetitionsService implements IRepetitionsService {

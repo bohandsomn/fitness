@@ -1,9 +1,9 @@
 import { ConflictException, Injectable } from '@nestjs/common'
 import { Difficulty, Gender } from '@prisma/client'
 import * as uuid from 'uuid'
-import { UserDifficulty, UserGender } from '../../user/constants/user.const'
-import { UserException } from '../../user/constants/user.exception'
-import { AppDate } from './app-date.service'
+import { UserDifficulty, UserGender } from '../../user/constants/user.const.js'
+import { UserException } from '../../user/constants/user.exception.js'
+import { AppDate } from './app-date.service.js'
 
 @Injectable()
 export class CommonService {

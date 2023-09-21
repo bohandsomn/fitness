@@ -1,4 +1,4 @@
-import { IDateTime } from '../../date/interfaces/date-time.interface'
+import { IDateTime } from '../../date/interfaces/date-time.interface.js'
 
 export class GetManyHistoriesInput {
     completedAtGt: IDateTime

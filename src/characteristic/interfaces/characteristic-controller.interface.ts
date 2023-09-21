@@ -1,6 +1,6 @@
-import { CharacteristicPreviewDTO } from '../dto/characteristic-preview.dto'
-import { CreateCharacteristicDTO } from '../dto/create-characteristic.dto'
-import { UpdateCharacteristicDTO } from '../dto/update-characteristic.dto'
+import { CharacteristicPreviewDTO } from '../dto/characteristic-preview.dto.js'
+import { CreateCharacteristicDTO } from '../dto/create-characteristic.dto.js'
+import { UpdateCharacteristicDTO } from '../dto/update-characteristic.dto.js'
 
 export interface ICharacteristicController {
     createCharacteristic(dto: CreateCharacteristicDTO): Promise<CharacteristicPreviewDTO>

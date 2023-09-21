@@ -1,6 +1,6 @@
-import { IDateTime } from './date-time.interface'
-import { DateTimeDTO } from '../dto/date-time.dto'
-import { GetDateDifferenceDTO } from '../dto/get-date-difference.dto'
+import { IDateTime } from './date-time.interface.js'
+import { DateTimeDTO } from '../dto/date-time.dto.js'
+import { GetDateDifferenceDTO } from '../dto/get-date-difference.dto.js'
 
 export interface IDateService {
     getDateTimeStart(date: Date): DateTimeDTO

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ApiPropertyImageExtension } from '../../common/decorators/api-property-image-extension'
+import { ApiPropertyImageExtension } from '../../common/decorators/api-property-image-extension.js'
 
 export class ImageDTO {
     @ApiProperty({ type: Buffer })

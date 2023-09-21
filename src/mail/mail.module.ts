@@ -1,9 +1,9 @@
 import { MailerModule } from '@nestjs-modules/mailer'
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter'
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter.js'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as path from 'path'
-import { MailService } from './services/mail.service'
+import { MailService } from './services/mail.service.js'
 
 @Global()
 @Module({
@@ -26,7 +26,7 @@ import { MailService } from './services/mail.service'
           from: `"Fitness" <${config.get('SMTP_USERNAME')}>`,
         },
         template: {
-          dir: path.join(__dirname, '..', 'templates'),
+          dir: path.join(path.resolve(), '..', 'templates'),
           adapter: new EjsAdapter(),
           options: {
             strict: false,

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { UserModule } from '../../user/user.module';
-import { TokenModule } from '../../token/token.module';
-import { AuthController } from '../controllers/auth.controller';
+import { AuthService } from './auth.service.js';
+import { UserModule } from '../../user/user.module.js';
+import { TokenModule } from '../../token/token.module.js';
+import { AuthController } from '../controllers/auth.controller.js';
 
 describe('AuthService', () => {
   let service: AuthService;

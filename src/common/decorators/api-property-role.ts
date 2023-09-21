@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
-import { UserRole } from '../../user/constants/user.const'
+import { UserRole } from '../../user/constants/user.const.js'
 
 export const ApiPropertyRole = (options?: ApiPropertyOptions) => ApiProperty({
     enum: UserRole,

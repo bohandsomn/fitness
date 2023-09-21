@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common'
-import { CreateUserDTO } from '../dto/create-user.dto'
-import { CommonService } from '../../common/services/common.service'
+import { CreateUserDTO } from '../dto/create-user.dto.js'
+import { CommonService } from '../../common/services/common.service.js'
 
 @Injectable()
 export class CreateUserPipe implements PipeTransform<Partial<CreateUserDTO>, Partial<CreateUserDTO>> {

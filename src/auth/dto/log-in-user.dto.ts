@@ -1,7 +1,7 @@
 import { IsEmail, Length } from 'class-validator'
-import { AppException } from '../../constants/app.exception'
-import { ApiPropertyEmail } from '../../common/decorators/api-property-email'
-import { ApiPropertyPassword } from '../../common/decorators/api-property-password'
+import { AppException } from '../../constants/app.exception.js'
+import { ApiPropertyEmail } from '../../common/decorators/api-property-email.js'
+import { ApiPropertyPassword } from '../../common/decorators/api-property-password.js'
 
 export class LogInUserDTO {
     @ApiPropertyEmail()

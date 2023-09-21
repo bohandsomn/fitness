@@ -1,10 +1,10 @@
-import { DeleteTokenDTO } from '../dto/delete-token.dto'
-import { GenerateTokenDTO } from '../dto/generate-token.dto'
-import { RefreshTokenDTO } from '../dto/refresh-token.dto'
-import { SaveTokenDTO } from '../dto/save-token.dto'
-import { SplitTokenDTO } from '../dto/split-token.dto'
-import { TokensPayloadDTO } from '../dto/tokens-payload.dto'
-import { VerifyTokenDTO } from '../dto/verify-token.dto'
+import { DeleteTokenDTO } from '../dto/delete-token.dto.js'
+import { GenerateTokenDTO } from '../dto/generate-token.dto.js'
+import { RefreshTokenDTO } from '../dto/refresh-token.dto.js'
+import { SaveTokenDTO } from '../dto/save-token.dto.js'
+import { SplitTokenDTO } from '../dto/split-token.dto.js'
+import { TokensPayloadDTO } from '../dto/tokens-payload.dto.js'
+import { VerifyTokenDTO } from '../dto/verify-token.dto.js'
 
 export interface ITokenService {
     generateTokens(dto: GenerateTokenDTO): TokensPayloadDTO

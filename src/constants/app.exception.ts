@@ -6,4 +6,6 @@ export enum AppException {
     DATE_NOT_VALID = 'The date entered is not valid',
     MISSING_RESOURCE = 'The resource is missing',
     COOKIE_IS_EMPTY = 'The request does not have an cookie',
+    INTERNAL_SERVER_ERROR = 'Internal server error',
+    AI_CREDENTIALS = 'The ai credentials are invalid',
 }

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmService } from './type-orm.service';
+import { TypeOrmService } from './type-orm.service.js';
 
 describe('TypeOrmService', () => {
   let service: TypeOrmService;

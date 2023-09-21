@@ -1,4 +1,4 @@
-import { CreateUserPipe } from './create-user.pipe';
+import { CreateUserPipe } from './create-user.pipe.js';
 
 describe('CreateUserPipe', () => {
   it('should be defined', () => {

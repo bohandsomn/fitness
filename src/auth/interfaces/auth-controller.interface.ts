@@ -1,8 +1,8 @@
 import { Response } from 'express'
-import { AutoLogInUserDTO } from '../dto/auto-log-in-user.dto'
-import { LogInUserDTO } from '../dto/log-in-user.dto'
-import { RegisterUserDTO } from '../dto/register-user.dto'
-import { UserTokensDTO } from '../dto/user-tokens.dto'
+import { AutoLogInUserDTO } from '../dto/auto-log-in-user.dto.js'
+import { LogInUserDTO } from '../dto/log-in-user.dto.js'
+import { RegisterUserDTO } from '../dto/register-user.dto.js'
+import { UserTokensDTO } from '../dto/user-tokens.dto.js'
 
 export interface IAuthController {
     registerUser(dto: RegisterUserDTO): Promise<UserTokensDTO>

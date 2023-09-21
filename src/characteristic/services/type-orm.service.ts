@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { CharacteristicOrmService } from './characteristic-orm.service'
-import { OrmService } from '../../orm/services/orm.service'
-import { CharacteristicType } from '../constants/characteristic.const'
+import { CharacteristicOrmService } from './characteristic-orm.service.js'
+import { OrmService } from '../../orm/services/orm.service.js'
+import { CharacteristicType } from '../constants/characteristic.const.js'
 
 @Injectable()
 export class TypeOrmService extends CharacteristicOrmService {

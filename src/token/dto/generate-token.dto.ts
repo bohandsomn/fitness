@@ -1,7 +1,7 @@
 import { Role } from '@prisma/client'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
-import { ApiPropertyRole } from '../../common/decorators/api-property-role'
-import { ApiPropertyUserIsActive } from '../../common/decorators/api-property-user-is-active'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
+import { ApiPropertyRole } from '../../common/decorators/api-property-role.js'
+import { ApiPropertyUserIsActive } from '../../common/decorators/api-property-user-is-active.js'
 
 export class GenerateTokenDTO {
     static isGenerateTokenDTO(data: unknown): data is GenerateTokenDTO {

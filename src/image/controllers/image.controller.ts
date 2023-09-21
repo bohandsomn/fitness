@@ -1,9 +1,9 @@
 import { Controller, Get, HttpStatus, Param, ParseFloatPipe, ParseIntPipe, Query, StreamableFile, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { IImageController } from '../interfaces/image-controller.interface'
-import { ImageInterceptor } from '../interceptors/image.interceptor'
-import { IImageService } from '../interfaces/image-service.interface'
-import { InjectImage } from '../decorators/inject-image.decorator'
+import { IImageController } from '../interfaces/image-controller.interface.js'
+import { ImageInterceptor } from '../interceptors/image.interceptor.js'
+import { IImageService } from '../interfaces/image-service.interface.js'
+import { InjectImage } from '../decorators/inject-image.decorator.js'
 
 @ApiTags('Image')
 @Controller('image')

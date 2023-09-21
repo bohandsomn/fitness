@@ -1,5 +1,5 @@
-import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id'
-import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id'
+import { ApiPropertyExerciseId } from '../../common/decorators/api-property-exercise-id.js'
+import { ApiPropertyUserId } from '../../common/decorators/api-property-user-id.js'
 
 export class GetOneExerciseDTO {
     @ApiPropertyExerciseId()

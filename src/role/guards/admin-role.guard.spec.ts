@@ -1,4 +1,4 @@
-import { AdminRoleGuard } from './admin-role.guard';
+import { AdminRoleGuard } from './admin-role.guard.js';
 
 describe('AdminRoleGuard', () => {
   it('should be defined', () => {

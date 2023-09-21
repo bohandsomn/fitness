@@ -1,6 +1,6 @@
-import { ApiPropertyError } from '../../common/decorators/api-property-error'
-import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message'
-import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status'
+import { ApiPropertyError } from '../../common/decorators/api-property-error.js'
+import { ApiPropertyErrorMessage } from '../../common/decorators/api-property-error-message.js'
+import { ApiPropertyErrorStatus } from '../../common/decorators/api-property-error-status.js'
 
 export class ExceptionErrorResponse {
     static isExceptionErrorResponse(data: unknown): data is ExceptionErrorResponse {

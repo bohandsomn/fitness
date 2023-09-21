@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ImageKitService } from './image-kit.service';
+import { ImageKitService } from './image-kit.service.js';
 
 describe('ImageKitService', () => {
   let service: ImageKitService;

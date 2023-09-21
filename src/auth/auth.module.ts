@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AuthController } from './controllers/auth.controller'
-import { AuthService } from './services/auth.service'
-import { UserModule } from '../user/user.module'
-import { TokenModule } from '../token/token.module'
+import { AuthController } from './controllers/auth.controller.js'
+import { AuthService } from './services/auth.service.js'
+import { UserModule } from '../user/user.module.js'
+import { TokenModule } from '../token/token.module.js'
 
 @Module({
   imports: [UserModule, TokenModule],
